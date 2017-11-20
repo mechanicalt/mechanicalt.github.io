@@ -57,7 +57,7 @@ export default handleActions({
       profitForThisRound,
       commulativeProfit: lastCommulativeProfit + profitForThisRound,
     }])
-    if (results.length === 7) {
+    if (results.length === 35) {
       $('#results').val(JSON.stringify(results))
       $('#results').closest('form').submit()
     }
