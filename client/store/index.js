@@ -2,8 +2,16 @@
 import { createStore, applyMiddleware } from 'redux'
 import { browserHistory } from 'react-router'
 import { routerMiddleware } from 'react-router-redux'
+import $ from 'jquery'
 import { logger } from '../middleware'
 import rootReducer from '../reducers'
+
+$(window).keydown(function(event){
+  if(event.keyCode == 13) {
+    event.preventDefault();
+    return false;
+  }
+});
 
 export default function configure(initialState) {
   const create = window.devToolsExtension
