@@ -36,7 +36,7 @@ export default handleActions({
 
   'SUBMIT_RESULT' (state, {payload}) {
     const unitsOrdered = Number(payload);
-    const demand = Math.round(100 * Math.random())
+    const demand = Math.round(100 * Math.random()) * 0.5 + 50 * Number(Math.random() > 0.5)
     const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
     const totalRevenue = state.price * unitsSold;
     const totalCost = unitsOrdered*state.cost;
