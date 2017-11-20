@@ -1,52 +1,59 @@
 
 import { handleActions } from 'redux-actions'
 
-const initialState = [{
-  text: 'Use Redux',
-  completed: false,
-  id: 0
-}]
+const initialState = {
+  showSummary: false,
+  results: [],
+  // showSummary: true,
+  // results: [{
+  //   unitsOrdered: 1,
+  //   demand: 87,
+  //   unitsSold: 1,
+  //   unitsUnsold: 0,
+  //   totalRevenue: 12,
+  //   totalCost: 3,
+  //   profitForThisRound: 9,
+  //   commulativeProfit: 9,
+  // }],
+  price: 12,
+  cost: 3,
+}
 
 export default handleActions({
-  'add todo' (state, action) {
-    return [{
-      id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-      completed: false,
-      text: action.payload
-    }, ...state]
+  'TOGGLE_SUMMARY' (state, action) {
+    return {
+      ...state,
+      showSummary: !state.showSummary,
+    }
   },
 
-  'delete todo' (state, action) {
-    return state.filter(todo => todo.id !== action.payload )
-  },
+  'SUBMIT_RESULT' (state, {payload}) {
+    const unitsOrdered = Number(payload);
+    const demand = Math.round(100 * Math.random())
+    const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
+    const totalRevenue = state.price * unitsSold;
+    const totalCost = unitsOrdered*state.cost;
+    const profitForThisRound = totalRevenue - totalCost;
+    const lastResultIndex = state.results.length
+    let lastCommulativeProfit = 0
+    if (lastResultIndex > 0) {
+      lastCommulativeProfit = state.results[lastResultIndex - 1].commulativeProfit;
+    }
+    const results = state.results.concat([{
+      unitsOrdered,
+      demand,
+      unitsSold,
+      unitsUnsold: unitsOrdered - demand >= 0 ? unitsOrdered - demand : 0,
+      totalRevenue,
+      totalCost,
+      profitForThisRound,
+      commulativeProfit: lastCommulativeProfit + profitForThisRound,
+    }])
 
-  'edit todo' (state, action) {
-    return state.map(todo => {
-      return todo.id === action.payload.id
-        ? { ...todo, text: action.payload.text }
-        : todo
-    })
+    return {
+      ...state,
+      results,
+      showSummary: true,
+    }
   },
-
-  'complete todo' (state, action) {
-    return state.map(todo => {
-      return todo.id === action.payload
-        ? { ...todo, completed: !todo.completed }
-        : todo
-    })
-  },
-
-  'complete all' (state, action) {
-    const areAllMarked = state.every(todo => todo.completed)
-    return state.map(todo => {
-      return {
-        ...todo,
-        completed: !areAllMarked
-      }
-    })
-  },
-
-  'clear complete' (state, action) {
-    return state.filter(todo => todo.completed === false)
-  }
 }, initialState)

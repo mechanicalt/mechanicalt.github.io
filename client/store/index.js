@@ -1,6 +1,7 @@
 
 import { createStore, applyMiddleware } from 'redux'
-
+import { browserHistory } from 'react-router'
+import { routerMiddleware } from 'react-router-redux'
 import { logger } from '../middleware'
 import rootReducer from '../reducers'
 
@@ -10,7 +11,9 @@ export default function configure(initialState) {
     : createStore
 
   const createStoreWithMiddleware = applyMiddleware(
-    logger
+    logger,
+    routerMiddleware(browserHistory)
+
   )(create)
 
   const store = createStoreWithMiddleware(rootReducer, initialState)

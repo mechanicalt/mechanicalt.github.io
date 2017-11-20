@@ -1,0 +1,20 @@
+.half {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+.half table {
+  text-align: right;
+}
+
+.historyTable {
+  text-align: right;
+}
+.historyTable th{
+  text-align: center;
+  border: 1px black solid;
+  padding: 3px;
+}
+
+.historyTable tr:nth-child(even) {background: #CCC}
+.historyTable tr:nth-child(odd) {background: #FFF}

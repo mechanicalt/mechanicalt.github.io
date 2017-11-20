@@ -2,19 +2,21 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Header from '../../components/Header'
-import MainSection from '../../components/MainSection'
-import * as TodoActions from '../../actions/todos'
+import Button from '../../ui/Button'
+import Summary from '../Summary'
+import Choose from '../Choose'
+import * as routerActions from '../../actions/router'
 import style from './style.css'
 
 class App extends Component {
   render() {
-    const { todos, actions, children } = this.props
+    const { showSummary, actions, children, goToInstructions } = this.props
     return (
-      <div className={style.normal}>
-        <Header addTodo={actions.addTodo} />
-        <MainSection todos={todos} actions={actions} />
-        {children}
+      <div>
+        <Button onClick={goToInstructions} className={style.instructions}>Instructions</Button>
+      {
+        showSummary ? <Summary /> : <Choose />
+      }
       </div>
     )
   }
@@ -22,13 +24,13 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    showSummary: state.todos.showSummary,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(TodoActions, dispatch)
+    goToInstructions: ()=>dispatch(routerActions.goToInstructions()),
   }
 }
 

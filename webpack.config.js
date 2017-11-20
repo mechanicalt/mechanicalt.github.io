@@ -13,6 +13,7 @@ module.exports = {
       'react-redux',
       'react-router',
       'react-router-redux',
+      'react-markdown',
       'redux'
     ]
   },
@@ -39,6 +40,10 @@ module.exports = {
         test: /\.css$/,
         exclude: /client/,
         loader: 'style!css'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       },
       {
         test: /\.(js|jsx)$/,
