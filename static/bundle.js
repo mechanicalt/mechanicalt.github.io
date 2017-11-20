@@ -57328,7 +57328,12 @@
 
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Choose.__proto__ || (0, _getPrototypeOf2.default)(Choose)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      unitsToOrder: ''
+	    }, _this.stopSubmit = function (event) {
+	      if (event.key === 'Enter') {
+	        event.stopPropagation();
+	      }
 	    }, _this.handleChangeUnitsToOrder = function (event) {
+	      event.stopPropagation();
 	      var unitsToOrder = event.target.value;
 	      if ((0, _isNan2.default)(unitsToOrder)) {
 	        return _this.setState({
@@ -57454,7 +57459,7 @@
 	              'span',
 	              null,
 	              'Units to order: ',
-	              _react2.default.createElement('input', { value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
+	              _react2.default.createElement('input', { onKeyPress: this.stopSubmit, value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
 	            ),
 	            _react2.default.createElement(
 	              _Button2.default,

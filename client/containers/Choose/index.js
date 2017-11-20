@@ -11,7 +11,13 @@ class Choose extends Component {
   state = {
     unitsToOrder: ''
   }
+  stopSubmit = (event) => {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+    }
+  }
   handleChangeUnitsToOrder = (event) => {
+    event.stopPropagation();
     const unitsToOrder = event.target.value;
     if (Number.isNaN(unitsToOrder)){
       return this.setState({
@@ -50,7 +56,7 @@ class Choose extends Component {
             </table>
           </div>
           <div className={style.half}>
-            <span>Units to order: <input value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder}type="number"></input></span>
+            <span>Units to order: <input onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder}type="number"></input></span>
             <Button onClick={()=>submitResult(this.state.unitsToOrder)} disabled={unitsToOrder === ''}>Submit Order</Button>
           </div>
         </div>
