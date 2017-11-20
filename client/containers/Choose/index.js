@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import classnames from 'classnames'
 import * as TodoActions from '../../actions/todos';
 import Button from '../../ui/Button';
 import style from './style.css';
@@ -13,7 +14,7 @@ class Choose extends Component {
   }
   stopSubmit = (event) => {
     if (event.key === 'Enter') {
-      event.stopPropagation();
+      this.props.submitResult(this.state.unitsToOrder)
     }
   }
   handleChangeUnitsToOrder = (event) => {
@@ -49,7 +50,7 @@ class Choose extends Component {
           <div className={style.half}>
             <table>
               <tbody>
-                <tr><td><strong>Round:</strong></td><td>{`${results.length + 1}`}</td></tr>
+                <tr><td><strong>Round:</strong></td><td>{`${results.length + 1}${results.length <= 4 ? ' - Practice' : ''}`}</td></tr>
                 <tr><td><strong>Sales Price:</strong></td><td>{`$${price}`}</td></tr>
                 <tr><td><strong>Cost:</strong></td><td>{`$${cost}`}</td></tr>
               </tbody>
@@ -73,7 +74,9 @@ class Choose extends Component {
             </tr>
             {
               results.map((r, i)=>{
-                return <tr>
+                return <tr className={classnames({
+                  [style.practice]: i <= 4,
+                })}>
                   <td>{i + 1}</td>
                   {
                     Object.keys(r).map(key => {

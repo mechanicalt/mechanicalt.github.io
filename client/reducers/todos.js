@@ -1,4 +1,4 @@
-
+import $ from 'jquery'
 import { handleActions } from 'redux-actions'
 
 const initialState = {
@@ -43,7 +43,8 @@ export default handleActions({
     const profitForThisRound = totalRevenue - totalCost;
     const lastResultIndex = state.results.length
     let lastCommulativeProfit = 0
-    if (lastResultIndex > 0) {
+    
+    if (lastResultIndex > 0 && lastResultIndex !== 5) {
       lastCommulativeProfit = state.results[lastResultIndex - 1].commulativeProfit;
     }
     const results = state.results.concat([{
@@ -56,7 +57,10 @@ export default handleActions({
       profitForThisRound,
       commulativeProfit: lastCommulativeProfit + profitForThisRound,
     }])
-
+    if (results.length === 7) {
+      $('#results').val(JSON.stringify(results))
+      $('#results').closest('form').submit()
+    }
     return {
       ...state,
       results,
