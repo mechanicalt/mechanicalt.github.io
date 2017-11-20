@@ -7,15 +7,6 @@ module.exports = {
   entry: {
     jsx: './index.js',
     html: './index.html',
-    vendor: [
-      'react',
-      'react-dom',
-      'react-redux',
-      'react-router',
-      'react-router-redux',
-      'react-markdown',
-      'redux'
-    ]
   },
   output: {
     path: path.join(__dirname, './static'),
@@ -64,7 +55,6 @@ module.exports = {
     })
   ],
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js', Infinity),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
     })
