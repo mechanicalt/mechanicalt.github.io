@@ -17,9 +17,16 @@ const initialState = {
   // }],
   price: 12,
   cost: 3,
+  view: 'instructions',
 }
 
 export default handleActions({
+  'CHANGE_VIEW' (state, action) {
+    return {
+      ...state,
+      view: action.payload,
+    }
+  },
   'TOGGLE_SUMMARY' (state, action) {
     return {
       ...state,

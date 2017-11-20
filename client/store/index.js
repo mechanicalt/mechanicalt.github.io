@@ -12,7 +12,6 @@ export default function configure(initialState) {
 
   const createStoreWithMiddleware = applyMiddleware(
     logger,
-    routerMiddleware(browserHistory)
 
   )(create)
 

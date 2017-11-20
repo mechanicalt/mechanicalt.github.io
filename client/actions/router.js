@@ -1,5 +1,9 @@
-import {push} from 'react-router-redux'
+export const goToGame = ()=>({
+  type: 'CHANGE_VIEW',
+  payload: 'game'
+})
 
-export const goToGame = ()=>push('/game')
-
-export const goToInstructions = ()=>push('/')
+export const goToInstructions = ()=>({
+  type: 'CHANGE_VIEW',
+  payload: 'instructions'
+})

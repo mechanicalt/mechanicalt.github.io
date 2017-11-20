@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
 import React from 'react'
 
+import Root from './containers/Root'
 import App from './containers/App'
 import Summary from './containers/Summary'
 import Choose from './containers/Choose'
@@ -16,10 +17,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Instructions} />
-      <Route path="/game" component={App} />
-    </Router>
+    <Root />
   </Provider>,
   document.getElementById('root')
 )
