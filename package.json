@@ -37,6 +37,7 @@
     "webpack-hot-middleware": "^2.7.1"
   },
   "dependencies": {
+    "gaussian": "^1.1.0",
     "jquery": "^3.2.1",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.4",

@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { handleActions } from 'redux-actions'
+import ppf from './ppf';
 
 const initialState = {
   showSummary: false,
@@ -36,7 +37,7 @@ export default handleActions({
 
   'SUBMIT_RESULT' (state, {payload}) {
     const unitsOrdered = Number(payload);
-    const demand = Math.round(100 * Math.random()) * 0.5 + 50 * Number(Math.random() > 0.5)
+    const demand = ppf();
     const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
     const totalRevenue = state.price * unitsSold;
     const totalCost = unitsOrdered*state.cost;
@@ -56,6 +57,7 @@ export default handleActions({
       totalCost,
       profitForThisRound,
       commulativeProfit: lastCommulativeProfit + profitForThisRound,
+      time: new Date().toString(),
     }])
     if (results.length === 35) {
       $('#results').val(JSON.stringify(results))

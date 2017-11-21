@@ -69,6 +69,7 @@ class Choose extends Component {
                 Round
               </th>
               {Object.keys(results[0]).map((key)=>{
+                if (key === 'time') return null;
                 return <th>{_.startCase(_.camelCase(key))}</th>
               })}
             </tr>
@@ -80,6 +81,7 @@ class Choose extends Component {
                   <td>{i + 1}</td>
                   {
                     Object.keys(r).map(key => {
+                      if (key === 'time') return null;
                       return <td>{r[key]}</td>
                     })
                   }
