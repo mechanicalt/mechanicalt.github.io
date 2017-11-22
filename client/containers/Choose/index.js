@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -35,7 +34,7 @@ class Choose extends Component {
       })
     }
     return this.setState({
-      unitsToOrder,
+      unitsToOrder: Math.round(unitsToOrder),
     })
   }
   render() {

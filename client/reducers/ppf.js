@@ -7,6 +7,7 @@ const getProbabilities = ([mean1, variance1], [mean2, variance2])=>{
   const highModal = gaussian(mean2, variance2);
   
   let i = 0
+  probabilities = {};
   while(i <= 400){
     probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2
     i++
@@ -15,6 +16,7 @@ const getProbabilities = ([mean1, variance1], [mean2, variance2])=>{
 
 export default (group1, group2)=>{
   if (!probabilities) {
+    console.log(group1, group2)
     getProbabilities(group1, group2)
   }
   const p = Math.random();

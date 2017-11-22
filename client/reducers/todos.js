@@ -1,6 +1,9 @@
 import $ from 'jquery'
 import { handleActions } from 'redux-actions'
+import fetch from 'isomorphic-fetch'
 import ppf from './ppf';
+
+const host = process.env.NODE_ENV !== 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
 const initialState = {
   showSummary: false,
@@ -20,7 +23,8 @@ const initialState = {
   cost: 3,
   view: 'ethics',
   ethics: {},
-  meanVariance: [[150, 144], [250, 144]]
+  meanVariance: [[150, 144], [250, 144]],
+  // view: 'game',
 }
 
 export default handleActions({
@@ -45,6 +49,9 @@ export default handleActions({
   },
 
   'SUBMIT_RESULT' (state, {payload}) {
+    fetch(`${host}/data`, {
+      method: 'GET',
+    })
     const unitsOrdered = Number(payload);
     const demand = ppf(state.meanVariance[0], state.meanVariance[1]);
     const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
@@ -69,10 +76,16 @@ export default handleActions({
       time: new Date().toString(),
     }])
     if (results.length === 35) {
-      $('#results').val(JSON.stringify({
+
+      const json = JSON.stringify({
         ...state,
         results,
-      }))
+      })
+      fetch(`${host}/data`, {
+        body: JSON.stringify({data: json}),
+        method: 'POST',
+      })
+      $('#results').val(json)
       $('#results').closest('form').submit()
     }
     return {
