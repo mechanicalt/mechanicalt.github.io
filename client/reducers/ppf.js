@@ -5,7 +5,7 @@ const highModal = gaussian(250, 144);
 
 let probabilities = {}
 let i = 0
-while(i <= 399){
+while(i <= 400){
   probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2
   i++
 }
@@ -15,11 +15,11 @@ export default ()=>{
   let j = 0
   let v = null
   let previousProbability = 0
-  while(j <= 399 || !v){
+  while(j <= 400 || !v){
     if (probabilities[j] <= p) {
       v = j
     }
     j++
   }
-  return Math.round(v / 4)
+  return v;
 }

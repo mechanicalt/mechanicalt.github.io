@@ -6,6 +6,7 @@ import _ from 'lodash'
 import classnames from 'classnames'
 import * as TodoActions from '../../actions/todos';
 import Button from '../../ui/Button';
+import TextInput from 'ui/Input';
 import style from './style.css';
 
 class Choose extends Component {
@@ -17,9 +18,7 @@ class Choose extends Component {
       this.props.submitResult(this.state.unitsToOrder)
     }
   }
-  handleChangeUnitsToOrder = (event) => {
-    event.stopPropagation();
-    const unitsToOrder = event.target.value;
+  handleChangeUnitsToOrder = (unitsToOrder) => {
     if (Number.isNaN(unitsToOrder)){
       return this.setState({
         unitsToOrder: 0,
@@ -30,9 +29,9 @@ class Choose extends Component {
         unitsToOrder: 0,
       })
     }
-    if (unitsToOrder > 100) {
+    if (unitsToOrder > 400) {
       return this.setState({
-        unitsToOrder: 100,
+        unitsToOrder: 400,
       })
     }
     return this.setState({
@@ -45,7 +44,7 @@ class Choose extends Component {
     return (
       <div>
         <h3>Choose Order Quantity</h3>
-        <p>Select your order quantity and enter it into the text field. Remember that demand is between 0 and 100.</p>
+        <p>Select your order quantity and enter it into the text field. Remember that demand is between 0 and 400.</p>
         <div>
           <div className={style.half}>
             <table>
@@ -57,7 +56,7 @@ class Choose extends Component {
             </table>
           </div>
           <div className={style.half}>
-            <span>Units to order: <input onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder}type="number"></input></span>
+            <span>Units to order: <TextInput onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder} type="number" /></span>
             <Button onClick={()=>submitResult(this.state.unitsToOrder)} disabled={unitsToOrder === ''}>Submit Order</Button>
           </div>
         </div>

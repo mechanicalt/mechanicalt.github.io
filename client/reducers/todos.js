@@ -18,10 +18,18 @@ const initialState = {
   // }],
   price: 12,
   cost: 3,
-  view: 'instructions',
+  view: 'ethics',
+  ethics: {}
 }
 
 export default handleActions({
+  'AGREE_ETHICS' (state, action) {
+    return {
+      ...state,
+      ethics: action.payload,
+      view: 'instructions',
+    }
+  },
   'CHANGE_VIEW' (state, action) {
     return {
       ...state,
@@ -60,7 +68,10 @@ export default handleActions({
       time: new Date().toString(),
     }])
     if (results.length === 35) {
-      $('#results').val(JSON.stringify(results))
+      $('#results').val(JSON.stringify({
+        results,
+        ethics: state.ethics,
+      }))
       $('#results').closest('form').submit()
     }
     return {
