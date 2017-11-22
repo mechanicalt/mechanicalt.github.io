@@ -19,7 +19,8 @@ const initialState = {
   price: 12,
   cost: 3,
   view: 'ethics',
-  ethics: {}
+  ethics: {},
+  meanVariance: [[150, 144], [250, 144]]
 }
 
 export default handleActions({
@@ -45,7 +46,7 @@ export default handleActions({
 
   'SUBMIT_RESULT' (state, {payload}) {
     const unitsOrdered = Number(payload);
-    const demand = ppf();
+    const demand = ppf(state.meanVariance[0], state.meanVariance[1]);
     const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
     const totalRevenue = state.price * unitsSold;
     const totalCost = unitsOrdered*state.cost;
@@ -69,8 +70,8 @@ export default handleActions({
     }])
     if (results.length === 35) {
       $('#results').val(JSON.stringify({
+        ...state,
         results,
-        ethics: state.ethics,
       }))
       $('#results').closest('form').submit()
     }

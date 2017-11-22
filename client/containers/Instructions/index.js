@@ -16,35 +16,43 @@ const source = `
   
   The process of each round will be as follows:
   
-  Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 100. You do not know the customer demand, for that period, when you place the order.
-  Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:
+  1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 100. You do not know the customer demand, for that period, when you place the order.
   
+  2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:
   
+  ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")
+
   The demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.
   
-  Calculation of profit for the period: There are two different cases:
-  If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand 
-  Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
-  If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity 
-  Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
+  3. Calculation of profit for the period: There are two different cases:
+
+  * If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand 
   
-  Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.
-  Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.
+    Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
   
-  Number of rounds: The game lasts for 35 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.
+  * If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity 
   
-  Example 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.
+    Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
   
-  Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
+  4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.
   
-  Profit = $12 * 60 units - $3 * 80 units = $480 (experimental dollars)
+  5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.
   
-  Example 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.
+  6. Number of rounds: The game lasts for 35 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.
   
-  Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
   
-  Profit = $12 * 40 units - $3 * 40 units = $360 (experimental dollars)
-  
+Example 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.
+
+Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
+
+Profit = $12 * 60 units - $3 * 80 units = $480 (experimental dollars)
+
+Example 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.
+
+Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
+
+Profit = $12 * 40 units - $3 * 40 units = $360 (experimental dollars)
+
 `
 
 

@@ -1,20 +1,25 @@
 import gaussian from 'gaussian'
 
-const lowModal = gaussian(150, 144);
-const highModal = gaussian(250, 144);
+let probabilities;
 
-let probabilities = {}
-let i = 0
-while(i <= 400){
-  probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2
-  i++
+const getProbabilities = ([mean1, variance1], [mean2, variance2])=>{
+  const lowModal = gaussian(mean1, variance1);
+  const highModal = gaussian(mean2, variance2);
+  
+  let i = 0
+  while(i <= 400){
+    probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2
+    i++
+  }
 }
 
-export default ()=>{
+export default (group1, group2)=>{
+  if (!probabilities) {
+    getProbabilities(group1, group2)
+  }
   const p = Math.random();
   let j = 0
   let v = null
-  let previousProbability = 0
   while(j <= 400 || !v){
     if (probabilities[j] <= p) {
       v = j

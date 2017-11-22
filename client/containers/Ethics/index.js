@@ -99,7 +99,7 @@ class Ethics extends React.PureComponent {
       <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
       <div><span>Address: <TextInput value={this.state.address}  onChange={this.onChange.bind(null, 'address')} /></span></div>
       <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>     
-      <Button onClick={this.submit} disabled={!this.checkValid()}>I agree, start questionnaire</Button>
+      <Button onClick={this.submit} disabled={!!this.checkValid()}>I agree, start questionnaire</Button>
     </div>
   }
 }
