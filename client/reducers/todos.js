@@ -48,12 +48,16 @@ const initialState = {
   // view: 'game',
 }
 
-const postResults = (state, results, attempt)=>{
+const getJson = (state, results, attempt)=>{
   const json = JSON.stringify({
     ...state,
     results,
     attempt,
   })
+}
+
+const postResults = (state, results, attempt)=>{
+  const json = getJson(state, results, attempt)
   return fetch(`${host}/data`, {
     body: JSON.stringify({data: json}),
     method: 'POST',
@@ -112,7 +116,7 @@ export default handleActions({
       postResults(state, results, results.length)
     }
     if (results.length === 35) {
-      $('#results').val(json)
+      $('#results').val(getJson(state, results, results.length))
       $('#results').closest('form').submit()
     }
     return {

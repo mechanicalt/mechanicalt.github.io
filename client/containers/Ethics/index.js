@@ -80,6 +80,9 @@ class Ethics extends React.PureComponent {
   checkValid = ()=>{
     return Object.keys(this.state).reduce((finalResult, key)=>{
       if(!finalResult) return finalResult
+      if(key === checks[4]){
+        return true;
+      }
       if(!this.state[key]) return false
       return true
     }, true)
