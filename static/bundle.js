@@ -38929,8 +38929,9 @@
 
 	var uniqueId = Math.round(1000000000 * Math.random());
 
-	var host =  true ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
+	var host =  false ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
 
+	console.log('host', host);
 	var priceCost = exports.priceCost = Math.random() >= 0.5 ? {
 	  price: 12,
 	  cost: 3
@@ -38958,7 +38959,7 @@
 	  view: 'ethics',
 	  ethics: {},
 	  meanVariance: [[150, 144], [250, 144]]
-	  // view: 'instructions',
+	  // view: 'game',
 	});
 
 	var postResults = function postResults(state, results, attempt) {
