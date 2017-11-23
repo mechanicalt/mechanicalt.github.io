@@ -3,6 +3,8 @@ import { handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 import ppf from './ppf';
 
+import uniqueId = Math.round(1000000000*Math.random())
+
 const host = process.env.NODE_ENV !== 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
 export const priceCost = Math.random() >= 0.5 ? {
@@ -30,6 +32,7 @@ const initialState = {
   //   profitForThisRound: 9,
   //   commulativeProfit: 9,
   // }],
+  uniqueId,
   view: 'ethics',
   ethics: {},
   meanVariance: [[150, 144], [250, 144]],
