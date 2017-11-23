@@ -3,7 +3,14 @@ import { handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 import ppf from './ppf';
 
-import uniqueId = Math.round(1000000000*Math.random())
+let uniqueUser = localStorage.getItem("uniqueUser")
+
+if (!uniqueUser) {
+  uniqueUser = Math.round(1000000000*Math.random())
+  localStorage.setItem("uniqueUser", uniqueUser)
+}
+
+const uniqueId = Math.round(1000000000*Math.random())
 
 const host = process.env.NODE_ENV !== 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
@@ -33,6 +40,7 @@ const initialState = {
   //   commulativeProfit: 9,
   // }],
   uniqueId,
+  uniqueUser,
   view: 'ethics',
   ethics: {},
   meanVariance: [[150, 144], [250, 144]],

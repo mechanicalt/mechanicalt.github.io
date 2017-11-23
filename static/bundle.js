@@ -38920,6 +38920,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var uniqueUser = localStorage.getItem("uniqueUser");
+
+	if (!uniqueUser) {
+	  uniqueUser = Math.round(1000000000 * Math.random());
+	  localStorage.setItem("uniqueUser", uniqueUser);
+	}
+
+	var uniqueId = Math.round(1000000000 * Math.random());
+
 	var host =  true ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
 
 	var priceCost = exports.priceCost = Math.random() >= 0.5 ? {
@@ -38944,11 +38953,24 @@
 	  //   profitForThisRound: 9,
 	  //   commulativeProfit: 9,
 	  // }],
+	  uniqueId: uniqueId,
+	  uniqueUser: uniqueUser,
 	  view: 'ethics',
 	  ethics: {},
 	  meanVariance: [[150, 144], [250, 144]]
 	  // view: 'instructions',
 	});
+
+	var postResults = function postResults(state, results, attempt) {
+	  var json = (0, _stringify2.default)((0, _extends3.default)({}, state, {
+	    results: results,
+	    attempt: attempt
+	  }));
+	  return (0, _isomorphicFetch2.default)(host + '/data', {
+	    body: (0, _stringify2.default)({ data: json }),
+	    method: 'POST'
+	  });
+	};
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
@@ -38996,15 +39018,10 @@
 	      commulativeProfit: lastCommulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
+	    if (results.length % 5 === 0) {
+	      postResults(state, results, results.length);
+	    }
 	    if (results.length === 35) {
-
-	      var json = (0, _stringify2.default)((0, _extends3.default)({}, state, {
-	        results: results
-	      }));
-	      (0, _isomorphicFetch2.default)(host + '/data', {
-	        body: (0, _stringify2.default)({ data: json }),
-	        method: 'POST'
-	      });
 	      (0, _jquery2.default)('#results').val(json);
 	      (0, _jquery2.default)('#results').closest('form').submit();
 	    }
