@@ -5,7 +5,7 @@ import ppf from './ppf';
 
 const host = process.env.NODE_ENV !== 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
-const priceCost = Math.random() >= 0.5 ? {
+export const priceCost = Math.random() >= 0.5 ? {
   price: 12,
   cost: 3
 }
@@ -33,7 +33,7 @@ const initialState = {
   view: 'ethics',
   ethics: {},
   meanVariance: [[150, 144], [250, 144]],
-  // view: 'game',
+  // view: 'instructions',
 }
 
 export default handleActions({

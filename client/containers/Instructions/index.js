@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Markdown from 'react-markdown'
-import Button from '../../ui/Button'
-import * as actions from '../../actions/router'
+import Button from 'ui/Button'
+import * as actions from 'actions/router'
+import {priceCost} from 'reducers/todos'
 import * as style from './style.css'
 
 const source = `
@@ -28,11 +29,11 @@ const source = `
 
   * If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand 
   
-    Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
+    Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)
   
   * If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity 
   
-    Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
+    Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)
   
   4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.
   
@@ -43,15 +44,15 @@ const source = `
   
 Example 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.
 
-Profit = (Sales Price * Customer Demand) - (Purchase Price * Order Quantity)
+Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)
 
-Profit = $12 * 60 units - $3 * 80 units = $480 (experimental dollars)
+Profit = $${priceCost.price} x 60 units - $${priceCost.cost} x 80 units = $${(priceCost.price * 60) - (priceCost.cost * 80)} (experimental dollars)
 
 Example 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.
 
-Profit = (Sales Price * Order Quantity) - (Purchase Price * Order Quantity)
+Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)
 
-Profit = $12 * 40 units - $3 * 40 units = $360 (experimental dollars)
+Profit = $${priceCost.price} x 40 units - $${priceCost.cost} x 40 units = $${(priceCost.price * 40) - (priceCost.cost * 40)} (experimental dollars)
 
 `
 
