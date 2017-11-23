@@ -38962,11 +38962,15 @@
 	  // view: 'game',
 	});
 
-	var postResults = function postResults(state, results, attempt) {
+	var getJson = function getJson(state, results, attempt) {
 	  var json = (0, _stringify2.default)((0, _extends3.default)({}, state, {
 	    results: results,
 	    attempt: attempt
 	  }));
+	};
+
+	var postResults = function postResults(state, results, attempt) {
+	  var json = getJson(state, results, attempt);
 	  return (0, _isomorphicFetch2.default)(host + '/data', {
 	    body: (0, _stringify2.default)({ data: json }),
 	    method: 'POST'
@@ -39023,7 +39027,7 @@
 	      postResults(state, results, results.length);
 	    }
 	    if (results.length === 35) {
-	      (0, _jquery2.default)('#results').val(json);
+	      (0, _jquery2.default)('#results').val(getJson(state, results, results.length));
 	      (0, _jquery2.default)('#results').closest('form').submit();
 	    }
 	    return (0, _extends3.default)({}, state, {
@@ -51212,6 +51216,9 @@
 	    }, _this.checkValid = function () {
 	      return (0, _keys2.default)(_this.state).reduce(function (finalResult, key) {
 	        if (!finalResult) return finalResult;
+	        if (key === checks[4]) {
+	          return true;
+	        }
 	        if (!_this.state[key]) return false;
 	        return true;
 	      }, true);
