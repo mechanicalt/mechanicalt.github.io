@@ -36,6 +36,18 @@ const initialState = {
   // view: 'instructions',
 }
 
+const postResults = (state, results, attempt)=>{
+  const json = JSON.stringify({
+    ...state,
+    results,
+    attempt,
+  })
+  return fetch(`${host}/data`, {
+    body: JSON.stringify({data: json}),
+    method: 'POST',
+  })
+}
+
 export default handleActions({
   'AGREE_ETHICS' (state, action) {
     return {
@@ -84,16 +96,10 @@ export default handleActions({
       commulativeProfit: lastCommulativeProfit + profitForThisRound,
       time: new Date().toString(),
     }])
+    if (results.length % 5 === 0) {
+      postResults(state, results, results.length)
+    }
     if (results.length === 35) {
-
-      const json = JSON.stringify({
-        ...state,
-        results,
-      })
-      fetch(`${host}/data`, {
-        body: JSON.stringify({data: json}),
-        method: 'POST',
-      })
       $('#results').val(json)
       $('#results').closest('form').submit()
     }
