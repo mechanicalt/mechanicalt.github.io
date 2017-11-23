@@ -5,7 +5,18 @@ import ppf from './ppf';
 
 const host = process.env.NODE_ENV !== 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
+const priceCost = Math.random() >= 0.5 ? {
+  price: 12,
+  cost: 3
+}
+:
+{
+  price: 10,
+  cost: 4,
+};
+
 const initialState = {
+  ...priceCost,
   showSummary: false,
   results: [],
   // showSummary: true,
@@ -19,11 +30,9 @@ const initialState = {
   //   profitForThisRound: 9,
   //   commulativeProfit: 9,
   // }],
-  price: 12,
-  cost: 3,
   view: 'ethics',
   ethics: {},
-  meanVariance: Math.random() > 0.5 ? [[150, 144], [250, 144]] : [[ 100, 144], [300, 144]],
+  meanVariance: [[150, 144], [250, 144]],
   // view: 'game',
 }
 

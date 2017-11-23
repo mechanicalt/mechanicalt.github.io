@@ -58280,7 +58280,15 @@
 
 	var host =  true ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
 
-	var initialState = {
+	var priceCost = Math.random() >= 0.5 ? {
+	  price: 12,
+	  cost: 3
+	} : {
+	  price: 10,
+	  cost: 4
+	};
+
+	var initialState = (0, _extends3.default)({}, priceCost, {
 	  showSummary: false,
 	  results: [],
 	  // showSummary: true,
@@ -58294,13 +58302,11 @@
 	  //   profitForThisRound: 9,
 	  //   commulativeProfit: 9,
 	  // }],
-	  price: 12,
-	  cost: 3,
 	  view: 'ethics',
 	  ethics: {},
-	  meanVariance: Math.random() > 0.5 ? [[150, 144], [250, 144]] : [[100, 144], [300, 144]]
+	  meanVariance: [[150, 144], [250, 144]]
 	  // view: 'game',
-	};
+	});
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
