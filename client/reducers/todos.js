@@ -23,7 +23,7 @@ const initialState = {
   cost: 3,
   view: 'ethics',
   ethics: {},
-  meanVariance: [[150, 144], [250, 144]],
+  meanVariance: Math.random() > 0.5 ? [[150, 144], [250, 144]] : [[ 100, 144], [300, 144]],
   // view: 'game',
 }
 
