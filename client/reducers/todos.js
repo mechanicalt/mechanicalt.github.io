@@ -49,7 +49,7 @@ const initialState = {
 }
 
 const getJson = (state, results, attempt)=>{
-  const json = JSON.stringify({
+  return JSON.stringify({
     ...state,
     results,
     attempt,

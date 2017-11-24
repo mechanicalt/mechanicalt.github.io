@@ -49337,7 +49337,7 @@
 	});
 
 	var getJson = function getJson(state, results, attempt) {
-	  var json = (0, _stringify2.default)((0, _extends3.default)({}, state, {
+	  return (0, _stringify2.default)((0, _extends3.default)({}, state, {
 	    results: results,
 	    attempt: attempt
 	  }));
