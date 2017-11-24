@@ -38952,7 +38952,7 @@
 	  //   totalRevenue: 12,
 	  //   totalCost: 3,
 	  //   profitForThisRound: 9,
-	  //   commulativeProfit: 9,
+	  //   cumulativeProfit: 9,
 	  // }],
 	  uniqueId: uniqueId,
 	  uniqueUser: uniqueUser,
@@ -39007,10 +39007,10 @@
 	    var totalCost = unitsOrdered * state.cost;
 	    var profitForThisRound = totalRevenue - totalCost;
 	    var lastResultIndex = state.results.length;
-	    var lastCommulativeProfit = 0;
+	    var lastcumulativeProfit = 0;
 
 	    if (lastResultIndex > 0 && lastResultIndex !== 5) {
-	      lastCommulativeProfit = state.results[lastResultIndex - 1].commulativeProfit;
+	      lastcumulativeProfit = state.results[lastResultIndex - 1].cumulativeProfit;
 	    }
 	    var results = state.results.concat([{
 	      unitsOrdered: unitsOrdered,
@@ -39020,7 +39020,7 @@
 	      totalRevenue: totalRevenue,
 	      totalCost: totalCost,
 	      profitForThisRound: profitForThisRound,
-	      commulativeProfit: lastCommulativeProfit + profitForThisRound,
+	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
 	    if (results.length % 5 === 0) {

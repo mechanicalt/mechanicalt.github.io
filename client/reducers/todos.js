@@ -38,14 +38,14 @@ const initialState = {
   //   totalRevenue: 12,
   //   totalCost: 3,
   //   profitForThisRound: 9,
-  //   commulativeProfit: 9,
+  //   cumulativeProfit: 9,
   // }],
   uniqueId,
   uniqueUser,
   view: 'ethics',
   ethics: {},
   meanVariance: [[150, 144], [250, 144]],
-  // view: 'game',
+  // view: 'results',
 }
 
 const getJson = (state, results, attempt)=>{
@@ -96,10 +96,9 @@ export default handleActions({
     const totalCost = unitsOrdered*state.cost;
     const profitForThisRound = totalRevenue - totalCost;
     const lastResultIndex = state.results.length
-    let lastCommulativeProfit = 0
-    
+    let lastcumulativeProfit = 0
     if (lastResultIndex > 0 && lastResultIndex !== 5) {
-      lastCommulativeProfit = state.results[lastResultIndex - 1].commulativeProfit;
+      lastcumulativeProfit = state.results[lastResultIndex - 1].cumulativeProfit;
     }
     const results = state.results.concat([{
       unitsOrdered,
@@ -109,18 +108,20 @@ export default handleActions({
       totalRevenue,
       totalCost,
       profitForThisRound,
-      commulativeProfit: lastCommulativeProfit + profitForThisRound,
+      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
       time: new Date().toString(),
     }])
     if (results.length % 5 === 0) {
       postResults(state, results, results.length)
     }
+    let view = 'game'
     if (results.length === 35) {
+      view = 'results'
       $('#results').val(getJson(state, results, results.length))
-      $('#results').closest('form').submit()
     }
     return {
       ...state,
+      view,
       results,
       showSummary: true,
     }
