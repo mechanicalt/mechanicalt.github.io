@@ -17,7 +17,7 @@ const source = `
   
   The process of each round will be as follows:
   
-  1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 100. You do not know the customer demand, for that period, when you place the order.
+  1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.
   
   2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:
   
