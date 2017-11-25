@@ -1,13 +1,12 @@
 
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { startCase, camelCase } from 'lodash'
+import _, { startCase, camelCase } from 'lodash'
 import * as todoSelectors from 'selectors/todos'
 import * as TodoActions from 'actions/todos'
 import * as routerActions from 'actions/router'
 import Button from 'ui/Button'
-import _ from 'lodash'
+import blacklist from 'blacklist'
 
 class Summary extends Component {
   render () {
@@ -26,7 +25,7 @@ class Summary extends Component {
             }
           </tbody>
         </table>
-        <Button onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
+        <Button autoFocus onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
       </div>
     )
   }

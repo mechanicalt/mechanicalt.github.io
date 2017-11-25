@@ -7,6 +7,6 @@ export default class Input extends React.PureComponent {
     this.props.onChange(event.target.value)
   }
   render = () => {
-    return <input type="text" {...this.props} className={classnames(style.input), this.props.className} onChange={this.handleChange} />
+    return <input type="text" {...this.props} className={classnames(style.input, this.props.className)} onChange={this.handleChange} />
   }
 }

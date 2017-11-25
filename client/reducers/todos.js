@@ -67,9 +67,9 @@ const initialState = {
   uniMeanVariance: [200, 144],
   uni: uniVal,
   game: 1,
-  attempt: 1,
-  firstGame: uniVal ? 'uni' : 'bi'
-  // view: 'instructions',
+  attempt: 0,
+  firstGame: uniVal ? 'uni' : 'bi',
+  view: 'game',
 }
 
 const getJson = (state) => {
@@ -147,7 +147,7 @@ export default handleActions({
       ...state,
       [resultsName]: results,
       showSummary: true,
-      attempt: results.length
+      attempt: state.attempt + 1,
     }
     $('#results').val(JSON.stringify(nextState))
     if (results.length % 5 === 0) {
