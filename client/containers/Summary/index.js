@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {startCase, camelCase} from 'lodash'
+import { startCase, camelCase } from 'lodash'
 import * as todoSelectors from 'selectors/todos'
 import * as TodoActions from 'actions/todos'
 import * as routerActions from 'actions/router'
@@ -10,17 +10,17 @@ import Button from 'ui/Button'
 import _ from 'lodash'
 
 class Summary extends Component {
-  render() {
+  render () {
     const { results, actions, children, goToChoose } = this.props
-    const lastResultIndex = results.length;
-    const lastResult = results[lastResultIndex - 1];
+    const lastResultIndex = results.length
+    const lastResult = results[lastResultIndex - 1]
     return (
       <div>
         <h3>{`Summary For Round ${lastResultIndex}`}</h3>
         <table>
           <tbody>
             {
-              Object.keys(lastResult).map((key)=>{
+              Object.keys(blacklist(lastResult, 'time')).map((key) => {
                 return <tr><td>{startCase(camelCase(key))}</td><td>{lastResult[key]}</td></tr>
               })
             }
@@ -32,22 +32,22 @@ class Summary extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
     results: todoSelectors.getCurrentResults(state),
-    attempt: state.todos.attempt,
+    attempt: state.todos.attempt
   }
 }
 
-function mapDispatchToProps(dispatch, props) {
+function mapDispatchToProps (dispatch, props) {
   return {
-    goToChoose: ()=>props.attempt % 20 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults())
+    goToChoose: () => props.attempt % 20 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults())
   }
 }
 
 export default _.flowRight([
   connect(
-    mapStateToProps,
+    mapStateToProps
   ),
   connect(
     null,

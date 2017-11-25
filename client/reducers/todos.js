@@ -1,34 +1,47 @@
 import $ from 'jquery'
 import { handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
-import ppf from './ppf';
-import uniDemand from './uniDemand';
+import ppf from './ppf'
+import uniDemand from './uniDemand'
 
-let uniqueUser = localStorage.getItem("uniqueUser")
+let uniqueUser = localStorage.getItem('uniqueUser')
 
 if (!uniqueUser) {
-  uniqueUser = Math.round(1000000000*Math.random())
-  localStorage.setItem("uniqueUser", uniqueUser)
+  uniqueUser = Math.round(1000000000 * Math.random())
+  localStorage.setItem('uniqueUser', uniqueUser)
 }
 
-const uniqueId = Math.round(1000000000*Math.random())
+const uniqueId = Math.round(1000000000 * Math.random())
 
 const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
 const randomBool = () => Math.random() >= 0.5
 
-console.log('host', host);
-export const priceCost = randomBool() ? {
-  price: 12,
-  cost: 3
+const getCost = () => {
+  const randomChoice = Math.random()
+  if (randomChoice < 0.2) {
+    return 3
+  }
+  if (randomChoice < 0.4) {
+    return 4
+  }
+  if (randomChoice < 0.6) {
+    return 6
+  }
+  if (randomChoice < 0.8) {
+    return 8
+  }
+  if (randomChoice < 1) {
+    return 9
+  }
 }
-:
-{
-  price: 10,
-  cost: 4,
-};
 
-const uniVal = randomBool();
+export const priceCost = {
+  price: 12,
+  cost: getCost()
+}
+
+const uniVal = randomBool()
 
 const initialState = {
   ...priceCost,
@@ -55,24 +68,24 @@ const initialState = {
   uni: uniVal,
   game: 1,
   attempt: 1,
-  firstGame: uniVal ? 'uni' : 'bi',
+  firstGame: uniVal ? 'uni' : 'bi'
   // view: 'instructions',
 }
 
-const getJson = (state)=>{
+const getJson = (state) => {
   return JSON.stringify(state)
 }
 
-const postResults = (state)=>{
+export const postResults = (state) => {
   const json = JSON.stringify(state)
   return fetch(`${host}/data`, {
-    body: JSON.stringify({data: json}),
-    method: 'POST',
+    body: JSON.stringify({ data: json }),
+    method: 'POST'
   })
 }
 
-export const getResultsName = (state)=>{
-  return state.uni ? 'uniResults' : 'biResults';
+export const getResultsName = (state) => {
+  return state.uni ? 'uniResults' : 'biResults'
 }
 
 export default handleActions({
@@ -80,44 +93,44 @@ export default handleActions({
     return {
       ...state,
       ethics: action.payload,
-      view: 'instructions',
+      view: 'instructions'
     }
   },
   'CHANGE_VIEW' (state, action) {
     const otherProps = action.changeUni ? {
       uni: !state.uni,
-      showSummary: !state.showSummary,
+      showSummary: !state.showSummary
     } : {}
     return {
       ...state,
       ...otherProps,
-      view: action.payload,
-      
+      view: action.payload
+
     }
   },
   'TOGGLE_SUMMARY' (state, action) {
     return {
       ...state,
-      showSummary: !state.showSummary,
+      showSummary: !state.showSummary
     }
   },
 
-  'SUBMIT_RESULT' (state, {payload}) {
+  'SUBMIT_RESULT' (state, { payload }) {
     fetch(`${host}/data`, {
-      method: 'GET',
+      method: 'GET'
     })
     const resultsName = getResultsName(state)
-    const unitsOrdered = Number(payload);
-    const demand = state.uni ? uniDemand(state.uniMeanVariance[0], state.uniMeanVariance[1]) : ppf(state.meanVariance[0], state.meanVariance[1]);
-    const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
-    const totalRevenue = state.price * unitsSold;
-    const totalCost = unitsOrdered*state.cost;
-    const profitForThisRound = totalRevenue - totalCost;
+    const unitsOrdered = Number(payload)
+    const demand = state.uni ? uniDemand(state.uniMeanVariance[0], state.uniMeanVariance[1]) : ppf(state.meanVariance[0], state.meanVariance[1])
+    const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered
+    const totalRevenue = state.price * unitsSold
+    const totalCost = unitsOrdered * state.cost
+    const profitForThisRound = totalRevenue - totalCost
     const lastResultIndex = state[resultsName].length
     let lastcumulativeProfit = 0
 
     if (lastResultIndex > 0 && lastResultIndex !== 5) {
-      lastcumulativeProfit = state[resultsName][lastResultIndex - 1].cumulativeProfit;
+      lastcumulativeProfit = state[resultsName][lastResultIndex - 1].cumulativeProfit
     }
     const results = state[resultsName].concat([{
       unitsOrdered,
@@ -128,18 +141,18 @@ export default handleActions({
       totalCost,
       profitForThisRound,
       cumulativeProfit: lastcumulativeProfit + profitForThisRound,
-      time: new Date().toString(),
+      time: new Date().toString()
     }])
     const nextState = {
       ...state,
       [resultsName]: results,
       showSummary: true,
-      attempt: results.length,
+      attempt: results.length
     }
     $('#results').val(JSON.stringify(nextState))
     if (results.length % 5 === 0) {
-      postResults(nextState,)
+      postResults(nextState)
     }
-    return nextState;
-  },
+    return nextState
+  }
 }, initialState)

@@ -7,10 +7,10 @@ export default class Input extends React.PureComponent {
     this.props.onChange(event.target.value)
   }
   render = () => {
-    return <select value={this.props.value} onChange={this.handleChange}>
+    return (<select value={this.props.value} onChange={this.handleChange}>
       {
         this.props.options.map(o => <option value={o.value}>{o.label}</option>)
       }
-    </select>
+    </select>)
   }
 }

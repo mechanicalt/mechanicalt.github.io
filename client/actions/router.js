@@ -1,15 +1,15 @@
-export const goToGame = (changeUni)=>({
+export const goToGame = (changeUni) => ({
   type: 'CHANGE_VIEW',
   payload: 'game',
-  changeUni,
+  changeUni
 })
 
-export const goToResults = ()=>({
+export const goToResults = () => ({
   type: 'CHANGE_VIEW',
-  payload: 'results',
+  payload: 'results'
 })
 
-export const goToInstructions = ()=>({
+export const goToInstructions = () => ({
   type: 'CHANGE_VIEW',
   payload: 'instructions'
 })

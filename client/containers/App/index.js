@@ -9,28 +9,28 @@ import * as routerActions from '../../actions/router'
 import style from './style.css'
 
 class App extends Component {
-  render() {
+  render () {
     const { showSummary, actions, children, goToInstructions } = this.props
     return (
       <div>
         <Button onClick={goToInstructions} className={style.instructions}>Instructions</Button>
-      {
-        showSummary ? <Summary /> : <Choose />
-      }
+        {
+          showSummary ? <Summary /> : <Choose />
+        }
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
-    showSummary: state.todos.showSummary,
+    showSummary: state.todos.showSummary
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
-    goToInstructions: ()=>dispatch(routerActions.goToInstructions()),
+    goToInstructions: () => dispatch(routerActions.goToInstructions())
   }
 }
 

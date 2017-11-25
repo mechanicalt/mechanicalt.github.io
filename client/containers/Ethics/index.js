@@ -1,12 +1,12 @@
 import React from 'react'
 import Markdown from 'react-markdown'
-import TextInput from 'ui/Input';
-import Checkbox from 'ui/Checkbox';
-import Button from 'ui/Button';
-import Select from 'ui/Select';
-import { connect } from 'react-redux';
-import * as TodoActions from 'actions/todos';
-import {CountryDropdown as CountrySelect} from "react-country-region-selector";
+import TextInput from 'ui/Input'
+import Checkbox from 'ui/Checkbox'
+import Button from 'ui/Button'
+import Select from 'ui/Select'
+import { connect } from 'react-redux'
+import * as TodoActions from 'actions/todos'
+import { CountryDropdown as CountrySelect } from 'react-country-region-selector'
 
 const source = `# ONLINE PARTICIPANT INFORMATION STATEMENT
 
@@ -59,19 +59,15 @@ const checks = [
   'I understand I am being asked to provide consent to participate in this research study',
   'I have read the Participant Information Statement or it has been provided to me in a language that I understand',
   'I provide my consent for the information collected about me to be used for the purpose of this research study only',
-  'I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the study and withdrawal will not affect my relationship with any of the named organisations and/or research team members',
-  'I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only',
-];
+  'I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the study and withdrawal will not affect my relationship with any of the named organisations and/or research team members'
+]
 
-const initState = checks.reduce((finalResult, check)=>{
-  finalResult[check] = false;
-  return finalResult;
+const initState = checks.reduce((finalResult, check) => {
+  finalResult[check] = false
+  return finalResult
 }, {
-  name: '',
-  address: '',
-  emailAddress: '',
   country: '',
-  gender: '',
+  gender: ''
 })
 
 const genderOptions = [{
@@ -88,36 +84,35 @@ const genderOptions = [{
 {
   value: '',
   label: 'Choose Gender',
-  default: true,
+  default: true
 }
 ]
 
 class Ethics extends React.PureComponent {
   state = initState
-  onChange = (name, value)=>{
+  onChange = (name, value) => {
     this.setState({
       [name]: value
     })
   }
-  checkValid = ()=>{
-    return Object.keys(this.state).reduce((finalResult, key)=>{
-      if(!finalResult) return finalResult
-      if(key === checks[4]){
-        return true;
+  checkValid = () => {
+    return Object.keys(this.state).reduce((finalResult, key) => {
+      if (!finalResult) return finalResult
+      if (key === checks[4]) {
+        return true
       }
-      if(!this.state[key]) return false
+      if (!this.state[key]) return false
       return true
     }, true)
   }
-  submit = ()=>{
+  submit = () => {
     this.props.submit(this.state)
   }
-  onSelectCountry = (val)=>{
-    console.log('val', val)
-    this.onChange('country', val);
+  onSelectCountry = (val) => {
+    this.onChange('country', val)
   }
-  render(){
-    return <div>
+  render () {
+    return (<div>
       <Markdown source={source} />
       <h3>Declaration of Participant</h3>
       {
@@ -125,18 +120,15 @@ class Ethics extends React.PureComponent {
           return <Checkbox label={check} checked={this.state[check]} onChange={this.onChange.bind(null, check)} />
         })
       }
-      <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
-      <div><span>Address: <TextInput value={this.state.address}  onChange={this.onChange.bind(null, 'address')} /></span></div>
-      <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>     
       <div><span>Nationality: <CountrySelect value={this.state.country} onChange={this.onSelectCountry} /></span></div>
       <div><span>Gender Identity: <Select value={this.state.gender} onChange={this.onChange.bind(null, 'gender')} options={genderOptions}/></span></div>
       <Button onClick={this.submit} disabled={!this.checkValid()}>I agree, start questionnaire</Button>
-    </div>
+    </div>)
   }
 }
 
-const mapDispatchToProps = (dispatch)=>({
-  submit: (payload)=>dispatch(TodoActions.agreeEthics(payload))
+const mapDispatchToProps = (dispatch) => ({
+  submit: (payload) => dispatch(TodoActions.agreeEthics(payload))
 })
 
 export default connect(null, mapDispatchToProps)(Ethics)

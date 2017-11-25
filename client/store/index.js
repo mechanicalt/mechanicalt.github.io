@@ -5,13 +5,13 @@ import { routerMiddleware } from 'react-router-redux'
 import { logger } from '../middleware'
 import rootReducer from '../reducers'
 
-export default function configure(initialState) {
+export default function configure (initialState) {
   const create = window.devToolsExtension
     ? window.devToolsExtension()(createStore)
     : createStore
 
   const createStoreWithMiddleware = applyMiddleware(
-    logger,
+    logger
 
   )(create)
 
