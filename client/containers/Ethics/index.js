@@ -5,6 +5,7 @@ import Checkbox from 'ui/Checkbox';
 import Button from 'ui/Button';
 import { connect } from 'react-redux';
 import * as TodoActions from 'actions/todos';
+import CountrySelect from "react-country-select";
 
 const source = `# ONLINE PARTICIPANT INFORMATION STATEMENT
 
@@ -68,6 +69,7 @@ const initState = checks.reduce((finalResult, check)=>{
   name: '',
   address: '',
   emailAddress: '',
+  country: '',
 })
 
 class Ethics extends React.PureComponent {
@@ -90,6 +92,9 @@ class Ethics extends React.PureComponent {
   submit = ()=>{
     this.props.submit(this.state)
   }
+  onSelectCountry = (val)=>{
+    this.onChange('country', val);
+  }
   render(){
     return <div>
       <Markdown source={source} />
@@ -102,6 +107,7 @@ class Ethics extends React.PureComponent {
       <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
       <div><span>Address: <TextInput value={this.state.address}  onChange={this.onChange.bind(null, 'address')} /></span></div>
       <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>     
+      <CountrySelect flagImagePath="https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/flags" onSelect={this.onSelectCountry} />
       <Button onClick={this.submit} disabled={!this.checkValid()}>I agree, start questionnaire</Button>
     </div>
   }

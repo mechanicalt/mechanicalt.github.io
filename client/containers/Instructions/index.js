@@ -25,7 +25,8 @@ const source = `
     ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")
 
     b) In the other game, the distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph:
-    ![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/unigraph.png "Graph")
+    
+    ![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png "Graph")
 
   In either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.
   
