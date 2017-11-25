@@ -3,9 +3,10 @@ import Markdown from 'react-markdown'
 import TextInput from 'ui/Input';
 import Checkbox from 'ui/Checkbox';
 import Button from 'ui/Button';
+import Select from 'ui/Select';
 import { connect } from 'react-redux';
 import * as TodoActions from 'actions/todos';
-import CountrySelect from "react-country-select";
+import {CountryDropdown as CountrySelect} from "react-country-region-selector";
 
 const source = `# ONLINE PARTICIPANT INFORMATION STATEMENT
 
@@ -70,7 +71,26 @@ const initState = checks.reduce((finalResult, check)=>{
   address: '',
   emailAddress: '',
   country: '',
+  gender: '',
 })
+
+const genderOptions = [{
+  value: 'male',
+  label: 'Male'
+}, {
+  value: 'female',
+  label: 'Female'
+},
+{
+  value: 'other',
+  label: 'Other'
+},
+{
+  value: '',
+  label: 'Choose Gender',
+  default: true,
+}
+]
 
 class Ethics extends React.PureComponent {
   state = initState
@@ -93,6 +113,7 @@ class Ethics extends React.PureComponent {
     this.props.submit(this.state)
   }
   onSelectCountry = (val)=>{
+    console.log('val', val)
     this.onChange('country', val);
   }
   render(){
@@ -107,7 +128,8 @@ class Ethics extends React.PureComponent {
       <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
       <div><span>Address: <TextInput value={this.state.address}  onChange={this.onChange.bind(null, 'address')} /></span></div>
       <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>     
-      <CountrySelect flagImagePath="https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/flags" onSelect={this.onSelectCountry} />
+      <div><span>Nationality: <CountrySelect value={this.state.country} onChange={this.onSelectCountry} /></span></div>
+      <div><span>Gender Identity: <Select value={this.state.gender} onChange={this.onChange.bind(null, 'gender')} options={genderOptions}/></span></div>
       <Button onClick={this.submit} disabled={!this.checkValid()}>I agree, start questionnaire</Button>
     </div>
   }
