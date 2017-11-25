@@ -16,7 +16,6 @@ const getProbabilities = ([mean1, variance1], [mean2, variance2])=>{
 
 export default (group1, group2)=>{
   if (!probabilities) {
-    console.log(group1, group2)
     getProbabilities(group1, group2)
   }
   const p = Math.random();

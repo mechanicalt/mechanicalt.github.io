@@ -1,6 +1,12 @@
-export const goToGame = ()=>({
+export const goToGame = (changeUni)=>({
   type: 'CHANGE_VIEW',
-  payload: 'game'
+  payload: 'game',
+  changeUni,
+})
+
+export const goToResults = ()=>({
+  type: 'CHANGE_VIEW',
+  payload: 'results',
 })
 
 export const goToInstructions = ()=>({

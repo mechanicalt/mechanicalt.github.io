@@ -2,6 +2,7 @@ import $ from 'jquery'
 import { handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 import ppf from './ppf';
+import uniDemand from './uniDemand';
 
 let uniqueUser = localStorage.getItem("uniqueUser")
 
@@ -14,8 +15,10 @@ const uniqueId = Math.round(1000000000*Math.random())
 
 const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
+const randomBool = () => Math.random() >= 0.5
+
 console.log('host', host);
-export const priceCost = Math.random() >= 0.5 ? {
+export const priceCost = randomBool() ? {
   price: 12,
   cost: 3
 }
@@ -25,12 +28,13 @@ export const priceCost = Math.random() >= 0.5 ? {
   cost: 4,
 };
 
+const uniVal = randomBool();
+
 const initialState = {
   ...priceCost,
   showSummary: false,
-  results: [],
   // showSummary: true,
-  // results: [{
+  // uniResults: [{
   //   unitsOrdered: 1,
   //   demand: 87,
   //   unitsSold: 1,
@@ -40,28 +44,35 @@ const initialState = {
   //   profitForThisRound: 9,
   //   cumulativeProfit: 9,
   // }],
+  uniResults: [],
+  biResults: [],
   uniqueId,
   uniqueUser,
   view: 'ethics',
   ethics: {},
   meanVariance: [[150, 144], [250, 144]],
-  // view: 'results',
+  uniMeanVariance: [200, 144],
+  uni: uniVal,
+  game: 1,
+  attempt: 1,
+  firstGame: uniVal ? 'uni' : 'bi',
+  view: 'instructions',
 }
 
-const getJson = (state, results, attempt)=>{
-  return JSON.stringify({
-    ...state,
-    results,
-    attempt,
-  })
+const getJson = (state)=>{
+  return JSON.stringify(state)
 }
 
-const postResults = (state, results, attempt)=>{
-  const json = getJson(state, results, attempt)
+const postResults = (state)=>{
+  const json = JSON.stringify(state)
   return fetch(`${host}/data`, {
     body: JSON.stringify({data: json}),
     method: 'POST',
   })
+}
+
+export const getResultsName = (state)=>{
+  return state.uni ? 'uniResults' : 'biResults';
 }
 
 export default handleActions({
@@ -73,9 +84,15 @@ export default handleActions({
     }
   },
   'CHANGE_VIEW' (state, action) {
+    const otherProps = action.changeUni ? {
+      uni: !state.uni,
+      showSummary: !state.showSummary,
+    } : {}
     return {
       ...state,
+      ...otherProps,
       view: action.payload,
+      
     }
   },
   'TOGGLE_SUMMARY' (state, action) {
@@ -89,18 +106,20 @@ export default handleActions({
     fetch(`${host}/data`, {
       method: 'GET',
     })
+    const resultsName = getResultsName(state)
     const unitsOrdered = Number(payload);
-    const demand = ppf(state.meanVariance[0], state.meanVariance[1]);
+    const demand = state.uni ? uniDemand(state.uniMeanVariance[0], state.uniMeanVariance[1]) : ppf(state.meanVariance[0], state.meanVariance[1]);
     const unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
     const totalRevenue = state.price * unitsSold;
     const totalCost = unitsOrdered*state.cost;
     const profitForThisRound = totalRevenue - totalCost;
-    const lastResultIndex = state.results.length
+    const lastResultIndex = state[resultsName].length
     let lastcumulativeProfit = 0
+
     if (lastResultIndex > 0 && lastResultIndex !== 5) {
-      lastcumulativeProfit = state.results[lastResultIndex - 1].cumulativeProfit;
+      lastcumulativeProfit = state[resultsName][lastResultIndex - 1].cumulativeProfit;
     }
-    const results = state.results.concat([{
+    const results = state[resultsName].concat([{
       unitsOrdered,
       demand,
       unitsSold,
@@ -111,19 +130,16 @@ export default handleActions({
       cumulativeProfit: lastcumulativeProfit + profitForThisRound,
       time: new Date().toString(),
     }])
-    if (results.length % 5 === 0) {
-      postResults(state, results, results.length)
-    }
-    let view = 'game'
-    if (results.length === 35) {
-      view = 'results'
-      $('#results').val(getJson(state, results, results.length))
-    }
-    return {
+    const nextState = {
       ...state,
-      view,
-      results,
+      [resultsName]: results,
       showSummary: true,
+      attempt: results.length,
     }
+    $('#results').val(JSON.stringify(nextState))
+    if (results.length % 5 === 0) {
+      postResults(nextState,)
+    }
+    return nextState;
   },
 }, initialState)

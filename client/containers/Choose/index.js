@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import * as TodoActions from '../../actions/todos';
 import Button from '../../ui/Button';
 import TextInput from 'ui/Input';
+import * as todoSelectors from 'selectors/todos'
 import style from './style.css';
 
 class Choose extends Component {
@@ -38,10 +39,11 @@ class Choose extends Component {
     })
   }
   render() {
-    const { results, actions, children, submitResult, price, cost } = this.props
+    const { results, actions, children, submitResult, price, cost, uni } = this.props
     const { unitsToOrder } = this.state;
     return (
       <div>
+        <h2>{`Game ${this.props.attempt <= 20 ? 1 : 2} - ${uni ? 'Uni' : 'Bi'}modal Distribution`}</h2>
         <h3>Choose Order Quantity</h3>
         <p>Select your order quantity and enter it into the text field. Remember that demand is between 0 and 400.</p>
         <div>
@@ -97,7 +99,9 @@ class Choose extends Component {
 
 function mapStateToProps(state) {
   return {
-    results: state.todos.results,
+    uni: state.todos.uni,
+    attempt: state.todos.attempt,
+    results: todoSelectors.getCurrentResults(state),
     price: state.todos.price,
     cost: state.todos.cost,
   }

@@ -66,23 +66,23 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	var _App = __webpack_require__(505);
+	var _App = __webpack_require__(507);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Summary = __webpack_require__(506);
+	var _Summary = __webpack_require__(508);
 
 	var _Summary2 = _interopRequireDefault(_Summary);
 
-	var _Choose = __webpack_require__(508);
+	var _Choose = __webpack_require__(510);
 
 	var _Choose2 = _interopRequireDefault(_Choose);
 
-	var _Instructions = __webpack_require__(461);
+	var _Instructions = __webpack_require__(463);
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _store = __webpack_require__(516);
+	var _store = __webpack_require__(518);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -28309,15 +28309,15 @@
 
 	var _Results2 = _interopRequireDefault(_Results);
 
-	var _Instructions = __webpack_require__(461);
+	var _Instructions = __webpack_require__(463);
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _Ethics = __webpack_require__(493);
+	var _Ethics = __webpack_require__(496);
 
 	var _Ethics2 = _interopRequireDefault(_Ethics);
 
-	var _App = __webpack_require__(505);
+	var _App = __webpack_require__(507);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -28396,6 +28396,16 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _router = __webpack_require__(461);
+
+	var routerActions = _interopRequireWildcard(_router);
+
+	var _lodash = __webpack_require__(462);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Results = function (_React$PureComponent) {
@@ -28412,7 +28422,7 @@
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Results.__proto__ || (0, _getPrototypeOf2.default)(Results)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Results.__proto__ || (0, _getPrototypeOf2.default)(Results)).call.apply(_ref, [this].concat(args))), _this), _this.nextPage = function () {}, _this.submit = function () {
 	      (0, _jquery2.default)('#results').closest('form').submit();
 	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
@@ -28431,12 +28441,52 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Thank you for completing the game. Your total cumulative profit was $' + this.props.profit
+	          'Thank you for completing the game. Your results are as follows:'
 	        ),
 	        _react2.default.createElement(
+	          'table',
+	          null,
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                'Game 1 Total Profit:'
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                '$' + this.props[this.props.firstGame + 'Profit']
+	              )
+	            ),
+	            this.props.attempt > 20 && _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                'Game 2 Total Profit:'
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                '$' + this.props[(this.props.firstGame === 'uni' ? 'bi' : 'uni') + 'Profit']
+	              )
+	            )
+	          )
+	        ),
+	        this.props.attempt === 40 ? _react2.default.createElement(
 	          _Button2.default,
 	          { onClick: this.submit },
 	          'Submit Results'
+	        ) : _react2.default.createElement(
+	          _Button2.default,
+	          { onClick: this.props.goToGame },
+	          'Go To Final Game'
 	        )
 	      );
 	    }
@@ -28445,13 +28495,24 @@
 	}(_react2.default.PureComponent);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	  var lastResultIndex = state.todos.results.length - 1;
+	  var uniLastResultIndex = state.todos.uniResults.length - 1;
+	  var biLastResultIndex = state.todos.biResults.length - 1;
 	  return {
-	    profit: state.todos.results[lastResultIndex].cumulativeProfit
+	    firstGame: state.todos.firstGame,
+	    uni: state.todos.uni,
+	    attempt: state.todos.attempt,
+	    uniProfit: _lodash2.default.get(state.todos.uniResults[uniLastResultIndex] || {}, 'cumulativeProfit'),
+	    biProfit: _lodash2.default.get(state.todos.biResults[biLastResultIndex] || {}, 'cumulativeProfit')
 	  };
 	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Results);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToGame: function goToGame() {
+	      dispatch(routerActions.goToGame(true));
+	    }
+	  };
+	};
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Results);
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -49133,118 +49194,18 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(297);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _redux = __webpack_require__(108);
-
-	var _reactRedux = __webpack_require__(99);
-
-	var _reactMarkdown = __webpack_require__(355);
-
-	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
-
-	var _Button = __webpack_require__(448);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	var _router = __webpack_require__(462);
-
-	var actions = _interopRequireWildcard(_router);
-
-	var _todos = __webpack_require__(463);
-
-	var _style = __webpack_require__(491);
-
-	var style = _interopRequireWildcard(_style);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var source = '\n  # Instructions\n  Thank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by 1000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid\n  to you in cash at the end of the session.\n  \n  You are a retailer who sells a single item, the widget, over multiple rounds. In each round of the game, you first order widgets from a (automated) supplier at a cost of $3 per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n  \n  The process of each round will be as follows:\n  \n  1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n  \n  2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:\n  \n  ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")\n\n  The demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n  \n  3. Calculation of profit for the period: There are two different cases:\n\n  * If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n  \n    Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n  \n  * If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n  \n    Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n  \n  4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n  \n  5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n  \n  6. Number of rounds: The game lasts for 35 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)\n\n';
-
-	var Instructions = function (_Component) {
-	  (0, _inherits3.default)(Instructions, _Component);
-
-	  function Instructions() {
-	    (0, _classCallCheck3.default)(this, Instructions);
-	    return (0, _possibleConstructorReturn3.default)(this, (Instructions.__proto__ || (0, _getPrototypeOf2.default)(Instructions)).apply(this, arguments));
-	  }
-
-	  (0, _createClass3.default)(Instructions, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          todos = _props.todos,
-	          actions = _props.actions,
-	          children = _props.children,
-	          goToGame = _props.goToGame;
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
-	        _react2.default.createElement(
-	          _Button2.default,
-	          { className: style.button, onClick: goToGame },
-	          'Proceed To Game'
-	        )
-	      );
-	    }
-	  }]);
-	  return Instructions;
-	}(_react.Component);
-
-	function mapDispatchToProps(dispatch) {
-	  return {
-	    goToGame: function goToGame() {
-	      return dispatch(actions.goToGame());
-	    }
-	  };
-	}
-
-	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Instructions);
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 462 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var goToGame = exports.goToGame = function goToGame() {
+	var goToGame = exports.goToGame = function goToGame(changeUni) {
 	  return {
 	    type: 'CHANGE_VIEW',
-	    payload: 'game'
+	    payload: 'game',
+	    changeUni: changeUni
+	  };
+	};
+
+	var goToResults = exports.goToResults = function goToResults() {
+	  return {
+	    type: 'CHANGE_VIEW',
+	    payload: 'results'
 	  };
 	};
 
@@ -49258,2733 +49219,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "router.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 463 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.priceCost = undefined;
-
-	var _stringify = __webpack_require__(464);
-
-	var _stringify2 = _interopRequireDefault(_stringify);
-
-	var _extends2 = __webpack_require__(449);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _jquery = __webpack_require__(460);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _reduxActions = __webpack_require__(466);
-
-	var _isomorphicFetch = __webpack_require__(478);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _ppf = __webpack_require__(480);
-
-	var _ppf2 = _interopRequireDefault(_ppf);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var uniqueUser = localStorage.getItem("uniqueUser");
-
-	if (!uniqueUser) {
-	  uniqueUser = Math.round(1000000000 * Math.random());
-	  localStorage.setItem("uniqueUser", uniqueUser);
-	}
-
-	var uniqueId = Math.round(1000000000 * Math.random());
-
-	var host =  false ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
-
-	console.log('host', host);
-	var priceCost = exports.priceCost = Math.random() >= 0.5 ? {
-	  price: 12,
-	  cost: 3
-	} : {
-	  price: 10,
-	  cost: 4
-	};
-
-	var initialState = (0, _extends3.default)({}, priceCost, {
-	  showSummary: false,
-	  results: [],
-	  // showSummary: true,
-	  // results: [{
-	  //   unitsOrdered: 1,
-	  //   demand: 87,
-	  //   unitsSold: 1,
-	  //   unitsUnsold: 0,
-	  //   totalRevenue: 12,
-	  //   totalCost: 3,
-	  //   profitForThisRound: 9,
-	  //   cumulativeProfit: 9,
-	  // }],
-	  uniqueId: uniqueId,
-	  uniqueUser: uniqueUser,
-	  view: 'ethics',
-	  ethics: {},
-	  meanVariance: [[150, 144], [250, 144]]
-	  // view: 'results',
-	});
-
-	var getJson = function getJson(state, results, attempt) {
-	  return (0, _stringify2.default)((0, _extends3.default)({}, state, {
-	    results: results,
-	    attempt: attempt
-	  }));
-	};
-
-	var postResults = function postResults(state, results, attempt) {
-	  var json = getJson(state, results, attempt);
-	  return (0, _isomorphicFetch2.default)(host + '/data', {
-	    body: (0, _stringify2.default)({ data: json }),
-	    method: 'POST'
-	  });
-	};
-
-	exports.default = (0, _reduxActions.handleActions)({
-	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
-	    return (0, _extends3.default)({}, state, {
-	      ethics: action.payload,
-	      view: 'instructions'
-	    });
-	  },
-	  'CHANGE_VIEW': function CHANGE_VIEW(state, action) {
-	    return (0, _extends3.default)({}, state, {
-	      view: action.payload
-	    });
-	  },
-	  'TOGGLE_SUMMARY': function TOGGLE_SUMMARY(state, action) {
-	    return (0, _extends3.default)({}, state, {
-	      showSummary: !state.showSummary
-	    });
-	  },
-	  'SUBMIT_RESULT': function SUBMIT_RESULT(state, _ref) {
-	    var payload = _ref.payload;
-
-	    (0, _isomorphicFetch2.default)(host + '/data', {
-	      method: 'GET'
-	    });
-	    var unitsOrdered = Number(payload);
-	    var demand = (0, _ppf2.default)(state.meanVariance[0], state.meanVariance[1]);
-	    var unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
-	    var totalRevenue = state.price * unitsSold;
-	    var totalCost = unitsOrdered * state.cost;
-	    var profitForThisRound = totalRevenue - totalCost;
-	    var lastResultIndex = state.results.length;
-	    var lastcumulativeProfit = 0;
-	    if (lastResultIndex > 0 && lastResultIndex !== 5) {
-	      lastcumulativeProfit = state.results[lastResultIndex - 1].cumulativeProfit;
-	    }
-	    var results = state.results.concat([{
-	      unitsOrdered: unitsOrdered,
-	      demand: demand,
-	      unitsSold: unitsSold,
-	      unitsUnsold: unitsOrdered - demand >= 0 ? unitsOrdered - demand : 0,
-	      totalRevenue: totalRevenue,
-	      totalCost: totalCost,
-	      profitForThisRound: profitForThisRound,
-	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
-	      time: new Date().toString()
-	    }]);
-	    if (results.length % 5 === 0) {
-	      postResults(state, results, results.length);
-	    }
-	    var view = 'game';
-	    if (results.length === 35) {
-	      view = 'results';
-	      (0, _jquery2.default)('#results').val(getJson(state, results, results.length));
-	    }
-	    return (0, _extends3.default)({}, state, {
-	      view: view,
-	      results: results,
-	      showSummary: true
-	    });
-	  }
-	}, initialState);
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 464 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(465), __esModule: true };
-
-/***/ }),
-/* 465 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var core = __webpack_require__(283);
-	var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
-	module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
-	  return $JSON.stringify.apply($JSON, arguments);
-	};
-
-
-/***/ }),
-/* 466 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _createAction = __webpack_require__(467);
-
-	var _createAction2 = _interopRequireDefault(_createAction);
-
-	var _handleAction = __webpack_require__(468);
-
-	var _handleAction2 = _interopRequireDefault(_handleAction);
-
-	var _handleActions = __webpack_require__(475);
-
-	var _handleActions2 = _interopRequireDefault(_handleActions);
-
-	exports.createAction = _createAction2['default'];
-	exports.handleAction = _handleAction2['default'];
-	exports.handleActions = _handleActions2['default'];
-
-/***/ }),
-/* 467 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = createAction;
-	function identity(t) {
-	  return t;
-	}
-
-	function createAction(type, actionCreator, metaCreator) {
-	  var finalActionCreator = typeof actionCreator === 'function' ? actionCreator : identity;
-
-	  return function () {
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    var action = {
-	      type: type,
-	      payload: finalActionCreator.apply(undefined, args)
-	    };
-
-	    if (args.length === 1 && args[0] instanceof Error) {
-	      // Handle FSA errors where the payload is an Error object. Set error.
-	      action.error = true;
-	    }
-
-	    if (typeof metaCreator === 'function') {
-	      action.meta = metaCreator.apply(undefined, args);
-	    }
-
-	    return action;
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ }),
-/* 468 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = handleAction;
-
-	var _fluxStandardAction = __webpack_require__(469);
-
-	function isFunction(val) {
-	  return typeof val === 'function';
-	}
-
-	function handleAction(type, reducers) {
-	  return function (state, action) {
-	    // If action type does not match, return previous state
-	    if (action.type !== type) return state;
-
-	    var handlerKey = _fluxStandardAction.isError(action) ? 'throw' : 'next';
-
-	    // If function is passed instead of map, use as reducer
-	    if (isFunction(reducers)) {
-	      reducers.next = reducers['throw'] = reducers;
-	    }
-
-	    // Otherwise, assume an action map was passed
-	    var reducer = reducers[handlerKey];
-
-	    return isFunction(reducer) ? reducer(state, action) : state;
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ }),
-/* 469 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.isFSA = isFSA;
-	exports.isError = isError;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _lodashIsplainobject = __webpack_require__(470);
-
-	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
-
-	var validKeys = ['type', 'payload', 'error', 'meta'];
-
-	function isValidKey(key) {
-	  return validKeys.indexOf(key) > -1;
-	}
-
-	function isFSA(action) {
-	  return _lodashIsplainobject2['default'](action) && typeof action.type !== 'undefined' && Object.keys(action).every(isValidKey);
-	}
-
-	function isError(action) {
-	  return action.error === true;
-	}
-
-/***/ }),
-/* 470 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/**
-	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern modularize exports="npm" -o ./`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-	var baseFor = __webpack_require__(471),
-	    isArguments = __webpack_require__(472),
-	    keysIn = __webpack_require__(473);
-
-	/** `Object#toString` result references. */
-	var objectTag = '[object Object]';
-
-	/**
-	 * Checks if `value` is object-like.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objToString = objectProto.toString;
-
-	/**
-	 * The base implementation of `_.forIn` without support for callback
-	 * shorthands and `this` binding.
-	 *
-	 * @private
-	 * @param {Object} object The object to iterate over.
-	 * @param {Function} iteratee The function invoked per iteration.
-	 * @returns {Object} Returns `object`.
-	 */
-	function baseForIn(object, iteratee) {
-	  return baseFor(object, iteratee, keysIn);
-	}
-
-	/**
-	 * Checks if `value` is a plain object, that is, an object created by the
-	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
-	 *
-	 * **Note:** This method assumes objects created by the `Object` constructor
-	 * have no inherited enumerable properties.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.a = 1;
-	 * }
-	 *
-	 * _.isPlainObject(new Foo);
-	 * // => false
-	 *
-	 * _.isPlainObject([1, 2, 3]);
-	 * // => false
-	 *
-	 * _.isPlainObject({ 'x': 0, 'y': 0 });
-	 * // => true
-	 *
-	 * _.isPlainObject(Object.create(null));
-	 * // => true
-	 */
-	function isPlainObject(value) {
-	  var Ctor;
-
-	  // Exit early for non `Object` objects.
-	  if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
-	      (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
-	    return false;
-	  }
-	  // IE < 9 iterates inherited properties before own properties. If the first
-	  // iterated property is an object's own property then there are no inherited
-	  // enumerable properties.
-	  var result;
-	  // In most environments an object's own properties are iterated before
-	  // its inherited properties. If the last iterated property is an object's
-	  // own property then there are no inherited enumerable properties.
-	  baseForIn(value, function(subValue, key) {
-	    result = key;
-	  });
-	  return result === undefined || hasOwnProperty.call(value, result);
-	}
-
-	module.exports = isPlainObject;
-
-
-/***/ }),
-/* 471 */
-/***/ (function(module, exports) {
-
-	/**
-	 * lodash 3.0.3 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-
-	/**
-	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
-	 * over `object` properties returned by `keysFunc` invoking `iteratee` for
-	 * each property. Iteratee functions may exit iteration early by explicitly
-	 * returning `false`.
-	 *
-	 * @private
-	 * @param {Object} object The object to iterate over.
-	 * @param {Function} iteratee The function invoked per iteration.
-	 * @param {Function} keysFunc The function to get the keys of `object`.
-	 * @returns {Object} Returns `object`.
-	 */
-	var baseFor = createBaseFor();
-
-	/**
-	 * Creates a base function for methods like `_.forIn`.
-	 *
-	 * @private
-	 * @param {boolean} [fromRight] Specify iterating from right to left.
-	 * @returns {Function} Returns the new base function.
-	 */
-	function createBaseFor(fromRight) {
-	  return function(object, iteratee, keysFunc) {
-	    var index = -1,
-	        iterable = Object(object),
-	        props = keysFunc(object),
-	        length = props.length;
-
-	    while (length--) {
-	      var key = props[fromRight ? length : ++index];
-	      if (iteratee(iterable[key], key, iterable) === false) {
-	        break;
-	      }
-	    }
-	    return object;
-	  };
-	}
-
-	module.exports = baseFor;
-
-
-/***/ }),
-/* 472 */
-/***/ (function(module, exports) {
-
-	/**
-	 * lodash (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-	 * Released under MIT license <https://lodash.com/license>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 */
-
-	/** Used as references for various `Number` constants. */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-
-	/** `Object#toString` result references. */
-	var argsTag = '[object Arguments]',
-	    funcTag = '[object Function]',
-	    genTag = '[object GeneratorFunction]';
-
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Used to resolve the
-	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-
-	/** Built-in value references. */
-	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-	/**
-	 * Checks if `value` is likely an `arguments` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
-	 *  else `false`.
-	 * @example
-	 *
-	 * _.isArguments(function() { return arguments; }());
-	 * // => true
-	 *
-	 * _.isArguments([1, 2, 3]);
-	 * // => false
-	 */
-	function isArguments(value) {
-	  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-	}
-
-	/**
-	 * Checks if `value` is array-like. A value is considered array-like if it's
-	 * not a function and has a `value.length` that's an integer greater than or
-	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-	 * @example
-	 *
-	 * _.isArrayLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArrayLike(document.body.children);
-	 * // => true
-	 *
-	 * _.isArrayLike('abc');
-	 * // => true
-	 *
-	 * _.isArrayLike(_.noop);
-	 * // => false
-	 */
-	function isArrayLike(value) {
-	  return value != null && isLength(value.length) && !isFunction(value);
-	}
-
-	/**
-	 * This method is like `_.isArrayLike` except that it also checks if `value`
-	 * is an object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an array-like object,
-	 *  else `false`.
-	 * @example
-	 *
-	 * _.isArrayLikeObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArrayLikeObject(document.body.children);
-	 * // => true
-	 *
-	 * _.isArrayLikeObject('abc');
-	 * // => false
-	 *
-	 * _.isArrayLikeObject(_.noop);
-	 * // => false
-	 */
-	function isArrayLikeObject(value) {
-	  return isObjectLike(value) && isArrayLike(value);
-	}
-
-	/**
-	 * Checks if `value` is classified as a `Function` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
-	 * @example
-	 *
-	 * _.isFunction(_);
-	 * // => true
-	 *
-	 * _.isFunction(/abc/);
-	 * // => false
-	 */
-	function isFunction(value) {
-	  // The use of `Object#toString` avoids issues with the `typeof` operator
-	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-	  var tag = isObject(value) ? objectToString.call(value) : '';
-	  return tag == funcTag || tag == genTag;
-	}
-
-	/**
-	 * Checks if `value` is a valid array-like length.
-	 *
-	 * **Note:** This method is loosely based on
-	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-	 * @example
-	 *
-	 * _.isLength(3);
-	 * // => true
-	 *
-	 * _.isLength(Number.MIN_VALUE);
-	 * // => false
-	 *
-	 * _.isLength(Infinity);
-	 * // => false
-	 *
-	 * _.isLength('3');
-	 * // => false
-	 */
-	function isLength(value) {
-	  return typeof value == 'number' &&
-	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	}
-
-	/**
-	 * Checks if `value` is the
-	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.1.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(_.noop);
-	 * // => true
-	 *
-	 * _.isObject(null);
-	 * // => false
-	 */
-	function isObject(value) {
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	module.exports = isArguments;
-
-
-/***/ }),
-/* 473 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/**
-	 * lodash 3.0.8 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern modularize exports="npm" -o ./`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-	var isArguments = __webpack_require__(472),
-	    isArray = __webpack_require__(474);
-
-	/** Used to detect unsigned integer values. */
-	var reIsUint = /^\d+$/;
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
-	 * of an array-like value.
-	 */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-
-	/**
-	 * Checks if `value` is a valid array-like index.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-	 */
-	function isIndex(value, length) {
-	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-	  length = length == null ? MAX_SAFE_INTEGER : length;
-	  return value > -1 && value % 1 == 0 && value < length;
-	}
-
-	/**
-	 * Checks if `value` is a valid array-like length.
-	 *
-	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-	 */
-	function isLength(value) {
-	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	}
-
-	/**
-	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(1);
-	 * // => false
-	 */
-	function isObject(value) {
-	  // Avoid a V8 JIT bug in Chrome 19-20.
-	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	/**
-	 * Creates an array of the own and inherited enumerable property names of `object`.
-	 *
-	 * **Note:** Non-object values are coerced to objects.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Object
-	 * @param {Object} object The object to query.
-	 * @returns {Array} Returns the array of property names.
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.a = 1;
-	 *   this.b = 2;
-	 * }
-	 *
-	 * Foo.prototype.c = 3;
-	 *
-	 * _.keysIn(new Foo);
-	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
-	 */
-	function keysIn(object) {
-	  if (object == null) {
-	    return [];
-	  }
-	  if (!isObject(object)) {
-	    object = Object(object);
-	  }
-	  var length = object.length;
-	  length = (length && isLength(length) &&
-	    (isArray(object) || isArguments(object)) && length) || 0;
-
-	  var Ctor = object.constructor,
-	      index = -1,
-	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-	      result = Array(length),
-	      skipIndexes = length > 0;
-
-	  while (++index < length) {
-	    result[index] = (index + '');
-	  }
-	  for (var key in object) {
-	    if (!(skipIndexes && isIndex(key, length)) &&
-	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-	      result.push(key);
-	    }
-	  }
-	  return result;
-	}
-
-	module.exports = keysIn;
-
-
-/***/ }),
-/* 474 */
-/***/ (function(module, exports) {
-
-	/**
-	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern modularize exports="npm" -o ./`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-
-	/** `Object#toString` result references. */
-	var arrayTag = '[object Array]',
-	    funcTag = '[object Function]';
-
-	/** Used to detect host constructors (Safari > 5). */
-	var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-	/**
-	 * Checks if `value` is object-like.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to resolve the decompiled source of functions. */
-	var fnToString = Function.prototype.toString;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objToString = objectProto.toString;
-
-	/** Used to detect if a method is native. */
-	var reIsNative = RegExp('^' +
-	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-	);
-
-	/* Native method references for those with the same name as other `lodash` methods. */
-	var nativeIsArray = getNative(Array, 'isArray');
-
-	/**
-	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
-	 * of an array-like value.
-	 */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-
-	/**
-	 * Gets the native function at `key` of `object`.
-	 *
-	 * @private
-	 * @param {Object} object The object to query.
-	 * @param {string} key The key of the method to get.
-	 * @returns {*} Returns the function if it's native, else `undefined`.
-	 */
-	function getNative(object, key) {
-	  var value = object == null ? undefined : object[key];
-	  return isNative(value) ? value : undefined;
-	}
-
-	/**
-	 * Checks if `value` is a valid array-like length.
-	 *
-	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-	 */
-	function isLength(value) {
-	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	}
-
-	/**
-	 * Checks if `value` is classified as an `Array` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isArray([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isArray(function() { return arguments; }());
-	 * // => false
-	 */
-	var isArray = nativeIsArray || function(value) {
-	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-	};
-
-	/**
-	 * Checks if `value` is classified as a `Function` object.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-	 * @example
-	 *
-	 * _.isFunction(_);
-	 * // => true
-	 *
-	 * _.isFunction(/abc/);
-	 * // => false
-	 */
-	function isFunction(value) {
-	  // The use of `Object#toString` avoids issues with the `typeof` operator
-	  // in older versions of Chrome and Safari which return 'function' for regexes
-	  // and Safari 8 equivalents which return 'object' for typed array constructors.
-	  return isObject(value) && objToString.call(value) == funcTag;
-	}
-
-	/**
-	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	 * @example
-	 *
-	 * _.isObject({});
-	 * // => true
-	 *
-	 * _.isObject([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObject(1);
-	 * // => false
-	 */
-	function isObject(value) {
-	  // Avoid a V8 JIT bug in Chrome 19-20.
-	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-	  var type = typeof value;
-	  return !!value && (type == 'object' || type == 'function');
-	}
-
-	/**
-	 * Checks if `value` is a native function.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
-	 * @example
-	 *
-	 * _.isNative(Array.prototype.push);
-	 * // => true
-	 *
-	 * _.isNative(_);
-	 * // => false
-	 */
-	function isNative(value) {
-	  if (value == null) {
-	    return false;
-	  }
-	  if (isFunction(value)) {
-	    return reIsNative.test(fnToString.call(value));
-	  }
-	  return isObjectLike(value) && reIsHostCtor.test(value);
-	}
-
-	module.exports = isArray;
-
-
-/***/ }),
-/* 475 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = handleActions;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _handleAction = __webpack_require__(468);
-
-	var _handleAction2 = _interopRequireDefault(_handleAction);
-
-	var _ownKeys = __webpack_require__(476);
-
-	var _ownKeys2 = _interopRequireDefault(_ownKeys);
-
-	var _reduceReducers = __webpack_require__(477);
-
-	var _reduceReducers2 = _interopRequireDefault(_reduceReducers);
-
-	function handleActions(handlers, defaultState) {
-	  var reducers = _ownKeys2['default'](handlers).map(function (type) {
-	    return _handleAction2['default'](type, handlers[type]);
-	  });
-
-	  return typeof defaultState !== 'undefined' ? function (state, action) {
-	    if (state === undefined) state = defaultState;
-	    return _reduceReducers2['default'].apply(undefined, reducers)(state, action);
-	  } : _reduceReducers2['default'].apply(undefined, reducers);
-	}
-
-	module.exports = exports['default'];
-
-/***/ }),
-/* 476 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = ownKeys;
-
-	function ownKeys(object) {
-	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
-	    return Reflect.ownKeys(object);
-	  }
-
-	  var keys = Object.getOwnPropertyNames(object);
-
-	  if (typeof Object.getOwnPropertySymbols === 'function') {
-	    keys = keys.concat(Object.getOwnPropertySymbols(object));
-	  }
-
-	  return keys;
-	}
-
-	module.exports = exports['default'];
-
-/***/ }),
-/* 477 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = reduceReducers;
-
-	function reduceReducers() {
-	  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
-	    reducers[_key] = arguments[_key];
-	  }
-
-	  return function (previous, current) {
-	    return reducers.reduce(function (p, r) {
-	      return r(p, current);
-	    }, previous);
-	  };
-	}
-
-	module.exports = exports["default"];
-
-/***/ }),
-/* 478 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// the whatwg-fetch polyfill installs the fetch() function
-	// on the global object (window or self)
-	//
-	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(479);
-	module.exports = self.fetch.bind(self);
-
-
-/***/ }),
-/* 479 */
-/***/ (function(module, exports) {
-
-	(function(self) {
-	  'use strict';
-
-	  if (self.fetch) {
-	    return
-	  }
-
-	  var support = {
-	    searchParams: 'URLSearchParams' in self,
-	    iterable: 'Symbol' in self && 'iterator' in Symbol,
-	    blob: 'FileReader' in self && 'Blob' in self && (function() {
-	      try {
-	        new Blob()
-	        return true
-	      } catch(e) {
-	        return false
-	      }
-	    })(),
-	    formData: 'FormData' in self,
-	    arrayBuffer: 'ArrayBuffer' in self
-	  }
-
-	  if (support.arrayBuffer) {
-	    var viewClasses = [
-	      '[object Int8Array]',
-	      '[object Uint8Array]',
-	      '[object Uint8ClampedArray]',
-	      '[object Int16Array]',
-	      '[object Uint16Array]',
-	      '[object Int32Array]',
-	      '[object Uint32Array]',
-	      '[object Float32Array]',
-	      '[object Float64Array]'
-	    ]
-
-	    var isDataView = function(obj) {
-	      return obj && DataView.prototype.isPrototypeOf(obj)
-	    }
-
-	    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
-	      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
-	    }
-	  }
-
-	  function normalizeName(name) {
-	    if (typeof name !== 'string') {
-	      name = String(name)
-	    }
-	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-	      throw new TypeError('Invalid character in header field name')
-	    }
-	    return name.toLowerCase()
-	  }
-
-	  function normalizeValue(value) {
-	    if (typeof value !== 'string') {
-	      value = String(value)
-	    }
-	    return value
-	  }
-
-	  // Build a destructive iterator for the value list
-	  function iteratorFor(items) {
-	    var iterator = {
-	      next: function() {
-	        var value = items.shift()
-	        return {done: value === undefined, value: value}
-	      }
-	    }
-
-	    if (support.iterable) {
-	      iterator[Symbol.iterator] = function() {
-	        return iterator
-	      }
-	    }
-
-	    return iterator
-	  }
-
-	  function Headers(headers) {
-	    this.map = {}
-
-	    if (headers instanceof Headers) {
-	      headers.forEach(function(value, name) {
-	        this.append(name, value)
-	      }, this)
-	    } else if (Array.isArray(headers)) {
-	      headers.forEach(function(header) {
-	        this.append(header[0], header[1])
-	      }, this)
-	    } else if (headers) {
-	      Object.getOwnPropertyNames(headers).forEach(function(name) {
-	        this.append(name, headers[name])
-	      }, this)
-	    }
-	  }
-
-	  Headers.prototype.append = function(name, value) {
-	    name = normalizeName(name)
-	    value = normalizeValue(value)
-	    var oldValue = this.map[name]
-	    this.map[name] = oldValue ? oldValue+','+value : value
-	  }
-
-	  Headers.prototype['delete'] = function(name) {
-	    delete this.map[normalizeName(name)]
-	  }
-
-	  Headers.prototype.get = function(name) {
-	    name = normalizeName(name)
-	    return this.has(name) ? this.map[name] : null
-	  }
-
-	  Headers.prototype.has = function(name) {
-	    return this.map.hasOwnProperty(normalizeName(name))
-	  }
-
-	  Headers.prototype.set = function(name, value) {
-	    this.map[normalizeName(name)] = normalizeValue(value)
-	  }
-
-	  Headers.prototype.forEach = function(callback, thisArg) {
-	    for (var name in this.map) {
-	      if (this.map.hasOwnProperty(name)) {
-	        callback.call(thisArg, this.map[name], name, this)
-	      }
-	    }
-	  }
-
-	  Headers.prototype.keys = function() {
-	    var items = []
-	    this.forEach(function(value, name) { items.push(name) })
-	    return iteratorFor(items)
-	  }
-
-	  Headers.prototype.values = function() {
-	    var items = []
-	    this.forEach(function(value) { items.push(value) })
-	    return iteratorFor(items)
-	  }
-
-	  Headers.prototype.entries = function() {
-	    var items = []
-	    this.forEach(function(value, name) { items.push([name, value]) })
-	    return iteratorFor(items)
-	  }
-
-	  if (support.iterable) {
-	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-	  }
-
-	  function consumed(body) {
-	    if (body.bodyUsed) {
-	      return Promise.reject(new TypeError('Already read'))
-	    }
-	    body.bodyUsed = true
-	  }
-
-	  function fileReaderReady(reader) {
-	    return new Promise(function(resolve, reject) {
-	      reader.onload = function() {
-	        resolve(reader.result)
-	      }
-	      reader.onerror = function() {
-	        reject(reader.error)
-	      }
-	    })
-	  }
-
-	  function readBlobAsArrayBuffer(blob) {
-	    var reader = new FileReader()
-	    var promise = fileReaderReady(reader)
-	    reader.readAsArrayBuffer(blob)
-	    return promise
-	  }
-
-	  function readBlobAsText(blob) {
-	    var reader = new FileReader()
-	    var promise = fileReaderReady(reader)
-	    reader.readAsText(blob)
-	    return promise
-	  }
-
-	  function readArrayBufferAsText(buf) {
-	    var view = new Uint8Array(buf)
-	    var chars = new Array(view.length)
-
-	    for (var i = 0; i < view.length; i++) {
-	      chars[i] = String.fromCharCode(view[i])
-	    }
-	    return chars.join('')
-	  }
-
-	  function bufferClone(buf) {
-	    if (buf.slice) {
-	      return buf.slice(0)
-	    } else {
-	      var view = new Uint8Array(buf.byteLength)
-	      view.set(new Uint8Array(buf))
-	      return view.buffer
-	    }
-	  }
-
-	  function Body() {
-	    this.bodyUsed = false
-
-	    this._initBody = function(body) {
-	      this._bodyInit = body
-	      if (!body) {
-	        this._bodyText = ''
-	      } else if (typeof body === 'string') {
-	        this._bodyText = body
-	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-	        this._bodyBlob = body
-	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-	        this._bodyFormData = body
-	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-	        this._bodyText = body.toString()
-	      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
-	        this._bodyArrayBuffer = bufferClone(body.buffer)
-	        // IE 10-11 can't handle a DataView body.
-	        this._bodyInit = new Blob([this._bodyArrayBuffer])
-	      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
-	        this._bodyArrayBuffer = bufferClone(body)
-	      } else {
-	        throw new Error('unsupported BodyInit type')
-	      }
-
-	      if (!this.headers.get('content-type')) {
-	        if (typeof body === 'string') {
-	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-	        } else if (this._bodyBlob && this._bodyBlob.type) {
-	          this.headers.set('content-type', this._bodyBlob.type)
-	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
-	        }
-	      }
-	    }
-
-	    if (support.blob) {
-	      this.blob = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-
-	        if (this._bodyBlob) {
-	          return Promise.resolve(this._bodyBlob)
-	        } else if (this._bodyArrayBuffer) {
-	          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as blob')
-	        } else {
-	          return Promise.resolve(new Blob([this._bodyText]))
-	        }
-	      }
-
-	      this.arrayBuffer = function() {
-	        if (this._bodyArrayBuffer) {
-	          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
-	        } else {
-	          return this.blob().then(readBlobAsArrayBuffer)
-	        }
-	      }
-	    }
-
-	    this.text = function() {
-	      var rejected = consumed(this)
-	      if (rejected) {
-	        return rejected
-	      }
-
-	      if (this._bodyBlob) {
-	        return readBlobAsText(this._bodyBlob)
-	      } else if (this._bodyArrayBuffer) {
-	        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
-	      } else if (this._bodyFormData) {
-	        throw new Error('could not read FormData body as text')
-	      } else {
-	        return Promise.resolve(this._bodyText)
-	      }
-	    }
-
-	    if (support.formData) {
-	      this.formData = function() {
-	        return this.text().then(decode)
-	      }
-	    }
-
-	    this.json = function() {
-	      return this.text().then(JSON.parse)
-	    }
-
-	    return this
-	  }
-
-	  // HTTP methods whose capitalization should be normalized
-	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-
-	  function normalizeMethod(method) {
-	    var upcased = method.toUpperCase()
-	    return (methods.indexOf(upcased) > -1) ? upcased : method
-	  }
-
-	  function Request(input, options) {
-	    options = options || {}
-	    var body = options.body
-
-	    if (input instanceof Request) {
-	      if (input.bodyUsed) {
-	        throw new TypeError('Already read')
-	      }
-	      this.url = input.url
-	      this.credentials = input.credentials
-	      if (!options.headers) {
-	        this.headers = new Headers(input.headers)
-	      }
-	      this.method = input.method
-	      this.mode = input.mode
-	      if (!body && input._bodyInit != null) {
-	        body = input._bodyInit
-	        input.bodyUsed = true
-	      }
-	    } else {
-	      this.url = String(input)
-	    }
-
-	    this.credentials = options.credentials || this.credentials || 'omit'
-	    if (options.headers || !this.headers) {
-	      this.headers = new Headers(options.headers)
-	    }
-	    this.method = normalizeMethod(options.method || this.method || 'GET')
-	    this.mode = options.mode || this.mode || null
-	    this.referrer = null
-
-	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-	      throw new TypeError('Body not allowed for GET or HEAD requests')
-	    }
-	    this._initBody(body)
-	  }
-
-	  Request.prototype.clone = function() {
-	    return new Request(this, { body: this._bodyInit })
-	  }
-
-	  function decode(body) {
-	    var form = new FormData()
-	    body.trim().split('&').forEach(function(bytes) {
-	      if (bytes) {
-	        var split = bytes.split('=')
-	        var name = split.shift().replace(/\+/g, ' ')
-	        var value = split.join('=').replace(/\+/g, ' ')
-	        form.append(decodeURIComponent(name), decodeURIComponent(value))
-	      }
-	    })
-	    return form
-	  }
-
-	  function parseHeaders(rawHeaders) {
-	    var headers = new Headers()
-	    rawHeaders.split(/\r?\n/).forEach(function(line) {
-	      var parts = line.split(':')
-	      var key = parts.shift().trim()
-	      if (key) {
-	        var value = parts.join(':').trim()
-	        headers.append(key, value)
-	      }
-	    })
-	    return headers
-	  }
-
-	  Body.call(Request.prototype)
-
-	  function Response(bodyInit, options) {
-	    if (!options) {
-	      options = {}
-	    }
-
-	    this.type = 'default'
-	    this.status = 'status' in options ? options.status : 200
-	    this.ok = this.status >= 200 && this.status < 300
-	    this.statusText = 'statusText' in options ? options.statusText : 'OK'
-	    this.headers = new Headers(options.headers)
-	    this.url = options.url || ''
-	    this._initBody(bodyInit)
-	  }
-
-	  Body.call(Response.prototype)
-
-	  Response.prototype.clone = function() {
-	    return new Response(this._bodyInit, {
-	      status: this.status,
-	      statusText: this.statusText,
-	      headers: new Headers(this.headers),
-	      url: this.url
-	    })
-	  }
-
-	  Response.error = function() {
-	    var response = new Response(null, {status: 0, statusText: ''})
-	    response.type = 'error'
-	    return response
-	  }
-
-	  var redirectStatuses = [301, 302, 303, 307, 308]
-
-	  Response.redirect = function(url, status) {
-	    if (redirectStatuses.indexOf(status) === -1) {
-	      throw new RangeError('Invalid status code')
-	    }
-
-	    return new Response(null, {status: status, headers: {location: url}})
-	  }
-
-	  self.Headers = Headers
-	  self.Request = Request
-	  self.Response = Response
-
-	  self.fetch = function(input, init) {
-	    return new Promise(function(resolve, reject) {
-	      var request = new Request(input, init)
-	      var xhr = new XMLHttpRequest()
-
-	      xhr.onload = function() {
-	        var options = {
-	          status: xhr.status,
-	          statusText: xhr.statusText,
-	          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
-	        }
-	        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
-	        var body = 'response' in xhr ? xhr.response : xhr.responseText
-	        resolve(new Response(body, options))
-	      }
-
-	      xhr.onerror = function() {
-	        reject(new TypeError('Network request failed'))
-	      }
-
-	      xhr.ontimeout = function() {
-	        reject(new TypeError('Network request failed'))
-	      }
-
-	      xhr.open(request.method, request.url, true)
-
-	      if (request.credentials === 'include') {
-	        xhr.withCredentials = true
-	      }
-
-	      if ('responseType' in xhr && support.blob) {
-	        xhr.responseType = 'blob'
-	      }
-
-	      request.headers.forEach(function(value, name) {
-	        xhr.setRequestHeader(name, value)
-	      })
-
-	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-	    })
-	  }
-	  self.fetch.polyfill = true
-	})(typeof self !== 'undefined' ? self : this);
-
-
-/***/ }),
-/* 480 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _slicedToArray2 = __webpack_require__(481);
-
-	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-	var _gaussian = __webpack_require__(490);
-
-	var _gaussian2 = _interopRequireDefault(_gaussian);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var probabilities = void 0;
-
-	var getProbabilities = function getProbabilities(_ref, _ref2) {
-	  var _ref4 = (0, _slicedToArray3.default)(_ref, 2),
-	      mean1 = _ref4[0],
-	      variance1 = _ref4[1];
-
-	  var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
-	      mean2 = _ref3[0],
-	      variance2 = _ref3[1];
-
-	  var lowModal = (0, _gaussian2.default)(mean1, variance1);
-	  var highModal = (0, _gaussian2.default)(mean2, variance2);
-
-	  var i = 0;
-	  probabilities = {};
-	  while (i <= 400) {
-	    probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2;
-	    i++;
-	  }
-	};
-
-	exports.default = function (group1, group2) {
-	  if (!probabilities) {
-	    console.log(group1, group2);
-	    getProbabilities(group1, group2);
-	  }
-	  var p = Math.random();
-	  var j = 0;
-	  var v = null;
-	  while (j <= 400 || !v) {
-	    if (probabilities[j] <= p) {
-	      v = j;
-	    }
-	    j++;
-	  }
-	  return v;
-	};
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "ppf.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 481 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _isIterable2 = __webpack_require__(482);
-
-	var _isIterable3 = _interopRequireDefault(_isIterable2);
-
-	var _getIterator2 = __webpack_require__(486);
-
-	var _getIterator3 = _interopRequireDefault(_getIterator2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function () {
-	  function sliceIterator(arr, i) {
-	    var _arr = [];
-	    var _n = true;
-	    var _d = false;
-	    var _e = undefined;
-
-	    try {
-	      for (var _i = (0, _getIterator3.default)(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
-	        _arr.push(_s.value);
-
-	        if (i && _arr.length === i) break;
-	      }
-	    } catch (err) {
-	      _d = true;
-	      _e = err;
-	    } finally {
-	      try {
-	        if (!_n && _i["return"]) _i["return"]();
-	      } finally {
-	        if (_d) throw _e;
-	      }
-	    }
-
-	    return _arr;
-	  }
-
-	  return function (arr, i) {
-	    if (Array.isArray(arr)) {
-	      return arr;
-	    } else if ((0, _isIterable3.default)(Object(arr))) {
-	      return sliceIterator(arr, i);
-	    } else {
-	      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-	    }
-	  };
-	}();
-
-/***/ }),
-/* 482 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(483), __esModule: true };
-
-/***/ }),
-/* 483 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(327);
-	__webpack_require__(305);
-	module.exports = __webpack_require__(484);
-
-
-/***/ }),
-/* 484 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var classof = __webpack_require__(485);
-	var ITERATOR = __webpack_require__(326)('iterator');
-	var Iterators = __webpack_require__(311);
-	module.exports = __webpack_require__(283).isIterable = function (it) {
-	  var O = Object(it);
-	  return O[ITERATOR] !== undefined
-	    || '@@iterator' in O
-	    // eslint-disable-next-line no-prototype-builtins
-	    || Iterators.hasOwnProperty(classof(O));
-	};
-
-
-/***/ }),
-/* 485 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// getting tag from 19.1.3.6 Object.prototype.toString()
-	var cof = __webpack_require__(319);
-	var TAG = __webpack_require__(326)('toStringTag');
-	// ES3 wrong here
-	var ARG = cof(function () { return arguments; }()) == 'Arguments';
-
-	// fallback for IE11 Script Access Denied error
-	var tryGet = function (it, key) {
-	  try {
-	    return it[key];
-	  } catch (e) { /* empty */ }
-	};
-
-	module.exports = function (it) {
-	  var O, T, B;
-	  return it === undefined ? 'Undefined' : it === null ? 'Null'
-	    // @@toStringTag case
-	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
-	    // builtinTag case
-	    : ARG ? cof(O)
-	    // ES3 arguments fallback
-	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
-	};
-
-
-/***/ }),
-/* 486 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(487), __esModule: true };
-
-/***/ }),
-/* 487 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(327);
-	__webpack_require__(305);
-	module.exports = __webpack_require__(488);
-
-
-/***/ }),
-/* 488 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var anObject = __webpack_require__(288);
-	var get = __webpack_require__(489);
-	module.exports = __webpack_require__(283).getIterator = function (it) {
-	  var iterFn = get(it);
-	  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
-	  return anObject(iterFn.call(it));
-	};
-
-
-/***/ }),
-/* 489 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var classof = __webpack_require__(485);
-	var ITERATOR = __webpack_require__(326)('iterator');
-	var Iterators = __webpack_require__(311);
-	module.exports = __webpack_require__(283).getIteratorMethod = function (it) {
-	  if (it != undefined) return it[ITERATOR]
-	    || it['@@iterator']
-	    || Iterators[classof(it)];
-	};
-
-
-/***/ }),
-/* 490 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	(function(exports) {
-
-	  // Complementary error function
-	  // From Numerical Recipes in C 2e p221
-	  var erfc = function(x) {
-	    var z = Math.abs(x);
-	    var t = 1 / (1 + z / 2);
-	    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
-	            t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
-	            t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
-	            t * (-0.82215223 + t * 0.17087277)))))))))
-	    return x >= 0 ? r : 2 - r;
-	  };
-
-	  // Inverse complementary error function
-	  // From Numerical Recipes 3e p265
-	  var ierfc = function(x) {
-	    if (x >= 2) { return -100; }
-	    if (x <= 0) { return 100; }
-
-	    var xx = (x < 1) ? x : 2 - x;
-	    var t = Math.sqrt(-2 * Math.log(xx / 2));
-
-	    var r = -0.70711 * ((2.30753 + t * 0.27061) /
-	            (1 + t * (0.99229 + t * 0.04481)) - t);
-
-	    for (var j = 0; j < 2; j++) {
-	      var err = erfc(r) - xx;
-	      r += err / (1.12837916709551257 * Math.exp(-(r * r)) - r * err);
-	    }
-
-	    return (x < 1) ? r : -r;
-	  };
-
-	  // Models the normal distribution
-	  var Gaussian = function(mean, variance) {
-	    if (variance <= 0) {
-	      throw new Error('Variance must be > 0 (but was ' + variance + ')');
-	    }
-	    this.mean = mean;
-	    this.variance = variance;
-	    this.standardDeviation = Math.sqrt(variance);
-	  }
-
-	  // Probability density function
-	  Gaussian.prototype.pdf = function(x) {
-	    var m = this.standardDeviation * Math.sqrt(2 * Math.PI);
-	    var e = Math.exp(-Math.pow(x - this.mean, 2) / (2 * this.variance));
-	    return e / m;
-	  };
-
-	  // Cumulative density function
-	  Gaussian.prototype.cdf = function(x) {
-	    return 0.5 * erfc(-(x - this.mean) / (this.standardDeviation * Math.sqrt(2)));
-	  };
-
-	  // Percent point function
-	  Gaussian.prototype.ppf = function(x) {
-	    return this.mean - this.standardDeviation * Math.sqrt(2) * ierfc(2 * x);
-	  };
-
-	  // Product distribution of this and d (scale for constant)
-	  Gaussian.prototype.mul = function(d) {
-	    if (typeof(d) === "number") {
-	      return this.scale(d);
-	    }
-	    var precision = 1 / this.variance;
-	    var dprecision = 1 / d.variance;
-	    return fromPrecisionMean(
-	        precision + dprecision, 
-	        precision * this.mean + dprecision * d.mean);
-	  };
-
-	  // Quotient distribution of this and d (scale for constant)
-	  Gaussian.prototype.div = function(d) {
-	    if (typeof(d) === "number") {
-	      return this.scale(1 / d);
-	    }
-	    var precision = 1 / this.variance;
-	    var dprecision = 1 / d.variance;
-	    return fromPrecisionMean(
-	        precision - dprecision, 
-	        precision * this.mean - dprecision * d.mean);
-	  };
-
-	  // Addition of this and d
-	  Gaussian.prototype.add = function(d) {
-	    return gaussian(this.mean + d.mean, this.variance + d.variance);
-	  };
-
-	  // Subtraction of this and d
-	  Gaussian.prototype.sub = function(d) {
-	    return gaussian(this.mean - d.mean, this.variance + d.variance);
-	  };
-
-	  // Scale this by constant c
-	  Gaussian.prototype.scale = function(c) {
-	    return gaussian(this.mean * c, this.variance * c * c);
-	  };
-
-	  var gaussian = function(mean, variance) {
-	    return new Gaussian(mean, variance);
-	  };
-
-	  var fromPrecisionMean = function(precision, precisionmean) {
-	    return gaussian(precisionmean / precision, 1 / precision);
-	  };
-
-	  exports(gaussian);
-	})
-	( true
-	    ? function(e) { module.exports = e; }
-	    : function(e) { this["gaussian"] = e; });
-
-
-/***/ }),
-/* 491 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(492);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(459)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
-				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 492 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(458)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".button___-pZw3 {\n  margin: auto;\n  margin-bottom: 50px;\n}", "", {"version":3,"sources":["/./containers/Instructions/style.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,oBAAoB;CACrB","file":"style.css","sourcesContent":[".button {\n  margin: auto;\n  margin-bottom: 50px;\n}"],"sourceRoot":"webpack://"}]);
-
-	// exports
-	exports.locals = {
-		"button": "button___-pZw3"
-	};
-
-/***/ }),
-/* 493 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _keys = __webpack_require__(494);
-
-	var _keys2 = _interopRequireDefault(_keys);
-
-	var _defineProperty2 = __webpack_require__(497);
-
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(297);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMarkdown = __webpack_require__(355);
-
-	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
-
-	var _Input = __webpack_require__(498);
-
-	var _Input2 = _interopRequireDefault(_Input);
-
-	var _Checkbox = __webpack_require__(501);
-
-	var _Checkbox2 = _interopRequireDefault(_Checkbox);
-
-	var _Button = __webpack_require__(448);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	var _reactRedux = __webpack_require__(99);
-
-	var _todos = __webpack_require__(504);
-
-	var TodoActions = _interopRequireWildcard(_todos);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var source = '# ONLINE PARTICIPANT INFORMATION STATEMENT\n\n*What is the research study about?*\nYou are invited to take part in this research study aimed at understanding behavior in a supply chain management game. \n\n*Who is conducting this research?*\nThe study is being carried out by the following researchers:\nChief Investigator: Sam Kishner\nSchool/Faculty: School of Information Systems and Technology Management, Business School\n\n*What does participation in this research require, and are there any risks involved?*\nIf you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 minutes. \n\n*Will I be paid to participate in this project?*\nYou will be compensated for your participation. By participating in the study, you will receive a $5. The game last 35 rounds. Your average profit will be divided by 100, and that additional amount of money will be paid on top of the $5. \n\n*What are the possible benefits to participation?*\nWe hope to use information we get from this research study to benefit others who are interested in improving supply chain decision making.\n\n*What will happen to information about me?*\nBy completing the game, you consent to the research team collecting and using information for a research study. It is anticipated that the results of this research study will be published and/or presented in a variety of forums. In any publication and/or presentation, the results of the study will be presented in such a way that participants will not be individually identifiable.\n\nThe results of the experiment will be kept for a minimum of 7 years after the completion of the project. At this stage, we have no intention of destroying the data. If you agree to participate in this study, no personal information will be collected so none will be stored as data. Once we have completed our data collection and analysis, we will import the data we collect to the UNSW server. The data stored by the app will then be deleted. Both hard and electronic copies of the data will be securely stored by Dr. Sam Kirshner at Quad 2115 at the University of New South Wales in Sydney Australia. Electronic copies will be stored in Sam Kirshner\'s computer located in Quad 2115 with password protection. \n\nHow and when will I find out what the results of the research study are?\nYou have a right to receive feedback about the overall results of this study. You can tell us that you wish to receive feedback by emailing the investigator, Dr Sam Kirshner, at s.kirshner@unsw.edu.au. This feedback will be in the form of a one page summary that describes the overall findings. You will receive this feedback after the study is finished.\n\nWhat if I want to withdraw from the research study?\nFinishing the game and questionnaire is an indication of your consent to participate in the study. You can withdraw your responses any time before finishing the game. Once you have submitted it, your responses cannot be withdrawn because they are anonymous and therefore we will not be able to tell which one is yours.\n\n*What should I do if I have further questions about my involvement in the research study?*\nThe person you may need to contact will depend on the nature of your query. If you want any further information concerning this project or if you have any problems which may be related to your involvement in the project, you can contact the following member\'s of the research team:\n\n*Research Team Contact*\nName: Dr Sam Kirshner\nPosition: Lecturer\nTelephone: 9385 5517\nEmail: s.kirshner@unsw.edu.au\n\n*What if I have a complaint or any concerns about the research study?*\nIf you have any complaints about any aspect of the project, the way it is being conducted, then you may contact: \nPosition: Human Research Ethics Coordinator\nTelephone: + 61 2 9385 6222\nEmail: humanethics@unsw.edu.au \nHC Reference Number: HC16680\n';
-
-	var checks = ['I understand I am being asked to provide consent to participate in this research study', 'I have read the Participant Information Statement or it has been provided to me in a language that I understand', 'I provide my consent for the information collected about me to be used for the purpose of this research study only', 'I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the study and withdrawal will not affect my relationship with any of the named organisations and/or research team members', 'I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only'];
-
-	var initState = checks.reduce(function (finalResult, check) {
-	  finalResult[check] = false;
-	  return finalResult;
-	}, {
-	  name: '',
-	  address: '',
-	  emailAddress: ''
-	});
-
-	var Ethics = function (_React$PureComponent) {
-	  (0, _inherits3.default)(Ethics, _React$PureComponent);
-
-	  function Ethics() {
-	    var _ref;
-
-	    var _temp, _this, _ret;
-
-	    (0, _classCallCheck3.default)(this, Ethics);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Ethics.__proto__ || (0, _getPrototypeOf2.default)(Ethics)).call.apply(_ref, [this].concat(args))), _this), _this.state = initState, _this.onChange = function (name, value) {
-	      _this.setState((0, _defineProperty3.default)({}, name, value));
-	    }, _this.checkValid = function () {
-	      return (0, _keys2.default)(_this.state).reduce(function (finalResult, key) {
-	        if (!finalResult) return finalResult;
-	        if (key === checks[4]) {
-	          return true;
-	        }
-	        if (!_this.state[key]) return false;
-	        return true;
-	      }, true);
-	    }, _this.submit = function () {
-	      _this.props.submit(_this.state);
-	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-	  }
-
-	  (0, _createClass3.default)(Ethics, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Declaration of Participant'
-	        ),
-	        checks.map(function (check) {
-	          return _react2.default.createElement(_Checkbox2.default, { label: check, checked: _this2.state[check], onChange: _this2.onChange.bind(null, check) });
-	        }),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            'Name: ',
-	            _react2.default.createElement(_Input2.default, { value: this.state.name, onChange: this.onChange.bind(null, 'name') })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            'Address: ',
-	            _react2.default.createElement(_Input2.default, { value: this.state.address, onChange: this.onChange.bind(null, 'address') })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            'Email Address: ',
-	            _react2.default.createElement(_Input2.default, { value: this.state.emailAddress, onChange: this.onChange.bind(null, 'emailAddress'), type: 'email' })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          _Button2.default,
-	          { onClick: this.submit, disabled: !this.checkValid() },
-	          'I agree, start questionnaire'
-	        )
-	      );
-	    }
-	  }]);
-	  return Ethics;
-	}(_react2.default.PureComponent);
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    submit: function submit(payload) {
-	      return dispatch(TodoActions.agreeEthics(payload));
-	    }
-	  };
-	};
-
-	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Ethics);
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 494 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(495), __esModule: true };
-
-/***/ }),
-/* 495 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(496);
-	module.exports = __webpack_require__(283).Object.keys;
-
-
-/***/ }),
-/* 496 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// 19.1.2.14 Object.keys(O)
-	var toObject = __webpack_require__(273);
-	var $keys = __webpack_require__(315);
-
-	__webpack_require__(281)('keys', function () {
-	  return function keys(it) {
-	    return $keys(toObject(it));
-	  };
-	});
-
-
-/***/ }),
-/* 497 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _defineProperty = __webpack_require__(298);
-
-	var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function (obj, key, value) {
-	  if (key in obj) {
-	    (0, _defineProperty2.default)(obj, key, {
-	      value: value,
-	      enumerable: true,
-	      configurable: true,
-	      writable: true
-	    });
-	  } else {
-	    obj[key] = value;
-	  }
-
-	  return obj;
-	};
-
-/***/ }),
-/* 498 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends2 = __webpack_require__(449);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _classnames = __webpack_require__(455);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _style = __webpack_require__(499);
-
-	var _style2 = _interopRequireDefault(_style);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Input = function (_React$PureComponent) {
-	  (0, _inherits3.default)(Input, _React$PureComponent);
-
-	  function Input() {
-	    var _ref;
-
-	    var _temp, _this, _ret;
-
-	    (0, _classCallCheck3.default)(this, Input);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || (0, _getPrototypeOf2.default)(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
-	      _this.props.onChange(event.target.value);
-	    }, _this.render = function () {
-	      return _react2.default.createElement('input', (0, _extends3.default)({ type: 'text' }, _this.props, { className: ((0, _classnames2.default)(_style2.default.input), _this.props.className), onChange: _this.handleChange }));
-	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-	  }
-
-	  return Input;
-	}(_react2.default.PureComponent);
-
-	exports.default = Input;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 499 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(500);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(459)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
-				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 500 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(458)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".input___cXnHK {\n  background: white;\n}", "", {"version":3,"sources":["/./ui/Input/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}"],"sourceRoot":"webpack://"}]);
-
-	// exports
-	exports.locals = {
-		"input": "input___cXnHK"
-	};
-
-/***/ }),
-/* 501 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends2 = __webpack_require__(449);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _classnames = __webpack_require__(455);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _style = __webpack_require__(502);
-
-	var _style2 = _interopRequireDefault(_style);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Input = function (_React$PureComponent) {
-	  (0, _inherits3.default)(Input, _React$PureComponent);
-
-	  function Input() {
-	    var _ref;
-
-	    var _temp, _this, _ret;
-
-	    (0, _classCallCheck3.default)(this, Input);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || (0, _getPrototypeOf2.default)(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
-	      _this.props.onChange(event.target.checked);
-	    }, _this.render = function () {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement('input', (0, _extends3.default)({ type: 'checkbox' }, _this.props, { className: ((0, _classnames2.default)(_style2.default.input), _this.props.className), onChange: _this.handleChange })),
-	        _react2.default.createElement(
-	          'label',
-	          null,
-	          _this.props.label
-	        )
-	      );
-	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-	  }
-
-	  return Input;
-	}(_react2.default.PureComponent);
-
-	exports.default = Input;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 502 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(503);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(459)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
-				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 503 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(458)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".input___2TXjv {\n  background: white;\n}", "", {"version":3,"sources":["/./ui/Checkbox/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}"],"sourceRoot":"webpack://"}]);
-
-	// exports
-	exports.locals = {
-		"input": "input___2TXjv"
-	};
-
-/***/ }),
-/* 504 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.agreeEthics = exports.submitResult = exports.toggleSummary = undefined;
-
-	var _reduxActions = __webpack_require__(466);
-
-	var toggleSummary = exports.toggleSummary = (0, _reduxActions.createAction)('TOGGLE_SUMMARY');
-	var submitResult = exports.submitResult = (0, _reduxActions.createAction)('SUBMIT_RESULT');
-	var agreeEthics = exports.agreeEthics = (0, _reduxActions.createAction)('AGREE_ETHICS');
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 505 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(297);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _redux = __webpack_require__(108);
-
-	var _reactRedux = __webpack_require__(99);
-
-	var _Button = __webpack_require__(448);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	var _Summary = __webpack_require__(506);
-
-	var _Summary2 = _interopRequireDefault(_Summary);
-
-	var _Choose = __webpack_require__(508);
-
-	var _Choose2 = _interopRequireDefault(_Choose);
-
-	var _router = __webpack_require__(462);
-
-	var routerActions = _interopRequireWildcard(_router);
-
-	var _style = __webpack_require__(514);
-
-	var _style2 = _interopRequireDefault(_style);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var App = function (_Component) {
-	  (0, _inherits3.default)(App, _Component);
-
-	  function App() {
-	    (0, _classCallCheck3.default)(this, App);
-	    return (0, _possibleConstructorReturn3.default)(this, (App.__proto__ || (0, _getPrototypeOf2.default)(App)).apply(this, arguments));
-	  }
-
-	  (0, _createClass3.default)(App, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          showSummary = _props.showSummary,
-	          actions = _props.actions,
-	          children = _props.children,
-	          goToInstructions = _props.goToInstructions;
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          _Button2.default,
-	          { onClick: goToInstructions, className: _style2.default.instructions },
-	          'Instructions'
-	        ),
-	        showSummary ? _react2.default.createElement(_Summary2.default, null) : _react2.default.createElement(_Choose2.default, null)
-	      );
-	    }
-	  }]);
-	  return App;
-	}(_react.Component);
-
-	function mapStateToProps(state) {
-	  return {
-	    showSummary: state.todos.showSummary
-	  };
-	}
-
-	function mapDispatchToProps(dispatch) {
-	  return {
-	    goToInstructions: function goToInstructions() {
-	      return dispatch(routerActions.goToInstructions());
-	    }
-	  };
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 506 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _keys = __webpack_require__(494);
-
-	var _keys2 = _interopRequireDefault(_keys);
-
-	var _getPrototypeOf = __webpack_require__(270);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(296);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(297);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(301);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(347);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _redux = __webpack_require__(108);
-
-	var _reactRedux = __webpack_require__(99);
-
-	var _lodash = __webpack_require__(507);
-
-	var _todos = __webpack_require__(504);
-
-	var TodoActions = _interopRequireWildcard(_todos);
-
-	var _Button = __webpack_require__(448);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Summary = function (_Component) {
-	  (0, _inherits3.default)(Summary, _Component);
-
-	  function Summary() {
-	    (0, _classCallCheck3.default)(this, Summary);
-	    return (0, _possibleConstructorReturn3.default)(this, (Summary.__proto__ || (0, _getPrototypeOf2.default)(Summary)).apply(this, arguments));
-	  }
-
-	  (0, _createClass3.default)(Summary, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          results = _props.results,
-	          actions = _props.actions,
-	          children = _props.children,
-	          goToChoose = _props.goToChoose;
-
-	      var lastResultIndex = results.length;
-	      var lastResult = results[lastResultIndex - 1];
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Summary For Round ' + lastResultIndex
-	        ),
-	        _react2.default.createElement(
-	          'table',
-	          null,
-	          _react2.default.createElement(
-	            'tbody',
-	            null,
-	            (0, _keys2.default)(lastResult).map(function (key) {
-	              return _react2.default.createElement(
-	                'tr',
-	                null,
-	                _react2.default.createElement(
-	                  'td',
-	                  null,
-	                  (0, _lodash.startCase)((0, _lodash.camelCase)(key))
-	                ),
-	                _react2.default.createElement(
-	                  'td',
-	                  null,
-	                  lastResult[key]
-	                )
-	              );
-	            })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          _Button2.default,
-	          { onClick: goToChoose },
-	          'Okay, next round!'
-	        )
-	      );
-	    }
-	  }]);
-	  return Summary;
-	}(_react.Component);
-
-	function mapStateToProps(state) {
-	  return {
-	    results: state.todos.results
-	  };
-	}
-
-	function mapDispatchToProps(dispatch) {
-	  return {
-	    goToChoose: (0, _redux.bindActionCreators)(TodoActions.toggleSummary, dispatch)
-	  };
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Summary);
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 507 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -69075,6 +66310,2754 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(122)(module)))
 
 /***/ }),
+/* 463 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(297);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _redux = __webpack_require__(108);
+
+	var _reactRedux = __webpack_require__(99);
+
+	var _reactMarkdown = __webpack_require__(355);
+
+	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
+
+	var _Button = __webpack_require__(448);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _router = __webpack_require__(461);
+
+	var actions = _interopRequireWildcard(_router);
+
+	var _todos = __webpack_require__(464);
+
+	var _style = __webpack_require__(494);
+
+	var style = _interopRequireWildcard(_style);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var source = '\n  # Instructions\n  Thank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by 1000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid to you in cash at the end of the session.\n  \n  For both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $' + _todos.priceCost.price + ' per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n  \n  The process of each round will be as follows:\n  \n  1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n  \n  2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. \n  \n    a) In one game, the distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:\n  \n    ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")\n\n    b) In the other game, the distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph:\n    ![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/unigraph.png "Graph")\n\n  In either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n  \n  3. Calculation of profit for the period: There are two different cases:\n\n  * If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n  \n    Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n  \n  * If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n  \n    Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n  \n  4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n  \n  5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n  \n  6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)\n\n';
+
+	var Instructions = function (_Component) {
+	  (0, _inherits3.default)(Instructions, _Component);
+
+	  function Instructions() {
+	    (0, _classCallCheck3.default)(this, Instructions);
+	    return (0, _possibleConstructorReturn3.default)(this, (Instructions.__proto__ || (0, _getPrototypeOf2.default)(Instructions)).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(Instructions, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props,
+	          todos = _props.todos,
+	          actions = _props.actions,
+	          children = _props.children,
+	          goToGame = _props.goToGame;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { className: style.button, onClick: goToGame },
+	          'Proceed To Game'
+	        )
+	      );
+	    }
+	  }]);
+	  return Instructions;
+	}(_react.Component);
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    goToGame: function goToGame() {
+	      return dispatch(actions.goToGame());
+	    }
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Instructions);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 464 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getResultsName = exports.priceCost = undefined;
+
+	var _stringify = __webpack_require__(465);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	var _defineProperty2 = __webpack_require__(467);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _extends4 = __webpack_require__(449);
+
+	var _extends5 = _interopRequireDefault(_extends4);
+
+	var _jquery = __webpack_require__(460);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _reduxActions = __webpack_require__(468);
+
+	var _isomorphicFetch = __webpack_require__(480);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _ppf = __webpack_require__(482);
+
+	var _ppf2 = _interopRequireDefault(_ppf);
+
+	var _uniDemand = __webpack_require__(493);
+
+	var _uniDemand2 = _interopRequireDefault(_uniDemand);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var uniqueUser = localStorage.getItem("uniqueUser");
+
+	if (!uniqueUser) {
+	  uniqueUser = Math.round(1000000000 * Math.random());
+	  localStorage.setItem("uniqueUser", uniqueUser);
+	}
+
+	var uniqueId = Math.round(1000000000 * Math.random());
+
+	var host =  false ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
+
+	var randomBool = function randomBool() {
+	  return Math.random() >= 0.5;
+	};
+
+	console.log('host', host);
+	var priceCost = exports.priceCost = randomBool() ? {
+	  price: 12,
+	  cost: 3
+	} : {
+	  price: 10,
+	  cost: 4
+	};
+
+	var uniVal = randomBool();
+
+	var initialState = (0, _extends5.default)({}, priceCost, (0, _defineProperty3.default)({
+	  showSummary: false,
+	  // showSummary: true,
+	  // uniResults: [{
+	  //   unitsOrdered: 1,
+	  //   demand: 87,
+	  //   unitsSold: 1,
+	  //   unitsUnsold: 0,
+	  //   totalRevenue: 12,
+	  //   totalCost: 3,
+	  //   profitForThisRound: 9,
+	  //   cumulativeProfit: 9,
+	  // }],
+	  uniResults: [],
+	  biResults: [],
+	  uniqueId: uniqueId,
+	  uniqueUser: uniqueUser,
+	  view: 'ethics',
+	  ethics: {},
+	  meanVariance: [[150, 144], [250, 144]],
+	  uniMeanVariance: [200, 144],
+	  uni: uniVal,
+	  game: 1,
+	  attempt: 1,
+	  firstGame: uniVal ? 'uni' : 'bi'
+	}, 'view', 'instructions'));
+
+	var getJson = function getJson(state) {
+	  return (0, _stringify2.default)(state);
+	};
+
+	var postResults = function postResults(state) {
+	  var json = (0, _stringify2.default)(state);
+	  return (0, _isomorphicFetch2.default)(host + '/data', {
+	    body: (0, _stringify2.default)({ data: json }),
+	    method: 'POST'
+	  });
+	};
+
+	var getResultsName = exports.getResultsName = function getResultsName(state) {
+	  return state.uni ? 'uniResults' : 'biResults';
+	};
+
+	exports.default = (0, _reduxActions.handleActions)({
+	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
+	    return (0, _extends5.default)({}, state, {
+	      ethics: action.payload,
+	      view: 'instructions'
+	    });
+	  },
+	  'CHANGE_VIEW': function CHANGE_VIEW(state, action) {
+	    var otherProps = action.changeUni ? {
+	      uni: !state.uni,
+	      showSummary: !state.showSummary
+	    } : {};
+	    return (0, _extends5.default)({}, state, otherProps, {
+	      view: action.payload
+
+	    });
+	  },
+	  'TOGGLE_SUMMARY': function TOGGLE_SUMMARY(state, action) {
+	    return (0, _extends5.default)({}, state, {
+	      showSummary: !state.showSummary
+	    });
+	  },
+	  'SUBMIT_RESULT': function SUBMIT_RESULT(state, _ref) {
+	    var _extends3;
+
+	    var payload = _ref.payload;
+
+	    (0, _isomorphicFetch2.default)(host + '/data', {
+	      method: 'GET'
+	    });
+	    var resultsName = getResultsName(state);
+	    var unitsOrdered = Number(payload);
+	    var demand = state.uni ? (0, _uniDemand2.default)(state.uniMeanVariance[0], state.uniMeanVariance[1]) : (0, _ppf2.default)(state.meanVariance[0], state.meanVariance[1]);
+	    var unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
+	    var totalRevenue = state.price * unitsSold;
+	    var totalCost = unitsOrdered * state.cost;
+	    var profitForThisRound = totalRevenue - totalCost;
+	    var lastResultIndex = state[resultsName].length;
+	    var lastcumulativeProfit = 0;
+
+	    if (lastResultIndex > 0 && lastResultIndex !== 5) {
+	      lastcumulativeProfit = state[resultsName][lastResultIndex - 1].cumulativeProfit;
+	    }
+	    var results = state[resultsName].concat([{
+	      unitsOrdered: unitsOrdered,
+	      demand: demand,
+	      unitsSold: unitsSold,
+	      unitsUnsold: unitsOrdered - demand >= 0 ? unitsOrdered - demand : 0,
+	      totalRevenue: totalRevenue,
+	      totalCost: totalCost,
+	      profitForThisRound: profitForThisRound,
+	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
+	      time: new Date().toString()
+	    }]);
+	    var nextState = (0, _extends5.default)({}, state, (_extends3 = {}, (0, _defineProperty3.default)(_extends3, resultsName, results), (0, _defineProperty3.default)(_extends3, 'showSummary', true), (0, _defineProperty3.default)(_extends3, 'attempt', results.length), _extends3));
+	    (0, _jquery2.default)('#results').val((0, _stringify2.default)(nextState));
+	    if (results.length % 5 === 0) {
+	      postResults(nextState);
+	    }
+	    return nextState;
+	  }
+	}, initialState);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 465 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(466), __esModule: true };
+
+/***/ }),
+/* 466 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var core = __webpack_require__(283);
+	var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
+	module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+
+/***/ }),
+/* 467 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _defineProperty = __webpack_require__(298);
+
+	var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (obj, key, value) {
+	  if (key in obj) {
+	    (0, _defineProperty2.default)(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	};
+
+/***/ }),
+/* 468 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _createAction = __webpack_require__(469);
+
+	var _createAction2 = _interopRequireDefault(_createAction);
+
+	var _handleAction = __webpack_require__(470);
+
+	var _handleAction2 = _interopRequireDefault(_handleAction);
+
+	var _handleActions = __webpack_require__(477);
+
+	var _handleActions2 = _interopRequireDefault(_handleActions);
+
+	exports.createAction = _createAction2['default'];
+	exports.handleAction = _handleAction2['default'];
+	exports.handleActions = _handleActions2['default'];
+
+/***/ }),
+/* 469 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = createAction;
+	function identity(t) {
+	  return t;
+	}
+
+	function createAction(type, actionCreator, metaCreator) {
+	  var finalActionCreator = typeof actionCreator === 'function' ? actionCreator : identity;
+
+	  return function () {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    var action = {
+	      type: type,
+	      payload: finalActionCreator.apply(undefined, args)
+	    };
+
+	    if (args.length === 1 && args[0] instanceof Error) {
+	      // Handle FSA errors where the payload is an Error object. Set error.
+	      action.error = true;
+	    }
+
+	    if (typeof metaCreator === 'function') {
+	      action.meta = metaCreator.apply(undefined, args);
+	    }
+
+	    return action;
+	  };
+	}
+
+	module.exports = exports['default'];
+
+/***/ }),
+/* 470 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = handleAction;
+
+	var _fluxStandardAction = __webpack_require__(471);
+
+	function isFunction(val) {
+	  return typeof val === 'function';
+	}
+
+	function handleAction(type, reducers) {
+	  return function (state, action) {
+	    // If action type does not match, return previous state
+	    if (action.type !== type) return state;
+
+	    var handlerKey = _fluxStandardAction.isError(action) ? 'throw' : 'next';
+
+	    // If function is passed instead of map, use as reducer
+	    if (isFunction(reducers)) {
+	      reducers.next = reducers['throw'] = reducers;
+	    }
+
+	    // Otherwise, assume an action map was passed
+	    var reducer = reducers[handlerKey];
+
+	    return isFunction(reducer) ? reducer(state, action) : state;
+	  };
+	}
+
+	module.exports = exports['default'];
+
+/***/ }),
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.isFSA = isFSA;
+	exports.isError = isError;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _lodashIsplainobject = __webpack_require__(472);
+
+	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
+
+	var validKeys = ['type', 'payload', 'error', 'meta'];
+
+	function isValidKey(key) {
+	  return validKeys.indexOf(key) > -1;
+	}
+
+	function isFSA(action) {
+	  return _lodashIsplainobject2['default'](action) && typeof action.type !== 'undefined' && Object.keys(action).every(isValidKey);
+	}
+
+	function isError(action) {
+	  return action.error === true;
+	}
+
+/***/ }),
+/* 472 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseFor = __webpack_require__(473),
+	    isArguments = __webpack_require__(474),
+	    keysIn = __webpack_require__(475);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/**
+	 * The base implementation of `_.forIn` without support for callback
+	 * shorthands and `this` binding.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseForIn(object, iteratee) {
+	  return baseFor(object, iteratee, keysIn);
+	}
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * **Note:** This method assumes objects created by the `Object` constructor
+	 * have no inherited enumerable properties.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  var Ctor;
+
+	  // Exit early for non `Object` objects.
+	  if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
+	      (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
+	    return false;
+	  }
+	  // IE < 9 iterates inherited properties before own properties. If the first
+	  // iterated property is an object's own property then there are no inherited
+	  // enumerable properties.
+	  var result;
+	  // In most environments an object's own properties are iterated before
+	  // its inherited properties. If the last iterated property is an object's
+	  // own property then there are no inherited enumerable properties.
+	  baseForIn(value, function(subValue, key) {
+	    result = key;
+	  });
+	  return result === undefined || hasOwnProperty.call(value, result);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ }),
+/* 473 */
+/***/ (function(module, exports) {
+
+	/**
+	 * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
+	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
+	 * over `object` properties returned by `keysFunc` invoking `iteratee` for
+	 * each property. Iteratee functions may exit iteration early by explicitly
+	 * returning `false`.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @param {Function} keysFunc The function to get the keys of `object`.
+	 * @returns {Object} Returns `object`.
+	 */
+	var baseFor = createBaseFor();
+
+	/**
+	 * Creates a base function for methods like `_.forIn`.
+	 *
+	 * @private
+	 * @param {boolean} [fromRight] Specify iterating from right to left.
+	 * @returns {Function} Returns the new base function.
+	 */
+	function createBaseFor(fromRight) {
+	  return function(object, iteratee, keysFunc) {
+	    var index = -1,
+	        iterable = Object(object),
+	        props = keysFunc(object),
+	        length = props.length;
+
+	    while (length--) {
+	      var key = props[fromRight ? length : ++index];
+	      if (iteratee(iterable[key], key, iterable) === false) {
+	        break;
+	      }
+	    }
+	    return object;
+	  };
+	}
+
+	module.exports = baseFor;
+
+
+/***/ }),
+/* 474 */
+/***/ (function(module, exports) {
+
+	/**
+	 * lodash (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+	 * Released under MIT license <https://lodash.com/license>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 */
+
+	/** Used as references for various `Number` constants. */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/** `Object#toString` result references. */
+	var argsTag = '[object Arguments]',
+	    funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/** Built-in value references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+	/**
+	 * Checks if `value` is likely an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	}
+
+	/**
+	 * Checks if `value` is array-like. A value is considered array-like if it's
+	 * not a function and has a `value.length` that's an integer greater than or
+	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLike(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLike('abc');
+	 * // => true
+	 *
+	 * _.isArrayLike(_.noop);
+	 * // => false
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(value.length) && !isFunction(value);
+	}
+
+	/**
+	 * This method is like `_.isArrayLike` except that it also checks if `value`
+	 * is an object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArrayLikeObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject('abc');
+	 * // => false
+	 *
+	 * _.isArrayLikeObject(_.noop);
+	 * // => false
+	 */
+	function isArrayLikeObject(value) {
+	  return isObjectLike(value) && isArrayLike(value);
+	}
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This method is loosely based on
+	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @example
+	 *
+	 * _.isLength(3);
+	 * // => true
+	 *
+	 * _.isLength(Number.MIN_VALUE);
+	 * // => false
+	 *
+	 * _.isLength(Infinity);
+	 * // => false
+	 *
+	 * _.isLength('3');
+	 * // => false
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' &&
+	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isArguments;
+
+
+/***/ }),
+/* 475 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var isArguments = __webpack_require__(474),
+	    isArray = __webpack_require__(476);
+
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Creates an array of the own and inherited enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keysIn(new Foo);
+	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	 */
+	function keysIn(object) {
+	  if (object == null) {
+	    return [];
+	  }
+	  if (!isObject(object)) {
+	    object = Object(object);
+	  }
+	  var length = object.length;
+	  length = (length && isLength(length) &&
+	    (isArray(object) || isArguments(object)) && length) || 0;
+
+	  var Ctor = object.constructor,
+	      index = -1,
+	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+	      result = Array(length),
+	      skipIndexes = length > 0;
+
+	  while (++index < length) {
+	    result[index] = (index + '');
+	  }
+	  for (var key in object) {
+	    if (!(skipIndexes && isIndex(key, length)) &&
+	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = keysIn;
+
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** `Object#toString` result references. */
+	var arrayTag = '[object Array]',
+	    funcTag = '[object Function]';
+
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeIsArray = getNative(Array, 'isArray');
+
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(function() { return arguments; }());
+	 * // => false
+	 */
+	var isArray = nativeIsArray || function(value) {
+	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	};
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+
+	module.exports = isArray;
+
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = handleActions;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _handleAction = __webpack_require__(470);
+
+	var _handleAction2 = _interopRequireDefault(_handleAction);
+
+	var _ownKeys = __webpack_require__(478);
+
+	var _ownKeys2 = _interopRequireDefault(_ownKeys);
+
+	var _reduceReducers = __webpack_require__(479);
+
+	var _reduceReducers2 = _interopRequireDefault(_reduceReducers);
+
+	function handleActions(handlers, defaultState) {
+	  var reducers = _ownKeys2['default'](handlers).map(function (type) {
+	    return _handleAction2['default'](type, handlers[type]);
+	  });
+
+	  return typeof defaultState !== 'undefined' ? function (state, action) {
+	    if (state === undefined) state = defaultState;
+	    return _reduceReducers2['default'].apply(undefined, reducers)(state, action);
+	  } : _reduceReducers2['default'].apply(undefined, reducers);
+	}
+
+	module.exports = exports['default'];
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = ownKeys;
+
+	function ownKeys(object) {
+	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+	    return Reflect.ownKeys(object);
+	  }
+
+	  var keys = Object.getOwnPropertyNames(object);
+
+	  if (typeof Object.getOwnPropertySymbols === 'function') {
+	    keys = keys.concat(Object.getOwnPropertySymbols(object));
+	  }
+
+	  return keys;
+	}
+
+	module.exports = exports['default'];
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = reduceReducers;
+
+	function reduceReducers() {
+	  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
+	    reducers[_key] = arguments[_key];
+	  }
+
+	  return function (previous, current) {
+	    return reducers.reduce(function (p, r) {
+	      return r(p, current);
+	    }, previous);
+	  };
+	}
+
+	module.exports = exports["default"];
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(481);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  if (support.arrayBuffer) {
+	    var viewClasses = [
+	      '[object Int8Array]',
+	      '[object Uint8Array]',
+	      '[object Uint8ClampedArray]',
+	      '[object Int16Array]',
+	      '[object Uint16Array]',
+	      '[object Int32Array]',
+	      '[object Uint32Array]',
+	      '[object Float32Array]',
+	      '[object Float64Array]'
+	    ]
+
+	    var isDataView = function(obj) {
+	      return obj && DataView.prototype.isPrototypeOf(obj)
+	    }
+
+	    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+	      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+	    }
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+
+	    return iterator
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+	    } else if (Array.isArray(headers)) {
+	      headers.forEach(function(header) {
+	        this.append(header[0], header[1])
+	      }, this)
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var oldValue = this.map[name]
+	    this.map[name] = oldValue ? oldValue+','+value : value
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    name = normalizeName(name)
+	    return this.has(name) ? this.map[name] : null
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = normalizeValue(value)
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    for (var name in this.map) {
+	      if (this.map.hasOwnProperty(name)) {
+	        callback.call(thisArg, this.map[name], name, this)
+	      }
+	    }
+	  }
+
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
+	    reader.readAsArrayBuffer(blob)
+	    return promise
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
+	    reader.readAsText(blob)
+	    return promise
+	  }
+
+	  function readArrayBufferAsText(buf) {
+	    var view = new Uint8Array(buf)
+	    var chars = new Array(view.length)
+
+	    for (var i = 0; i < view.length; i++) {
+	      chars[i] = String.fromCharCode(view[i])
+	    }
+	    return chars.join('')
+	  }
+
+	  function bufferClone(buf) {
+	    if (buf.slice) {
+	      return buf.slice(0)
+	    } else {
+	      var view = new Uint8Array(buf.byteLength)
+	      view.set(new Uint8Array(buf))
+	      return view.buffer
+	    }
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (!body) {
+	        this._bodyText = ''
+	      } else if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+	        this._bodyArrayBuffer = bufferClone(body.buffer)
+	        // IE 10-11 can't handle a DataView body.
+	        this._bodyInit = new Blob([this._bodyArrayBuffer])
+	      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+	        this._bodyArrayBuffer = bufferClone(body)
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyArrayBuffer) {
+	          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        if (this._bodyArrayBuffer) {
+	          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+	        } else {
+	          return this.blob().then(readBlobAsArrayBuffer)
+	        }
+	      }
+	    }
+
+	    this.text = function() {
+	      var rejected = consumed(this)
+	      if (rejected) {
+	        return rejected
+	      }
+
+	      if (this._bodyBlob) {
+	        return readBlobAsText(this._bodyBlob)
+	      } else if (this._bodyArrayBuffer) {
+	        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+	      } else if (this._bodyFormData) {
+	        throw new Error('could not read FormData body as text')
+	      } else {
+	        return Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+
+	    if (input instanceof Request) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body && input._bodyInit != null) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = String(input)
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this, { body: this._bodyInit })
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function parseHeaders(rawHeaders) {
+	    var headers = new Headers()
+	    rawHeaders.split(/\r?\n/).forEach(function(line) {
+	      var parts = line.split(':')
+	      var key = parts.shift().trim()
+	      if (key) {
+	        var value = parts.join(':').trim()
+	        headers.append(key, value)
+	      }
+	    })
+	    return headers
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this.type = 'default'
+	    this.status = 'status' in options ? options.status : 200
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = 'statusText' in options ? options.statusText : 'OK'
+	    this.headers = new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request = new Request(input, init)
+	      var xhr = new XMLHttpRequest()
+
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+	        }
+	        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _slicedToArray2 = __webpack_require__(483);
+
+	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+	var _gaussian = __webpack_require__(492);
+
+	var _gaussian2 = _interopRequireDefault(_gaussian);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var probabilities = void 0;
+
+	var getProbabilities = function getProbabilities(_ref, _ref2) {
+	  var _ref4 = (0, _slicedToArray3.default)(_ref, 2),
+	      mean1 = _ref4[0],
+	      variance1 = _ref4[1];
+
+	  var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
+	      mean2 = _ref3[0],
+	      variance2 = _ref3[1];
+
+	  var lowModal = (0, _gaussian2.default)(mean1, variance1);
+	  var highModal = (0, _gaussian2.default)(mean2, variance2);
+
+	  var i = 0;
+	  probabilities = {};
+	  while (i <= 400) {
+	    probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2;
+	    i++;
+	  }
+	};
+
+	exports.default = function (group1, group2) {
+	  if (!probabilities) {
+	    getProbabilities(group1, group2);
+	  }
+	  var p = Math.random();
+	  var j = 0;
+	  var v = null;
+	  while (j <= 400 || !v) {
+	    if (probabilities[j] <= p) {
+	      v = j;
+	    }
+	    j++;
+	  }
+	  return v;
+	};
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "ppf.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _isIterable2 = __webpack_require__(484);
+
+	var _isIterable3 = _interopRequireDefault(_isIterable2);
+
+	var _getIterator2 = __webpack_require__(488);
+
+	var _getIterator3 = _interopRequireDefault(_getIterator2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function () {
+	  function sliceIterator(arr, i) {
+	    var _arr = [];
+	    var _n = true;
+	    var _d = false;
+	    var _e = undefined;
+
+	    try {
+	      for (var _i = (0, _getIterator3.default)(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
+	        _arr.push(_s.value);
+
+	        if (i && _arr.length === i) break;
+	      }
+	    } catch (err) {
+	      _d = true;
+	      _e = err;
+	    } finally {
+	      try {
+	        if (!_n && _i["return"]) _i["return"]();
+	      } finally {
+	        if (_d) throw _e;
+	      }
+	    }
+
+	    return _arr;
+	  }
+
+	  return function (arr, i) {
+	    if (Array.isArray(arr)) {
+	      return arr;
+	    } else if ((0, _isIterable3.default)(Object(arr))) {
+	      return sliceIterator(arr, i);
+	    } else {
+	      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+	    }
+	  };
+	}();
+
+/***/ }),
+/* 484 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(485), __esModule: true };
+
+/***/ }),
+/* 485 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(327);
+	__webpack_require__(305);
+	module.exports = __webpack_require__(486);
+
+
+/***/ }),
+/* 486 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var classof = __webpack_require__(487);
+	var ITERATOR = __webpack_require__(326)('iterator');
+	var Iterators = __webpack_require__(311);
+	module.exports = __webpack_require__(283).isIterable = function (it) {
+	  var O = Object(it);
+	  return O[ITERATOR] !== undefined
+	    || '@@iterator' in O
+	    // eslint-disable-next-line no-prototype-builtins
+	    || Iterators.hasOwnProperty(classof(O));
+	};
+
+
+/***/ }),
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+	var cof = __webpack_require__(319);
+	var TAG = __webpack_require__(326)('toStringTag');
+	// ES3 wrong here
+	var ARG = cof(function () { return arguments; }()) == 'Arguments';
+
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function (it, key) {
+	  try {
+	    return it[key];
+	  } catch (e) { /* empty */ }
+	};
+
+	module.exports = function (it) {
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? cof(O)
+	    // ES3 arguments fallback
+	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+
+/***/ }),
+/* 488 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(489), __esModule: true };
+
+/***/ }),
+/* 489 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(327);
+	__webpack_require__(305);
+	module.exports = __webpack_require__(490);
+
+
+/***/ }),
+/* 490 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var anObject = __webpack_require__(288);
+	var get = __webpack_require__(491);
+	module.exports = __webpack_require__(283).getIterator = function (it) {
+	  var iterFn = get(it);
+	  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
+	  return anObject(iterFn.call(it));
+	};
+
+
+/***/ }),
+/* 491 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var classof = __webpack_require__(487);
+	var ITERATOR = __webpack_require__(326)('iterator');
+	var Iterators = __webpack_require__(311);
+	module.exports = __webpack_require__(283).getIteratorMethod = function (it) {
+	  if (it != undefined) return it[ITERATOR]
+	    || it['@@iterator']
+	    || Iterators[classof(it)];
+	};
+
+
+/***/ }),
+/* 492 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	(function(exports) {
+
+	  // Complementary error function
+	  // From Numerical Recipes in C 2e p221
+	  var erfc = function(x) {
+	    var z = Math.abs(x);
+	    var t = 1 / (1 + z / 2);
+	    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
+	            t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
+	            t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
+	            t * (-0.82215223 + t * 0.17087277)))))))))
+	    return x >= 0 ? r : 2 - r;
+	  };
+
+	  // Inverse complementary error function
+	  // From Numerical Recipes 3e p265
+	  var ierfc = function(x) {
+	    if (x >= 2) { return -100; }
+	    if (x <= 0) { return 100; }
+
+	    var xx = (x < 1) ? x : 2 - x;
+	    var t = Math.sqrt(-2 * Math.log(xx / 2));
+
+	    var r = -0.70711 * ((2.30753 + t * 0.27061) /
+	            (1 + t * (0.99229 + t * 0.04481)) - t);
+
+	    for (var j = 0; j < 2; j++) {
+	      var err = erfc(r) - xx;
+	      r += err / (1.12837916709551257 * Math.exp(-(r * r)) - r * err);
+	    }
+
+	    return (x < 1) ? r : -r;
+	  };
+
+	  // Models the normal distribution
+	  var Gaussian = function(mean, variance) {
+	    if (variance <= 0) {
+	      throw new Error('Variance must be > 0 (but was ' + variance + ')');
+	    }
+	    this.mean = mean;
+	    this.variance = variance;
+	    this.standardDeviation = Math.sqrt(variance);
+	  }
+
+	  // Probability density function
+	  Gaussian.prototype.pdf = function(x) {
+	    var m = this.standardDeviation * Math.sqrt(2 * Math.PI);
+	    var e = Math.exp(-Math.pow(x - this.mean, 2) / (2 * this.variance));
+	    return e / m;
+	  };
+
+	  // Cumulative density function
+	  Gaussian.prototype.cdf = function(x) {
+	    return 0.5 * erfc(-(x - this.mean) / (this.standardDeviation * Math.sqrt(2)));
+	  };
+
+	  // Percent point function
+	  Gaussian.prototype.ppf = function(x) {
+	    return this.mean - this.standardDeviation * Math.sqrt(2) * ierfc(2 * x);
+	  };
+
+	  // Product distribution of this and d (scale for constant)
+	  Gaussian.prototype.mul = function(d) {
+	    if (typeof(d) === "number") {
+	      return this.scale(d);
+	    }
+	    var precision = 1 / this.variance;
+	    var dprecision = 1 / d.variance;
+	    return fromPrecisionMean(
+	        precision + dprecision, 
+	        precision * this.mean + dprecision * d.mean);
+	  };
+
+	  // Quotient distribution of this and d (scale for constant)
+	  Gaussian.prototype.div = function(d) {
+	    if (typeof(d) === "number") {
+	      return this.scale(1 / d);
+	    }
+	    var precision = 1 / this.variance;
+	    var dprecision = 1 / d.variance;
+	    return fromPrecisionMean(
+	        precision - dprecision, 
+	        precision * this.mean - dprecision * d.mean);
+	  };
+
+	  // Addition of this and d
+	  Gaussian.prototype.add = function(d) {
+	    return gaussian(this.mean + d.mean, this.variance + d.variance);
+	  };
+
+	  // Subtraction of this and d
+	  Gaussian.prototype.sub = function(d) {
+	    return gaussian(this.mean - d.mean, this.variance + d.variance);
+	  };
+
+	  // Scale this by constant c
+	  Gaussian.prototype.scale = function(c) {
+	    return gaussian(this.mean * c, this.variance * c * c);
+	  };
+
+	  var gaussian = function(mean, variance) {
+	    return new Gaussian(mean, variance);
+	  };
+
+	  var fromPrecisionMean = function(precision, precisionmean) {
+	    return gaussian(precisionmean / precision, 1 / precision);
+	  };
+
+	  exports(gaussian);
+	})
+	( true
+	    ? function(e) { module.exports = e; }
+	    : function(e) { this["gaussian"] = e; });
+
+
+/***/ }),
+/* 493 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _gaussian = __webpack_require__(492);
+
+	var _gaussian2 = _interopRequireDefault(_gaussian);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var distribution = void 0;
+
+	exports.default = function (mean, variance) {
+	  if (!distribution) {
+	    distribution = (0, _gaussian2.default)(mean, variance);
+	  }
+	  return Math.round(distribution.ppf(Math.random()));
+	};
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "uniDemand.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 494 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(495);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(459)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 495 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(458)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".button___-pZw3 {\n  margin: auto;\n  margin-bottom: 50px;\n}", "", {"version":3,"sources":["/./containers/Instructions/style.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,oBAAoB;CACrB","file":"style.css","sourcesContent":[".button {\n  margin: auto;\n  margin-bottom: 50px;\n}"],"sourceRoot":"webpack://"}]);
+
+	// exports
+	exports.locals = {
+		"button": "button___-pZw3"
+	};
+
+/***/ }),
+/* 496 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _keys = __webpack_require__(497);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _defineProperty2 = __webpack_require__(467);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(297);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMarkdown = __webpack_require__(355);
+
+	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
+
+	var _Input = __webpack_require__(500);
+
+	var _Input2 = _interopRequireDefault(_Input);
+
+	var _Checkbox = __webpack_require__(503);
+
+	var _Checkbox2 = _interopRequireDefault(_Checkbox);
+
+	var _Button = __webpack_require__(448);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _reactRedux = __webpack_require__(99);
+
+	var _todos = __webpack_require__(506);
+
+	var TodoActions = _interopRequireWildcard(_todos);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var source = '# ONLINE PARTICIPANT INFORMATION STATEMENT\n\n*What is the research study about?*\nYou are invited to take part in this research study aimed at understanding behavior in a supply chain management game. \n\n*Who is conducting this research?*\nThe study is being carried out by the following researchers:\nChief Investigator: Sam Kishner\nSchool/Faculty: School of Information Systems and Technology Management, Business School\n\n*What does participation in this research require, and are there any risks involved?*\nIf you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 minutes. \n\n*Will I be paid to participate in this project?*\nYou will be compensated for your participation. By participating in the study, you will receive a $5. The game last 35 rounds. Your average profit will be divided by 100, and that additional amount of money will be paid on top of the $5. \n\n*What are the possible benefits to participation?*\nWe hope to use information we get from this research study to benefit others who are interested in improving supply chain decision making.\n\n*What will happen to information about me?*\nBy completing the game, you consent to the research team collecting and using information for a research study. It is anticipated that the results of this research study will be published and/or presented in a variety of forums. In any publication and/or presentation, the results of the study will be presented in such a way that participants will not be individually identifiable.\n\nThe results of the experiment will be kept for a minimum of 7 years after the completion of the project. At this stage, we have no intention of destroying the data. If you agree to participate in this study, no personal information will be collected so none will be stored as data. Once we have completed our data collection and analysis, we will import the data we collect to the UNSW server. The data stored by the app will then be deleted. Both hard and electronic copies of the data will be securely stored by Dr. Sam Kirshner at Quad 2115 at the University of New South Wales in Sydney Australia. Electronic copies will be stored in Sam Kirshner\'s computer located in Quad 2115 with password protection. \n\nHow and when will I find out what the results of the research study are?\nYou have a right to receive feedback about the overall results of this study. You can tell us that you wish to receive feedback by emailing the investigator, Dr Sam Kirshner, at s.kirshner@unsw.edu.au. This feedback will be in the form of a one page summary that describes the overall findings. You will receive this feedback after the study is finished.\n\nWhat if I want to withdraw from the research study?\nFinishing the game and questionnaire is an indication of your consent to participate in the study. You can withdraw your responses any time before finishing the game. Once you have submitted it, your responses cannot be withdrawn because they are anonymous and therefore we will not be able to tell which one is yours.\n\n*What should I do if I have further questions about my involvement in the research study?*\nThe person you may need to contact will depend on the nature of your query. If you want any further information concerning this project or if you have any problems which may be related to your involvement in the project, you can contact the following member\'s of the research team:\n\n*Research Team Contact*\nName: Dr Sam Kirshner\nPosition: Lecturer\nTelephone: 9385 5517\nEmail: s.kirshner@unsw.edu.au\n\n*What if I have a complaint or any concerns about the research study?*\nIf you have any complaints about any aspect of the project, the way it is being conducted, then you may contact: \nPosition: Human Research Ethics Coordinator\nTelephone: + 61 2 9385 6222\nEmail: humanethics@unsw.edu.au \nHC Reference Number: HC16680\n';
+
+	var checks = ['I understand I am being asked to provide consent to participate in this research study', 'I have read the Participant Information Statement or it has been provided to me in a language that I understand', 'I provide my consent for the information collected about me to be used for the purpose of this research study only', 'I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the study and withdrawal will not affect my relationship with any of the named organisations and/or research team members', 'I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only'];
+
+	var initState = checks.reduce(function (finalResult, check) {
+	  finalResult[check] = false;
+	  return finalResult;
+	}, {
+	  name: '',
+	  address: '',
+	  emailAddress: ''
+	});
+
+	var Ethics = function (_React$PureComponent) {
+	  (0, _inherits3.default)(Ethics, _React$PureComponent);
+
+	  function Ethics() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    (0, _classCallCheck3.default)(this, Ethics);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Ethics.__proto__ || (0, _getPrototypeOf2.default)(Ethics)).call.apply(_ref, [this].concat(args))), _this), _this.state = initState, _this.onChange = function (name, value) {
+	      _this.setState((0, _defineProperty3.default)({}, name, value));
+	    }, _this.checkValid = function () {
+	      return (0, _keys2.default)(_this.state).reduce(function (finalResult, key) {
+	        if (!finalResult) return finalResult;
+	        if (key === checks[4]) {
+	          return true;
+	        }
+	        if (!_this.state[key]) return false;
+	        return true;
+	      }, true);
+	    }, _this.submit = function () {
+	      _this.props.submit(_this.state);
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+
+	  (0, _createClass3.default)(Ethics, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Declaration of Participant'
+	        ),
+	        checks.map(function (check) {
+	          return _react2.default.createElement(_Checkbox2.default, { label: check, checked: _this2.state[check], onChange: _this2.onChange.bind(null, check) });
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Name: ',
+	            _react2.default.createElement(_Input2.default, { value: this.state.name, onChange: this.onChange.bind(null, 'name') })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Address: ',
+	            _react2.default.createElement(_Input2.default, { value: this.state.address, onChange: this.onChange.bind(null, 'address') })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Email Address: ',
+	            _react2.default.createElement(_Input2.default, { value: this.state.emailAddress, onChange: this.onChange.bind(null, 'emailAddress'), type: 'email' })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { onClick: this.submit, disabled: !this.checkValid() },
+	          'I agree, start questionnaire'
+	        )
+	      );
+	    }
+	  }]);
+	  return Ethics;
+	}(_react2.default.PureComponent);
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    submit: function submit(payload) {
+	      return dispatch(TodoActions.agreeEthics(payload));
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Ethics);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 497 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(498), __esModule: true };
+
+/***/ }),
+/* 498 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(499);
+	module.exports = __webpack_require__(283).Object.keys;
+
+
+/***/ }),
+/* 499 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(273);
+	var $keys = __webpack_require__(315);
+
+	__webpack_require__(281)('keys', function () {
+	  return function keys(it) {
+	    return $keys(toObject(it));
+	  };
+	});
+
+
+/***/ }),
+/* 500 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(449);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(455);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _style = __webpack_require__(501);
+
+	var _style2 = _interopRequireDefault(_style);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Input = function (_React$PureComponent) {
+	  (0, _inherits3.default)(Input, _React$PureComponent);
+
+	  function Input() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    (0, _classCallCheck3.default)(this, Input);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || (0, _getPrototypeOf2.default)(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
+	      _this.props.onChange(event.target.value);
+	    }, _this.render = function () {
+	      return _react2.default.createElement('input', (0, _extends3.default)({ type: 'text' }, _this.props, { className: ((0, _classnames2.default)(_style2.default.input), _this.props.className), onChange: _this.handleChange }));
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+
+	  return Input;
+	}(_react2.default.PureComponent);
+
+	exports.default = Input;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 501 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(502);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(459)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 502 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(458)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".input___cXnHK {\n  background: white;\n}", "", {"version":3,"sources":["/./ui/Input/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}"],"sourceRoot":"webpack://"}]);
+
+	// exports
+	exports.locals = {
+		"input": "input___cXnHK"
+	};
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(449);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(455);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _style = __webpack_require__(504);
+
+	var _style2 = _interopRequireDefault(_style);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Input = function (_React$PureComponent) {
+	  (0, _inherits3.default)(Input, _React$PureComponent);
+
+	  function Input() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    (0, _classCallCheck3.default)(this, Input);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || (0, _getPrototypeOf2.default)(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
+	      _this.props.onChange(event.target.checked);
+	    }, _this.render = function () {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('input', (0, _extends3.default)({ type: 'checkbox' }, _this.props, { className: ((0, _classnames2.default)(_style2.default.input), _this.props.className), onChange: _this.handleChange })),
+	        _react2.default.createElement(
+	          'label',
+	          null,
+	          _this.props.label
+	        )
+	      );
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+
+	  return Input;
+	}(_react2.default.PureComponent);
+
+	exports.default = Input;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 504 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(505);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(459)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 505 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(458)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".input___2TXjv {\n  background: white;\n}", "", {"version":3,"sources":["/./ui/Checkbox/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}"],"sourceRoot":"webpack://"}]);
+
+	// exports
+	exports.locals = {
+		"input": "input___2TXjv"
+	};
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.agreeEthics = exports.submitResult = exports.toggleSummary = undefined;
+
+	var _reduxActions = __webpack_require__(468);
+
+	var toggleSummary = exports.toggleSummary = (0, _reduxActions.createAction)('TOGGLE_SUMMARY');
+	var submitResult = exports.submitResult = (0, _reduxActions.createAction)('SUBMIT_RESULT');
+	var agreeEthics = exports.agreeEthics = (0, _reduxActions.createAction)('AGREE_ETHICS');
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 507 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(297);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _redux = __webpack_require__(108);
+
+	var _reactRedux = __webpack_require__(99);
+
+	var _Button = __webpack_require__(448);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _Summary = __webpack_require__(508);
+
+	var _Summary2 = _interopRequireDefault(_Summary);
+
+	var _Choose = __webpack_require__(510);
+
+	var _Choose2 = _interopRequireDefault(_Choose);
+
+	var _router = __webpack_require__(461);
+
+	var routerActions = _interopRequireWildcard(_router);
+
+	var _style = __webpack_require__(516);
+
+	var _style2 = _interopRequireDefault(_style);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var App = function (_Component) {
+	  (0, _inherits3.default)(App, _Component);
+
+	  function App() {
+	    (0, _classCallCheck3.default)(this, App);
+	    return (0, _possibleConstructorReturn3.default)(this, (App.__proto__ || (0, _getPrototypeOf2.default)(App)).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(App, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props,
+	          showSummary = _props.showSummary,
+	          actions = _props.actions,
+	          children = _props.children,
+	          goToInstructions = _props.goToInstructions;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { onClick: goToInstructions, className: _style2.default.instructions },
+	          'Instructions'
+	        ),
+	        showSummary ? _react2.default.createElement(_Summary2.default, null) : _react2.default.createElement(_Choose2.default, null)
+	      );
+	    }
+	  }]);
+	  return App;
+	}(_react.Component);
+
+	function mapStateToProps(state) {
+	  return {
+	    showSummary: state.todos.showSummary
+	  };
+	}
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    goToInstructions: function goToInstructions() {
+	      return dispatch(routerActions.goToInstructions());
+	    }
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
 /* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -69086,15 +69069,197 @@
 	  value: true
 	});
 
-	var _defineProperty2 = __webpack_require__(497);
-
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-	var _keys = __webpack_require__(494);
+	var _keys = __webpack_require__(497);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _isNan = __webpack_require__(509);
+	var _getPrototypeOf = __webpack_require__(270);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(296);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(297);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(301);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(347);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _redux = __webpack_require__(108);
+
+	var _reactRedux = __webpack_require__(99);
+
+	var _lodash = __webpack_require__(462);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _todos = __webpack_require__(509);
+
+	var todoSelectors = _interopRequireWildcard(_todos);
+
+	var _todos2 = __webpack_require__(506);
+
+	var TodoActions = _interopRequireWildcard(_todos2);
+
+	var _router = __webpack_require__(461);
+
+	var routerActions = _interopRequireWildcard(_router);
+
+	var _Button = __webpack_require__(448);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Summary = function (_Component) {
+	  (0, _inherits3.default)(Summary, _Component);
+
+	  function Summary() {
+	    (0, _classCallCheck3.default)(this, Summary);
+	    return (0, _possibleConstructorReturn3.default)(this, (Summary.__proto__ || (0, _getPrototypeOf2.default)(Summary)).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(Summary, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props,
+	          results = _props.results,
+	          actions = _props.actions,
+	          children = _props.children,
+	          goToChoose = _props.goToChoose;
+
+	      var lastResultIndex = results.length;
+	      var lastResult = results[lastResultIndex - 1];
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Summary For Round ' + lastResultIndex
+	        ),
+	        _react2.default.createElement(
+	          'table',
+	          null,
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            (0, _keys2.default)(lastResult).map(function (key) {
+	              return _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  (0, _lodash.startCase)((0, _lodash.camelCase)(key))
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  lastResult[key]
+	                )
+	              );
+	            })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { onClick: goToChoose },
+	          this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'
+	        )
+	      );
+	    }
+	  }]);
+	  return Summary;
+	}(_react.Component);
+
+	function mapStateToProps(state) {
+	  return {
+	    results: todoSelectors.getCurrentResults(state),
+	    attempt: state.todos.attempt
+	  };
+	}
+
+	function mapDispatchToProps(dispatch, props) {
+	  return {
+	    goToChoose: function goToChoose() {
+	      return props.attempt % 20 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults());
+	    }
+	  };
+	}
+
+	exports.default = _lodash2.default.flowRight([(0, _reactRedux.connect)(mapStateToProps), (0, _reactRedux.connect)(null, mapDispatchToProps)])(Summary);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 509 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getCurrentResults = exports.getResultsName = exports.getTodos = undefined;
+
+	var _todos = __webpack_require__(464);
+
+	var reducers = _interopRequireWildcard(_todos);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var getTodos = exports.getTodos = function getTodos(state) {
+	  return state.todos;
+	};
+	var getResultsName = exports.getResultsName = function getResultsName(state) {
+	  return reducers.getResultsName(getTodos(state));
+	};
+	var getCurrentResults = exports.getCurrentResults = function getCurrentResults(state) {
+	  var resultsName = getResultsName(state);
+	  console.log('resultsName', resultsName);
+	  return getTodos(state)[resultsName];
+	};
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 510 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _defineProperty2 = __webpack_require__(467);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _keys = __webpack_require__(497);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _isNan = __webpack_require__(511);
 
 	var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -69126,7 +69291,7 @@
 
 	var _reactRedux = __webpack_require__(99);
 
-	var _lodash = __webpack_require__(507);
+	var _lodash = __webpack_require__(462);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -69134,7 +69299,7 @@
 
 	var _classnames3 = _interopRequireDefault(_classnames2);
 
-	var _todos = __webpack_require__(504);
+	var _todos = __webpack_require__(506);
 
 	var TodoActions = _interopRequireWildcard(_todos);
 
@@ -69142,11 +69307,15 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Input = __webpack_require__(498);
+	var _Input = __webpack_require__(500);
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _style = __webpack_require__(512);
+	var _todos2 = __webpack_require__(509);
+
+	var todoSelectors = _interopRequireWildcard(_todos2);
+
+	var _style = __webpack_require__(514);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -69207,12 +69376,18 @@
 	          children = _props.children,
 	          submitResult = _props.submitResult,
 	          price = _props.price,
-	          cost = _props.cost;
+	          cost = _props.cost,
+	          uni = _props.uni;
 	      var unitsToOrder = this.state.unitsToOrder;
 
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Game ' + (this.props.attempt <= 20 ? 1 : 2) + ' - ' + (uni ? 'Uni' : 'Bi') + 'modal Distribution'
+	        ),
 	        _react2.default.createElement(
 	          'h3',
 	          null,
@@ -69362,7 +69537,9 @@
 
 	function mapStateToProps(state) {
 	  return {
-	    results: state.todos.results,
+	    uni: state.todos.uni,
+	    attempt: state.todos.attempt,
+	    results: todoSelectors.getCurrentResults(state),
 	    price: state.todos.price,
 	    cost: state.todos.cost
 	  };
@@ -69379,21 +69556,21 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 509 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(510), __esModule: true };
+	module.exports = { "default": __webpack_require__(512), __esModule: true };
 
 /***/ }),
-/* 510 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(511);
+	__webpack_require__(513);
 	module.exports = __webpack_require__(283).Number.isNaN;
 
 
 /***/ }),
-/* 511 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 20.1.2.4 Number.isNaN(number)
@@ -69406,50 +69583,6 @@
 	  }
 	});
 
-
-/***/ }),
-/* 512 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(513);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(459)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
-				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 513 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(458)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".half___1U4Me {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half___1U4Me table {\n  text-align: right;\n}\n\n.historyTable___1kTmx {\n  text-align: right;\n}\n.historyTable___1kTmx th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice___1n4UR {\n  color: blue;\n}\n.historyTable___1kTmx tr:nth-child(even) {background: #CCC}\n.historyTable___1kTmx tr:nth-child(odd) {background: #FFF}", "", {"version":3,"sources":["/./containers/Choose/style.css"],"names":[],"mappings":"AAAA;EACE,WAAW;EACX,sBAAsB;EACtB,oBAAoB;CACrB;AACD;EACE,kBAAkB;CACnB;;AAED;EACE,kBAAkB;CACnB;AACD;EACE,mBAAmB;EACnB,wBAAwB;EACxB,aAAa;CACd;AACD;EACE,YAAY;CACb;AACD,0CAAkC,gBAAgB,CAAC;AACnD,yCAAiC,gBAAgB,CAAC","file":"style.css","sourcesContent":[".half {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half table {\n  text-align: right;\n}\n\n.historyTable {\n  text-align: right;\n}\n.historyTable th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice {\n  color: blue;\n}\n.historyTable tr:nth-child(even) {background: #CCC}\n.historyTable tr:nth-child(odd) {background: #FFF}"],"sourceRoot":"webpack://"}]);
-
-	// exports
-	exports.locals = {
-		"half": "half___1U4Me",
-		"historyTable": "historyTable___1kTmx",
-		"practice": "practice___1n4UR"
-	};
 
 /***/ }),
 /* 514 */
@@ -69486,6 +69619,50 @@
 
 
 	// module
+	exports.push([module.id, ".half___1U4Me {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half___1U4Me table {\n  text-align: right;\n}\n\n.historyTable___1kTmx {\n  text-align: right;\n}\n.historyTable___1kTmx th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice___1n4UR {\n  color: blue;\n}\n.historyTable___1kTmx tr:nth-child(even) {background: #CCC}\n.historyTable___1kTmx tr:nth-child(odd) {background: #FFF}", "", {"version":3,"sources":["/./containers/Choose/style.css"],"names":[],"mappings":"AAAA;EACE,WAAW;EACX,sBAAsB;EACtB,oBAAoB;CACrB;AACD;EACE,kBAAkB;CACnB;;AAED;EACE,kBAAkB;CACnB;AACD;EACE,mBAAmB;EACnB,wBAAwB;EACxB,aAAa;CACd;AACD;EACE,YAAY;CACb;AACD,0CAAkC,gBAAgB,CAAC;AACnD,yCAAiC,gBAAgB,CAAC","file":"style.css","sourcesContent":[".half {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half table {\n  text-align: right;\n}\n\n.historyTable {\n  text-align: right;\n}\n.historyTable th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice {\n  color: blue;\n}\n.historyTable tr:nth-child(even) {background: #CCC}\n.historyTable tr:nth-child(odd) {background: #FFF}"],"sourceRoot":"webpack://"}]);
+
+	// exports
+	exports.locals = {
+		"half": "half___1U4Me",
+		"historyTable": "historyTable___1kTmx",
+		"practice": "practice___1n4UR"
+	};
+
+/***/ }),
+/* 516 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(517);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(459)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(458)();
+	// imports
+
+
+	// module
 	exports.push([module.id, "\nhtml,\nbody {\n  margin: 0;\n  padding: 0;\n}\n\nbutton {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  background: none;\n  font-size: 100%;\n  vertical-align: baseline;\n  font-family: inherit;\n  font-weight: inherit;\n  color: inherit;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-smoothing: antialiased;\n}\n\nbody {\n  font: 18px 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  line-height: 1.4em;\n  background: #f5f5f5;\n  color: #000000;\n  max-width: 1000px;\n  margin: 0 auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-font-smoothing: antialiased;\n  -ms-font-smoothing: antialiased;\n  font-smoothing: antialiased;\n  font-weight: 300;\n}\n\nbutton,\ninput[type=\"checkbox\"] {\n  outline: none;\n}\n\n.instructions___1MBNx {\n  float: right;\n}", "", {"version":3,"sources":["/./containers/App/style.css"],"names":[],"mappings":";AACA;;EAEE,UAAU;EACV,WAAW;CACZ;;AAED;EACE,UAAU;EACV,WAAW;EACX,UAAU;EACV,iBAAiB;EACjB,gBAAgB;EAChB,yBAAyB;EACzB,qBAAqB;EACrB,qBAAqB;EACrB,eAAe;EACf,yBAAiB;KAAjB,sBAAiB;UAAjB,iBAAiB;EACjB,4BAA4B;CAC7B;;AAED;EACE,0DAA0D;EAC1D,mBAAmB;EACnB,oBAAoB;EACpB,eAAe;EACf,kBAAkB;EAClB,eAAe;EACf,oCAAoC;EACpC,iCAAiC;EACjC,gCAAgC;EAChC,4BAA4B;EAC5B,iBAAiB;CAClB;;AAED;;EAEE,cAAc;CACf;;AAED;EACE,aAAa;CACd","file":"style.css","sourcesContent":["\nhtml,\nbody {\n  margin: 0;\n  padding: 0;\n}\n\nbutton {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  background: none;\n  font-size: 100%;\n  vertical-align: baseline;\n  font-family: inherit;\n  font-weight: inherit;\n  color: inherit;\n  appearance: none;\n  font-smoothing: antialiased;\n}\n\nbody {\n  font: 18px 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  line-height: 1.4em;\n  background: #f5f5f5;\n  color: #000000;\n  max-width: 1000px;\n  margin: 0 auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-font-smoothing: antialiased;\n  -ms-font-smoothing: antialiased;\n  font-smoothing: antialiased;\n  font-weight: 300;\n}\n\nbutton,\ninput[type=\"checkbox\"] {\n  outline: none;\n}\n\n.instructions {\n  float: right;\n}"],"sourceRoot":"webpack://"}]);
 
 	// exports
@@ -69494,7 +69671,7 @@
 	};
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69512,9 +69689,9 @@
 
 	var _reactRouterRedux = __webpack_require__(94);
 
-	var _middleware = __webpack_require__(517);
+	var _middleware = __webpack_require__(519);
 
-	var _reducers = __webpack_require__(519);
+	var _reducers = __webpack_require__(521);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -69540,7 +69717,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 517 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69552,7 +69729,7 @@
 	});
 	exports.logger = undefined;
 
-	var _logger = __webpack_require__(518);
+	var _logger = __webpack_require__(520);
 
 	var _logger2 = _interopRequireDefault(_logger);
 
@@ -69563,7 +69740,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 518 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69586,7 +69763,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "logger.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 519 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69601,7 +69778,7 @@
 
 	var _redux = __webpack_require__(108);
 
-	var _todos = __webpack_require__(463);
+	var _todos = __webpack_require__(464);
 
 	var _todos2 = _interopRequireDefault(_todos);
 

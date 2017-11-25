@@ -10,20 +10,24 @@ import * as style from './style.css'
 
 const source = `
   # Instructions
-  Thank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn “experimental dollars”. Your total profit (the sum of the profits of every round) from the game will be divided by 1000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid
-  to you in cash at the end of the session.
+  Thank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn “experimental dollars”. Your total profit (the sum of the profits of every round) from the game will be divided by 1000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid to you in cash at the end of the session.
   
-  You are a retailer who sells a single item, the widget, over multiple rounds. In each round of the game, you first order widgets from a (automated) supplier at a cost of $${priceCost.cost} per unit, and then sell widgets to your customers at a price of $${priceCost.price} per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. 
+  For both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $${priceCost.cost} per unit, and then sell widgets to your customers at a price of $${priceCost.price} per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. 
   
   The process of each round will be as follows:
   
   1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.
   
-  2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:
+  2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. 
   
-  ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")
+    a) In one game, the distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph:
+  
+    ![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")
 
-  The demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.
+    b) In the other game, the distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph:
+    ![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/unigraph.png "Graph")
+
+  In either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.
   
   3. Calculation of profit for the period: There are two different cases:
 
@@ -39,7 +43,7 @@ const source = `
   
   5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.
   
-  6. Number of rounds: The game lasts for 35 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.
+  6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.
   
   
 Example 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.
