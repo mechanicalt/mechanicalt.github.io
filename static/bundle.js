@@ -57716,17 +57716,17 @@
 	});
 	exports.getResultsName = exports.postResults = exports.priceCost = undefined;
 
-	var _stringify = __webpack_require__(270);
-
-	var _stringify2 = _interopRequireDefault(_stringify);
-
 	var _defineProperty2 = __webpack_require__(310);
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-	var _extends4 = __webpack_require__(273);
+	var _stringify = __webpack_require__(270);
 
-	var _extends5 = _interopRequireDefault(_extends4);
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	var _extends3 = __webpack_require__(273);
+
+	var _extends4 = _interopRequireDefault(_extends3);
 
 	var _jquery = __webpack_require__(363);
 
@@ -57789,7 +57789,7 @@
 
 	var uniVal = randomBool();
 
-	var initialState = (0, _extends5.default)({}, priceCost, (0, _defineProperty3.default)({
+	var initialState = (0, _extends4.default)({}, priceCost, {
 	  showSummary: false,
 	  // showSummary: true,
 	  // uniResults: [{
@@ -57814,7 +57814,9 @@
 	  game: 1,
 	  attempt: 0,
 	  firstGame: uniVal ? 'uni' : 'bi'
-	}, 'view', 'game'));
+	  // view: 'game',
+	  // view: 'instructions',
+	});
 
 	var getJson = function getJson(state) {
 	  return (0, _stringify2.default)(state);
@@ -57834,7 +57836,7 @@
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
-	    return (0, _extends5.default)({}, state, {
+	    return (0, _extends4.default)({}, state, {
 	      ethics: action.payload,
 	      view: 'instructions'
 	    });
@@ -57844,18 +57846,18 @@
 	      uni: !state.uni,
 	      showSummary: !state.showSummary
 	    } : {};
-	    return (0, _extends5.default)({}, state, otherProps, {
+	    return (0, _extends4.default)({}, state, otherProps, {
 	      view: action.payload
 
 	    });
 	  },
 	  'TOGGLE_SUMMARY': function TOGGLE_SUMMARY(state, action) {
-	    return (0, _extends5.default)({}, state, {
+	    return (0, _extends4.default)({}, state, {
 	      showSummary: !state.showSummary
 	    });
 	  },
 	  'SUBMIT_RESULT': function SUBMIT_RESULT(state, _ref) {
-	    var _extends3;
+	    var _extends2;
 
 	    var payload = _ref.payload;
 
@@ -57886,7 +57888,7 @@
 	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
-	    var nextState = (0, _extends5.default)({}, state, (_extends3 = {}, (0, _defineProperty3.default)(_extends3, resultsName, results), (0, _defineProperty3.default)(_extends3, 'showSummary', true), (0, _defineProperty3.default)(_extends3, 'attempt', state.attempt + 1), _extends3));
+	    var nextState = (0, _extends4.default)({}, state, (_extends2 = {}, (0, _defineProperty3.default)(_extends2, resultsName, results), (0, _defineProperty3.default)(_extends2, 'showSummary', true), (0, _defineProperty3.default)(_extends2, 'attempt', state.attempt + 1), _extends2));
 	    (0, _jquery2.default)('#results').val((0, _stringify2.default)(nextState));
 	    if (results.length % 5 === 0) {
 	      postResults(nextState);
