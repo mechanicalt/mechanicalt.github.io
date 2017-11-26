@@ -7,16 +7,16 @@ import Button from 'ui/Button'
 import * as actions from 'actions/router'
 import { priceCost } from 'reducers/todos'
 import * as style from './style.css'
-
+import * as u from 'utils'
 class Instructions extends Component {
   componentDidMount = () => {
     window.scrollTo(0, 0)
   }
   render () {
     const { todos, actions, children, goToGame, firstGame } = this.props
-    const uniGraph = '![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png "Graph")'
+    const uniGraph = `![UniGraph](${u.uniGraphSrc} "Graph")`
     const uniDemand = 'The distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):'
-    const biGraph = '![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")'
+    const biGraph = `![Graph](${u.biGraphSrc} "Graph")`
     const biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):'
     const firstGameUni = firstGame === 'uni'
     const source = `# Instructions

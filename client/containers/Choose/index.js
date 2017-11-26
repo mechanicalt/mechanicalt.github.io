@@ -3,11 +3,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import classnames from 'classnames'
-import * as TodoActions from '../../actions/todos'
-import Button from '../../ui/Button'
+import * as TodoActions from 'actions/todos'
+import Button from 'ui/Button'
 import TextInput from 'ui/Input'
 import * as todoSelectors from 'selectors/todos'
+import * as u from 'utils'
 import style from './style.css'
+import { biGraphSrc } from '../../utils/index';
 
 class Choose extends Component {
   state = {
@@ -44,6 +46,7 @@ class Choose extends Component {
     return (
       <div>
         <h2>{`Game ${this.props.attempt <= 20 ? 1 : 2} - ${uni ? 'Uni' : 'Bi'}modal Distribution`}</h2>
+        <img className={style.graph} src={uni ? u.uniGraphSrc : biGraphSrc} />
         <h3>Choose Order Quantity</h3>
         <p>Select your order quantity and enter it into the text field. Remember that demand is between 0 and 400.</p>
         <div>

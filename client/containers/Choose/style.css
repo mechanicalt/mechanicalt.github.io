@@ -20,3 +20,7 @@
 }
 .historyTable tr:nth-child(even) {background: #CCC}
 .historyTable tr:nth-child(odd) {background: #FFF}
+
+.graph {
+  height: 100px;
+}

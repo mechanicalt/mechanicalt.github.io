@@ -1,0 +1,2 @@
+export const uniGraphSrc = `https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png`
+export const biGraphSrc = `https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png`

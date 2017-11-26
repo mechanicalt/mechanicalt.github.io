@@ -69,7 +69,8 @@ const initialState = {
   game: 1,
   attempt: 0,
   firstGame: uniVal ? 'uni' : 'bi',
-  // view: 'game',
+  view: 'game',
+  // view: 'instructions',
 }
 
 const getJson = (state) => {
