@@ -86,10 +86,27 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
+	var _jquery = __webpack_require__(363);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _queryString = __webpack_require__(527);
+
+	var _queryString2 = _interopRequireDefault(_queryString);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _store2.default)();
 	var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHistory, store);
+
+	var iframeUrl = document.location.search;
+	// const iframeUrl = 'assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&hitId=3PMR2DOWOO1I4L1Q0AABZ4DXY1445T'
+	var params = _queryString2.default.parse(iframeUrl);
+	console.log('params', params);
+
+	var actionUrl = (0, _jquery2.default)('#mturk_form').attr('action');
+
+	(0, _jquery2.default)('#mturk_form').attr('action', actionUrl + '&' + _queryString2.default.stringify(params));
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -57763,8 +57780,9 @@
 	  return Math.random() >= 0.5;
 	};
 
+	var randomChoice = Math.random();
+
 	var getCost = function getCost() {
-	  var randomChoice = Math.random();
 	  if (randomChoice < 0.2) {
 	    return 3;
 	  }
@@ -57781,10 +57799,29 @@
 	    return 9;
 	  }
 	};
+	var getDivisor = function getDivisor() {
+
+	  if (randomChoice < 0.2) {
+	    return 10000;
+	  }
+	  if (randomChoice < 0.4) {
+	    return 9000;
+	  }
+	  if (randomChoice < 0.6) {
+	    return 6000;
+	  }
+	  if (randomChoice < 0.8) {
+	    return 3000;
+	  }
+	  if (randomChoice < 1) {
+	    return 2000;
+	  }
+	};
 
 	var priceCost = exports.priceCost = {
 	  price: 12,
-	  cost: getCost()
+	  cost: getCost(),
+	  divisor: getDivisor()
 	};
 
 	var uniVal = randomBool();
@@ -60492,7 +60529,7 @@
 	      var biGraph = '![Graph](' + u.biGraphSrc + ' "Graph")';
 	      var biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):';
 	      var firstGameUni = firstGame === 'uni';
-	      var source = '# Instructions\nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by 5000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid to you in cash at the end of the session.\n\nFor both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $' + _todos.priceCost.price + ' per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n\nThere will be 40 rounds in total (20 per each game). The first 5 rounds of each game are practice and do not count towards the cumulative profit which determines your performance pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. \n\n  a) In the first game:\n    \n  ' + (firstGameUni ? uniDemand : biDemand) + '\n\n  ' + (firstGameUni ? uniGraph : biGraph) + '\n\n  b) In the second game:\n            \n  ' + (firstGameUni ? biDemand : uniDemand) + '\n\n  ' + (firstGameUni ? biGraph : uniGraph) + '\n\nIn either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n* If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n* If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)';
+	      var source = '# Instructions\nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by ' + _todos.priceCost.divisor + ' and rounded to the nearest $0.10, then added to your participation fee of $5 and paid to you in cash at the end of the session.\n\nFor both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $' + _todos.priceCost.price + ' per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n\nThere will be 40 rounds in total (20 per each game). The first 5 rounds of each game are practice and do not count towards the cumulative profit which determines your performance pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. \n\n  a) In the first game:\n    \n  ' + (firstGameUni ? uniDemand : biDemand) + '\n\n  ' + (firstGameUni ? uniGraph : biGraph) + '\n\n  b) In the second game:\n            \n  ' + (firstGameUni ? biDemand : uniDemand) + '\n\n  ' + (firstGameUni ? biGraph : uniGraph) + '\n\nIn either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n* If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n* If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)';
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -70426,6 +70463,322 @@
 	});
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 527 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var strictUriEncode = __webpack_require__(59);
+	var objectAssign = __webpack_require__(5);
+	var decodeComponent = __webpack_require__(528);
+
+	function encoderForArrayFormat(opts) {
+		switch (opts.arrayFormat) {
+			case 'index':
+				return function (key, value, index) {
+					return value === null ? [
+						encode(key, opts),
+						'[',
+						index,
+						']'
+					].join('') : [
+						encode(key, opts),
+						'[',
+						encode(index, opts),
+						']=',
+						encode(value, opts)
+					].join('');
+				};
+
+			case 'bracket':
+				return function (key, value) {
+					return value === null ? encode(key, opts) : [
+						encode(key, opts),
+						'[]=',
+						encode(value, opts)
+					].join('');
+				};
+
+			default:
+				return function (key, value) {
+					return value === null ? encode(key, opts) : [
+						encode(key, opts),
+						'=',
+						encode(value, opts)
+					].join('');
+				};
+		}
+	}
+
+	function parserForArrayFormat(opts) {
+		var result;
+
+		switch (opts.arrayFormat) {
+			case 'index':
+				return function (key, value, accumulator) {
+					result = /\[(\d*)\]$/.exec(key);
+
+					key = key.replace(/\[\d*\]$/, '');
+
+					if (!result) {
+						accumulator[key] = value;
+						return;
+					}
+
+					if (accumulator[key] === undefined) {
+						accumulator[key] = {};
+					}
+
+					accumulator[key][result[1]] = value;
+				};
+
+			case 'bracket':
+				return function (key, value, accumulator) {
+					result = /(\[\])$/.exec(key);
+					key = key.replace(/\[\]$/, '');
+
+					if (!result) {
+						accumulator[key] = value;
+						return;
+					} else if (accumulator[key] === undefined) {
+						accumulator[key] = [value];
+						return;
+					}
+
+					accumulator[key] = [].concat(accumulator[key], value);
+				};
+
+			default:
+				return function (key, value, accumulator) {
+					if (accumulator[key] === undefined) {
+						accumulator[key] = value;
+						return;
+					}
+
+					accumulator[key] = [].concat(accumulator[key], value);
+				};
+		}
+	}
+
+	function encode(value, opts) {
+		if (opts.encode) {
+			return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
+		}
+
+		return value;
+	}
+
+	function keysSorter(input) {
+		if (Array.isArray(input)) {
+			return input.sort();
+		} else if (typeof input === 'object') {
+			return keysSorter(Object.keys(input)).sort(function (a, b) {
+				return Number(a) - Number(b);
+			}).map(function (key) {
+				return input[key];
+			});
+		}
+
+		return input;
+	}
+
+	exports.extract = function (str) {
+		var queryStart = str.indexOf('?');
+		if (queryStart === -1) {
+			return '';
+		}
+		return str.slice(queryStart + 1);
+	};
+
+	exports.parse = function (str, opts) {
+		opts = objectAssign({arrayFormat: 'none'}, opts);
+
+		var formatter = parserForArrayFormat(opts);
+
+		// Create an object with no prototype
+		// https://github.com/sindresorhus/query-string/issues/47
+		var ret = Object.create(null);
+
+		if (typeof str !== 'string') {
+			return ret;
+		}
+
+		str = str.trim().replace(/^[?#&]/, '');
+
+		if (!str) {
+			return ret;
+		}
+
+		str.split('&').forEach(function (param) {
+			var parts = param.replace(/\+/g, ' ').split('=');
+			// Firefox (pre 40) decodes `%3D` to `=`
+			// https://github.com/sindresorhus/query-string/pull/37
+			var key = parts.shift();
+			var val = parts.length > 0 ? parts.join('=') : undefined;
+
+			// missing `=` should be `null`:
+			// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+			val = val === undefined ? null : decodeComponent(val);
+
+			formatter(decodeComponent(key), val, ret);
+		});
+
+		return Object.keys(ret).sort().reduce(function (result, key) {
+			var val = ret[key];
+			if (Boolean(val) && typeof val === 'object' && !Array.isArray(val)) {
+				// Sort object keys, not values
+				result[key] = keysSorter(val);
+			} else {
+				result[key] = val;
+			}
+
+			return result;
+		}, Object.create(null));
+	};
+
+	exports.stringify = function (obj, opts) {
+		var defaults = {
+			encode: true,
+			strict: true,
+			arrayFormat: 'none'
+		};
+
+		opts = objectAssign(defaults, opts);
+
+		var formatter = encoderForArrayFormat(opts);
+
+		return obj ? Object.keys(obj).sort().map(function (key) {
+			var val = obj[key];
+
+			if (val === undefined) {
+				return '';
+			}
+
+			if (val === null) {
+				return encode(key, opts);
+			}
+
+			if (Array.isArray(val)) {
+				var result = [];
+
+				val.slice().forEach(function (val2) {
+					if (val2 === undefined) {
+						return;
+					}
+
+					result.push(formatter(key, val2, result.length));
+				});
+
+				return result.join('&');
+			}
+
+			return encode(key, opts) + '=' + encode(val, opts);
+		}).filter(function (x) {
+			return x.length > 0;
+		}).join('&') : '';
+	};
+
+
+/***/ }),
+/* 528 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	var token = '%[a-f0-9]{2}';
+	var singleMatcher = new RegExp(token, 'gi');
+	var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+
+	function decodeComponents(components, split) {
+		try {
+			// Try to decode the entire string first
+			return decodeURIComponent(components.join(''));
+		} catch (err) {
+			// Do nothing
+		}
+
+		if (components.length === 1) {
+			return components;
+		}
+
+		split = split || 1;
+
+		// Split the array in 2 parts
+		var left = components.slice(0, split);
+		var right = components.slice(split);
+
+		return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
+	}
+
+	function decode(input) {
+		try {
+			return decodeURIComponent(input);
+		} catch (err) {
+			var tokens = input.match(singleMatcher);
+
+			for (var i = 1; i < tokens.length; i++) {
+				input = decodeComponents(tokens, i).join('');
+
+				tokens = input.match(singleMatcher);
+			}
+
+			return input;
+		}
+	}
+
+	function customDecodeURIComponent(input) {
+		// Keep track of all the replacements and prefill the map with the `BOM`
+		var replaceMap = {
+			'%FE%FF': '\uFFFD\uFFFD',
+			'%FF%FE': '\uFFFD\uFFFD'
+		};
+
+		var match = multiMatcher.exec(input);
+		while (match) {
+			try {
+				// Decode as big chunks as possible
+				replaceMap[match[0]] = decodeURIComponent(match[0]);
+			} catch (err) {
+				var result = decode(match[0]);
+
+				if (result !== match[0]) {
+					replaceMap[match[0]] = result;
+				}
+			}
+
+			match = multiMatcher.exec(input);
+		}
+
+		// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
+		replaceMap['%C2'] = '\uFFFD';
+
+		var entries = Object.keys(replaceMap);
+
+		for (var i = 0; i < entries.length; i++) {
+			// Replace all decoded components
+			var key = entries[i];
+			input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
+		}
+
+		return input;
+	}
+
+	module.exports = function (encodedURI) {
+		if (typeof encodedURI !== 'string') {
+			throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + typeof encodedURI + '`');
+		}
+
+		try {
+			encodedURI = encodedURI.replace(/\+/g, ' ');
+
+			// Try the built in decoder first
+			return decodeURIComponent(encodedURI);
+		} catch (err) {
+			// Fallback to a more advanced decoder
+			return customDecodeURIComponent(encodedURI);
+		}
+	};
+
 
 /***/ })
 /******/ ]);

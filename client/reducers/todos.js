@@ -17,8 +17,9 @@ const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 
 
 const randomBool = () => Math.random() >= 0.5
 
+const randomChoice = Math.random()
+
 const getCost = () => {
-  const randomChoice = Math.random()
   if (randomChoice < 0.2) {
     return 3
   }
@@ -35,10 +36,29 @@ const getCost = () => {
     return 9
   }
 }
+const getDivisor = () => {
+  
+  if (randomChoice < 0.2) {
+    return 10000
+  }
+  if (randomChoice < 0.4) {
+    return 9000
+  }
+  if (randomChoice < 0.6) {
+    return 6000
+  }
+  if (randomChoice < 0.8) {
+    return 3000
+  }
+  if (randomChoice < 1) {
+    return 2000
+  }
+}
 
 export const priceCost = {
   price: 12,
-  cost: getCost()
+  cost: getCost(),
+  divisor: getDivisor()
 }
 
 const uniVal = randomBool()
