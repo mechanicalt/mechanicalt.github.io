@@ -66,15 +66,15 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	var _App = __webpack_require__(510);
+	var _App = __webpack_require__(511);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Summary = __webpack_require__(511);
+	var _Summary = __webpack_require__(512);
 
 	var _Summary2 = _interopRequireDefault(_Summary);
 
-	var _Choose = __webpack_require__(514);
+	var _Choose = __webpack_require__(515);
 
 	var _Choose2 = _interopRequireDefault(_Choose);
 
@@ -82,7 +82,7 @@
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _store = __webpack_require__(522);
+	var _store = __webpack_require__(523);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -28313,11 +28313,11 @@
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _Ethics = __webpack_require__(502);
+	var _Ethics = __webpack_require__(503);
 
 	var _Ethics2 = _interopRequireDefault(_Ethics);
 
-	var _App = __webpack_require__(510);
+	var _App = __webpack_require__(511);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -57716,17 +57716,17 @@
 	});
 	exports.getResultsName = exports.postResults = exports.priceCost = undefined;
 
-	var _defineProperty2 = __webpack_require__(310);
-
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 	var _stringify = __webpack_require__(270);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
-	var _extends3 = __webpack_require__(273);
+	var _defineProperty2 = __webpack_require__(310);
 
-	var _extends4 = _interopRequireDefault(_extends3);
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _extends4 = __webpack_require__(273);
+
+	var _extends5 = _interopRequireDefault(_extends4);
 
 	var _jquery = __webpack_require__(363);
 
@@ -57789,7 +57789,7 @@
 
 	var uniVal = randomBool();
 
-	var initialState = (0, _extends4.default)({}, priceCost, {
+	var initialState = (0, _extends5.default)({}, priceCost, (0, _defineProperty3.default)({
 	  showSummary: false,
 	  // showSummary: true,
 	  // uniResults: [{
@@ -57814,8 +57814,7 @@
 	  game: 1,
 	  attempt: 0,
 	  firstGame: uniVal ? 'uni' : 'bi'
-	  // view: 'game',
-	});
+	}, 'view', 'game'));
 
 	var getJson = function getJson(state) {
 	  return (0, _stringify2.default)(state);
@@ -57835,7 +57834,7 @@
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends5.default)({}, state, {
 	      ethics: action.payload,
 	      view: 'instructions'
 	    });
@@ -57845,18 +57844,18 @@
 	      uni: !state.uni,
 	      showSummary: !state.showSummary
 	    } : {};
-	    return (0, _extends4.default)({}, state, otherProps, {
+	    return (0, _extends5.default)({}, state, otherProps, {
 	      view: action.payload
 
 	    });
 	  },
 	  'TOGGLE_SUMMARY': function TOGGLE_SUMMARY(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends5.default)({}, state, {
 	      showSummary: !state.showSummary
 	    });
 	  },
 	  'SUBMIT_RESULT': function SUBMIT_RESULT(state, _ref) {
-	    var _extends2;
+	    var _extends3;
 
 	    var payload = _ref.payload;
 
@@ -57887,7 +57886,7 @@
 	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
-	    var nextState = (0, _extends4.default)({}, state, (_extends2 = {}, (0, _defineProperty3.default)(_extends2, resultsName, results), (0, _defineProperty3.default)(_extends2, 'showSummary', true), (0, _defineProperty3.default)(_extends2, 'attempt', state.attempt + 1), _extends2));
+	    var nextState = (0, _extends5.default)({}, state, (_extends3 = {}, (0, _defineProperty3.default)(_extends3, resultsName, results), (0, _defineProperty3.default)(_extends3, 'showSummary', true), (0, _defineProperty3.default)(_extends3, 'attempt', state.attempt + 1), _extends3));
 	    (0, _jquery2.default)('#results').val((0, _stringify2.default)(nextState));
 	    if (results.length % 5 === 0) {
 	      postResults(nextState);
@@ -60449,6 +60448,10 @@
 
 	var style = _interopRequireWildcard(_style);
 
+	var _utils = __webpack_require__(502);
+
+	var u = _interopRequireWildcard(_utils);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -60482,9 +60485,9 @@
 	          goToGame = _props.goToGame,
 	          firstGame = _props.firstGame;
 
-	      var uniGraph = '![UniGraph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png "Graph")';
+	      var uniGraph = '![UniGraph](' + u.uniGraphSrc + ' "Graph")';
 	      var uniDemand = 'The distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):';
-	      var biGraph = '![Graph](https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png "Graph")';
+	      var biGraph = '![Graph](' + u.biGraphSrc + ' "Graph")';
 	      var biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):';
 	      var firstGameUni = firstGame === 'uni';
 	      var source = '# Instructions\nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by 5000 and rounded to the nearest $0.10, then added to your participation fee of $5 and paid to you in cash at the end of the session.\n\nFor both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $' + _todos.priceCost.price + ' per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n\nThere will be 40 rounds in total (20 per each game). The first 5 rounds of each game are practice and do not count towards the cumulative profit which determines your performance pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. \n\n  a) In the first game:\n    \n  ' + (firstGameUni ? uniDemand : biDemand) + '\n\n  ' + (firstGameUni ? uniGraph : biGraph) + '\n\n  b) In the second game:\n            \n  ' + (firstGameUni ? biDemand : uniDemand) + '\n\n  ' + (firstGameUni ? biGraph : uniGraph) + '\n\nIn either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n* If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n* If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)';
@@ -68821,13 +68824,29 @@
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var uniGraphSrc = exports.uniGraphSrc = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png";
+	var biGraphSrc = exports.biGraphSrc = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png";
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _keys = __webpack_require__(503);
+	var _keys = __webpack_require__(504);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -68875,17 +68894,17 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Select = __webpack_require__(506);
+	var _Select = __webpack_require__(507);
 
 	var _Select2 = _interopRequireDefault(_Select);
 
 	var _reactRedux = __webpack_require__(99);
 
-	var _todos = __webpack_require__(507);
+	var _todos = __webpack_require__(508);
 
 	var TodoActions = _interopRequireWildcard(_todos);
 
-	var _reactCountryRegionSelector = __webpack_require__(508);
+	var _reactCountryRegionSelector = __webpack_require__(509);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -69011,21 +69030,21 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 503 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(504), __esModule: true };
-
-/***/ }),
 /* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(505);
+	module.exports = { "default": __webpack_require__(505), __esModule: true };
+
+/***/ }),
+/* 505 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(506);
 	module.exports = __webpack_require__(272).Object.keys;
 
 
 /***/ }),
-/* 505 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 Object.keys(O)
@@ -69040,7 +69059,7 @@
 
 
 /***/ }),
-/* 506 */
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69118,7 +69137,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 507 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69139,7 +69158,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 508 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69164,7 +69183,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _sourceDataJs = __webpack_require__(509);
+	var _sourceDataJs = __webpack_require__(510);
 
 	var _sourceDataJs2 = _interopRequireDefault(_sourceDataJs);
 
@@ -69509,7 +69528,7 @@
 	exports.CountryRegionData = _sourceDataJs2['default'];
 
 /***/ }),
-/* 509 */
+/* 510 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -69523,7 +69542,7 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 510 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69566,11 +69585,11 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Summary = __webpack_require__(511);
+	var _Summary = __webpack_require__(512);
 
 	var _Summary2 = _interopRequireDefault(_Summary);
 
-	var _Choose = __webpack_require__(514);
+	var _Choose = __webpack_require__(515);
 
 	var _Choose2 = _interopRequireDefault(_Choose);
 
@@ -69578,7 +69597,7 @@
 
 	var routerActions = _interopRequireWildcard(_router);
 
-	var _style = __webpack_require__(520);
+	var _style = __webpack_require__(521);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -69637,7 +69656,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 511 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69648,7 +69667,7 @@
 	  value: true
 	});
 
-	var _keys = __webpack_require__(503);
+	var _keys = __webpack_require__(504);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -69682,11 +69701,11 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _todos = __webpack_require__(512);
+	var _todos = __webpack_require__(513);
 
 	var todoSelectors = _interopRequireWildcard(_todos);
 
-	var _todos2 = __webpack_require__(507);
+	var _todos2 = __webpack_require__(508);
 
 	var TodoActions = _interopRequireWildcard(_todos2);
 
@@ -69698,7 +69717,7 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _blacklist = __webpack_require__(513);
+	var _blacklist = __webpack_require__(514);
 
 	var _blacklist2 = _interopRequireDefault(_blacklist);
 
@@ -69788,7 +69807,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 512 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69821,7 +69840,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 513 */
+/* 514 */
 /***/ (function(module, exports) {
 
 	module.exports = function blacklist (src) {
@@ -69847,7 +69866,7 @@
 
 
 /***/ }),
-/* 514 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69862,11 +69881,11 @@
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-	var _keys = __webpack_require__(503);
+	var _keys = __webpack_require__(504);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _isNan = __webpack_require__(515);
+	var _isNan = __webpack_require__(516);
 
 	var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -69906,7 +69925,7 @@
 
 	var _classnames3 = _interopRequireDefault(_classnames2);
 
-	var _todos = __webpack_require__(507);
+	var _todos = __webpack_require__(508);
 
 	var TodoActions = _interopRequireWildcard(_todos);
 
@@ -69918,13 +69937,19 @@
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _todos2 = __webpack_require__(512);
+	var _todos2 = __webpack_require__(513);
 
 	var todoSelectors = _interopRequireWildcard(_todos2);
 
-	var _style = __webpack_require__(518);
+	var _utils = __webpack_require__(502);
+
+	var u = _interopRequireWildcard(_utils);
+
+	var _style = __webpack_require__(519);
 
 	var _style2 = _interopRequireDefault(_style);
+
+	var _index = __webpack_require__(502);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -69995,6 +70020,7 @@
 	          null,
 	          'Game ' + (this.props.attempt <= 20 ? 1 : 2) + ' - ' + (uni ? 'Uni' : 'Bi') + 'modal Distribution'
 	        ),
+	        _react2.default.createElement('img', { className: _style2.default.graph, src: uni ? u.uniGraphSrc : _index.biGraphSrc }),
 	        _react2.default.createElement(
 	          'h3',
 	          null,
@@ -70163,21 +70189,21 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 515 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(516), __esModule: true };
-
-/***/ }),
 /* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(517);
+	module.exports = { "default": __webpack_require__(517), __esModule: true };
+
+/***/ }),
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(518);
 	module.exports = __webpack_require__(272).Number.isNaN;
 
 
 /***/ }),
-/* 517 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 20.1.2.4 Number.isNaN(number)
@@ -70192,13 +70218,13 @@
 
 
 /***/ }),
-/* 518 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(519);
+	var content = __webpack_require__(520);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(398)(content, {});
@@ -70218,7 +70244,7 @@
 	}
 
 /***/ }),
-/* 519 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(397)();
@@ -70226,23 +70252,24 @@
 
 
 	// module
-	exports.push([module.id, ".half___1U4Me {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half___1U4Me table {\n  text-align: right;\n}\n\n.historyTable___1kTmx {\n  text-align: right;\n}\n.historyTable___1kTmx th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice___1n4UR {\n  color: blue;\n}\n.historyTable___1kTmx tr:nth-child(even) {background: #CCC}\n.historyTable___1kTmx tr:nth-child(odd) {background: #FFF}", "", {"version":3,"sources":["/./containers/Choose/style.css"],"names":[],"mappings":"AAAA;EACE,WAAW;EACX,sBAAsB;EACtB,oBAAoB;CACrB;AACD;EACE,kBAAkB;CACnB;;AAED;EACE,kBAAkB;CACnB;AACD;EACE,mBAAmB;EACnB,wBAAwB;EACxB,aAAa;CACd;AACD;EACE,YAAY;CACb;AACD,0CAAkC,gBAAgB,CAAC;AACnD,yCAAiC,gBAAgB,CAAC","file":"style.css","sourcesContent":[".half {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half table {\n  text-align: right;\n}\n\n.historyTable {\n  text-align: right;\n}\n.historyTable th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice {\n  color: blue;\n}\n.historyTable tr:nth-child(even) {background: #CCC}\n.historyTable tr:nth-child(odd) {background: #FFF}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".half___1U4Me {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half___1U4Me table {\n  text-align: right;\n}\n\n.historyTable___1kTmx {\n  text-align: right;\n}\n.historyTable___1kTmx th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice___1n4UR {\n  color: blue;\n}\n.historyTable___1kTmx tr:nth-child(even) {background: #CCC}\n.historyTable___1kTmx tr:nth-child(odd) {background: #FFF}\n\n.graph___1Whyp {\n  height: 200px;\n  margin: auto;\n  display: block;\n}", "", {"version":3,"sources":["/./containers/Choose/style.css"],"names":[],"mappings":"AAAA;EACE,WAAW;EACX,sBAAsB;EACtB,oBAAoB;CACrB;AACD;EACE,kBAAkB;CACnB;;AAED;EACE,kBAAkB;CACnB;AACD;EACE,mBAAmB;EACnB,wBAAwB;EACxB,aAAa;CACd;AACD;EACE,YAAY;CACb;AACD,0CAAkC,gBAAgB,CAAC;AACnD,yCAAiC,gBAAgB,CAAC;;AAElD;EACE,cAAc;EACd,aAAa;EACb,eAAe;CAChB","file":"style.css","sourcesContent":[".half {\n  width: 50%;\n  display: inline-block;\n  vertical-align: top;\n}\n.half table {\n  text-align: right;\n}\n\n.historyTable {\n  text-align: right;\n}\n.historyTable th{\n  text-align: center;\n  border: 1px black solid;\n  padding: 3px;\n}\n.practice {\n  color: blue;\n}\n.historyTable tr:nth-child(even) {background: #CCC}\n.historyTable tr:nth-child(odd) {background: #FFF}\n\n.graph {\n  height: 200px;\n  margin: auto;\n  display: block;\n}"],"sourceRoot":"webpack://"}]);
 
 	// exports
 	exports.locals = {
 		"half": "half___1U4Me",
 		"historyTable": "historyTable___1kTmx",
-		"practice": "practice___1n4UR"
+		"practice": "practice___1n4UR",
+		"graph": "graph___1Whyp"
 	};
 
 /***/ }),
-/* 520 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(521);
+	var content = __webpack_require__(522);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(398)(content, {});
@@ -70262,7 +70289,7 @@
 	}
 
 /***/ }),
-/* 521 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(397)();
@@ -70278,7 +70305,7 @@
 	};
 
 /***/ }),
-/* 522 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70296,9 +70323,9 @@
 
 	var _reactRouterRedux = __webpack_require__(94);
 
-	var _middleware = __webpack_require__(523);
+	var _middleware = __webpack_require__(524);
 
-	var _reducers = __webpack_require__(525);
+	var _reducers = __webpack_require__(526);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -70324,7 +70351,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 523 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70336,7 +70363,7 @@
 	});
 	exports.logger = undefined;
 
-	var _logger = __webpack_require__(524);
+	var _logger = __webpack_require__(525);
 
 	var _logger2 = _interopRequireDefault(_logger);
 
@@ -70347,7 +70374,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 524 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70370,7 +70397,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "logger.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 525 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {

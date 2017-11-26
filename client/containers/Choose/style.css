@@ -22,5 +22,7 @@
 .historyTable tr:nth-child(odd) {background: #FFF}
 
 .graph {
-  height: 100px;
+  height: 200px;
+  margin: auto;
+  display: block;
 }
