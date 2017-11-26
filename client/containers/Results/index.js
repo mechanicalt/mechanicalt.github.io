@@ -1,11 +1,12 @@
 import React from 'react'
-import Markdown from 'react-markdown'
-import Button from 'ui/Button'
 import { connect } from 'react-redux'
 import $ from 'jquery'
 import * as routerActions from 'actions/router'
 import _ from 'lodash'
 import { postResults } from 'reducers/todos'
+import Checkbox from 'ui/Checkbox'
+import Button from 'ui/Button'
+import TextInput from 'ui/Input'
 
 class Results extends React.PureComponent {
   state = {
@@ -58,7 +59,7 @@ class Results extends React.PureComponent {
       </table>
       {
         finishedSecondGame && <div>
-          <Checkbox onChange={this.handleChange.bind(this, 'receive')} checked={this.state.receive} label="I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only"/>
+          <Checkbox onChange={this.onChange.bind(this, 'receive')} checked={this.state.receive} label="I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only"/>
           <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
           <div><span>Address: <TextInput value={this.state.address} onChange={this.onChange.bind(null, 'address')} /></span></div>
           <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>
