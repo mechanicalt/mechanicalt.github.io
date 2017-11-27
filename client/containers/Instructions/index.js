@@ -58,7 +58,7 @@ In either game the demand for any one round is random and independent of the dem
 
 5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.
 
-6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first five rounds, our history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.
+6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first 5 rounds, your history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.
   
   
 Example 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.

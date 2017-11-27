@@ -19,10 +19,10 @@ Chief Investigator: Sam Kishner
 School/Faculty: School of Information Systems and Technology Management, Business School
 
 *What does participation in this research require, and are there any risks involved?*
-If you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 minutes. 
+If you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 - 15 minutes. 
 
 *Will I be paid to participate in this project?*
-You will be compensated for your participation. By participating in the study, you will receive a $2. The game last 35 rounds. Your average profit will be divided by 100, and that additional amount of money will be paid on top of the $2. 
+You will be compensated for your participation. By participating in the study, you will receive $2 for completion and a bonus payment based on performance between $0 - $15. 
 
 *What are the possible benefits to participation?*
 We hope to use information we get from this research study to benefit others who are interested in improving supply chain decision making.
