@@ -22,10 +22,7 @@ const iframeUrl = document.location.search
 // const iframeUrl = 'assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&hitId=3PMR2DOWOO1I4L1Q0AABZ4DXY1445T'
 const params = qs.parse(iframeUrl)
 console.log('params', params)
-
-const actionUrl = $('#mturk_form').attr('action')
-
-$('#mturk_form').attr('action', `${actionUrl}&${qs.stringify(params)}`)
+$('#assignmentId').val(params.assignmentId)
 
 ReactDOM.render(
   <Provider store={store}>

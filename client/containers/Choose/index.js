@@ -60,7 +60,7 @@ class Choose extends Component {
             </table>
           </div>
           <div className={style.half}>
-            <span>Units to order: <TextInput autoFocus onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder} type="number" /></span>
+            <span>Units to order: <TextInput onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder} type="number" /></span>
             <Button onClick={() => submitResult(this.state.unitsToOrder)} disabled={unitsToOrder === ''}>Submit Order</Button>
           </div>
         </div>

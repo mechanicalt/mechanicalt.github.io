@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import * as routerActions from 'actions/router'
 import _ from 'lodash'
-import { postResults } from 'reducers/todos'
+import { postResults, priceCost } from 'reducers/todos'
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
 import TextInput from 'ui/Input'
@@ -54,7 +54,9 @@ class Results extends React.PureComponent {
               </td>
             </tr>
           }
-
+          {
+            finishedSecondGame && <div>{`Total Performance Bonus: $${Math.round(100 * (this.props.uniProfit + this.props.biProfit) / priceCost.divisor) / 100}`}</div>
+          }
         </tbody>
       </table>
       {

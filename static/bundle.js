@@ -103,10 +103,7 @@
 	// const iframeUrl = 'assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&hitId=3PMR2DOWOO1I4L1Q0AABZ4DXY1445T'
 	var params = _queryString2.default.parse(iframeUrl);
 	console.log('params', params);
-
-	var actionUrl = (0, _jquery2.default)('#mturk_form').attr('action');
-
-	(0, _jquery2.default)('#mturk_form').attr('action', actionUrl + '&' + _queryString2.default.stringify(params));
+	(0, _jquery2.default)('#assignmentId').val(params.assignmentId);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -28524,6 +28521,11 @@
 	                null,
 	                '$' + this.props[(this.props.firstGame === 'uni' ? 'bi' : 'uni') + 'Profit']
 	              )
+	            ),
+	            finishedSecondGame && _react2.default.createElement(
+	              'div',
+	              null,
+	              'Total Performance Bonus: $' + Math.round(100 * (this.props.uniProfit + this.props.biProfit) / _todos.priceCost.divisor) / 100
 	            )
 	          )
 	        ),
