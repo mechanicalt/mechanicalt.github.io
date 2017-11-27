@@ -11,18 +11,10 @@ import Summary from './containers/Summary'
 import Choose from './containers/Choose'
 import Instructions from './containers/Instructions'
 import configure from './store'
-import $ from 'jquery'
-import qs from 'query-string'
-
 
 const store = configure()
 const history = syncHistoryWithStore(browserHistory, store)
 
-const iframeUrl = document.location.search
-// const iframeUrl = 'assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&hitId=3PMR2DOWOO1I4L1Q0AABZ4DXY1445T'
-const params = qs.parse(iframeUrl)
-console.log('params', params)
-$('#assignmentId').val(params.assignmentId)
 
 ReactDOM.render(
   <Provider store={store}>

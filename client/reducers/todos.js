@@ -3,6 +3,12 @@ import { handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 import ppf from './ppf'
 import uniDemand from './uniDemand'
+import qs from 'query-string'
+const iframeUrl = document.location.search
+const params = qs.parse(iframeUrl)
+console.log('params', params)
+$('#assignmentId').val(params.assignmentId)
+
 
 let uniqueUser = localStorage.getItem('uniqueUser')
 
@@ -65,6 +71,7 @@ const uniVal = randomBool()
 
 const initialState = {
   ...priceCost,
+  assignmentId: params.assignmentId,
   showSummary: false,
   // showSummary: true,
   // uniResults: [{
@@ -171,7 +178,7 @@ export default handleActions({
       attempt: state.attempt + 1,
     }
     $('#results').val(JSON.stringify(nextState))
-    if (results.length % 5 === 0) {
+    if (results.length % 20 === 0) {
       postResults(nextState)
     }
     return nextState
