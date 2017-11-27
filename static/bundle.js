@@ -70148,7 +70148,7 @@
 	              'span',
 	              null,
 	              'Units to order: ',
-	              _react2.default.createElement(_Input2.default, { onKeyPress: this.stopSubmit, value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
+	              _react2.default.createElement(_Input2.default, { value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
 	            ),
 	            _react2.default.createElement(
 	              _Button2.default,
