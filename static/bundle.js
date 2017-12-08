@@ -57759,7 +57759,6 @@
 
 	var iframeUrl = document.location.search;
 	var params = _queryString2.default.parse(iframeUrl);
-	console.log('params', params);
 	(0, _jquery2.default)('#assignmentId').val(params.assignmentId);
 
 	var uniqueUser = localStorage.getItem('uniqueUser');
@@ -57780,39 +57779,40 @@
 	var randomChoice = Math.random();
 
 	var getCost = function getCost() {
-	  if (randomChoice < 0.2) {
-	    return 3;
-	  }
-	  if (randomChoice < 0.4) {
-	    return 4;
-	  }
-	  if (randomChoice < 0.6) {
-	    return 6;
-	  }
-	  if (randomChoice < 0.8) {
-	    return 8;
-	  }
-	  if (randomChoice < 1) {
-	    return 9;
-	  }
+	  return randomChoice >= 0.5 ? 3 : 8;
+	  // if (randomChoice < 0.2) {
+	  //   return 3
+	  // }
+	  // if (randomChoice < 0.4) {
+	  //   return 4
+	  // }
+	  // if (randomChoice < 0.6) {
+	  //   return 6
+	  // }
+	  // if (randomChoice < 0.8) {
+	  //   return 8
+	  // }
+	  // if (randomChoice < 1) {
+	  //   return 9
+	  // }
 	};
 	var getDivisor = function getDivisor() {
-
-	  if (randomChoice < 0.2) {
-	    return 10000;
-	  }
-	  if (randomChoice < 0.4) {
-	    return 9000;
-	  }
-	  if (randomChoice < 0.6) {
-	    return 6000;
-	  }
-	  if (randomChoice < 0.8) {
-	    return 3000;
-	  }
-	  if (randomChoice < 1) {
-	    return 2000;
-	  }
+	  return randomChoice >= 0.5 ? 10000 : 3000;
+	  // if (randomChoice < 0.2) {
+	  //   return 10000
+	  // }
+	  // if (randomChoice < 0.4) {
+	  //   return 9000
+	  // }
+	  // if (randomChoice < 0.6) {
+	  //   return 6000
+	  // }
+	  // if (randomChoice < 0.8) {
+	  //   return 3000
+	  // }
+	  // if (randomChoice < 1) {
+	  //   return 2000
+	  // }
 	};
 
 	var priceCost = exports.priceCost = {
