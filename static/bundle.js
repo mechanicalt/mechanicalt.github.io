@@ -66,23 +66,23 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	var _App = __webpack_require__(513);
+	var _App = __webpack_require__(507);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Summary = __webpack_require__(514);
+	var _Summary = __webpack_require__(508);
 
 	var _Summary2 = _interopRequireDefault(_Summary);
 
-	var _Choose = __webpack_require__(517);
+	var _Choose = __webpack_require__(511);
 
 	var _Choose2 = _interopRequireDefault(_Choose);
 
-	var _Instructions = __webpack_require__(408);
+	var _Instructions = __webpack_require__(398);
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _store = __webpack_require__(525);
+	var _store = __webpack_require__(519);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -28309,15 +28309,23 @@
 
 	var _Results2 = _interopRequireDefault(_Results);
 
-	var _Instructions = __webpack_require__(408);
+	var _Instructions = __webpack_require__(398);
 
 	var _Instructions2 = _interopRequireDefault(_Instructions);
 
-	var _Ethics = __webpack_require__(505);
+	var _Ethics = __webpack_require__(495);
 
 	var _Ethics2 = _interopRequireDefault(_Ethics);
 
-	var _App = __webpack_require__(513);
+	var _RiskAdverse = __webpack_require__(503);
+
+	var _RiskAdverse2 = _interopRequireDefault(_RiskAdverse);
+
+	var _TestUnderstanding = __webpack_require__(506);
+
+	var _TestUnderstanding2 = _interopRequireDefault(_TestUnderstanding);
+
+	var _App = __webpack_require__(507);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -28327,6 +28335,10 @@
 	  switch (props.view) {
 	    case 'ethics':
 	      return _react2.default.createElement(_Ethics2.default, null);
+	    case 'riskAdverse':
+	      return _react2.default.createElement(_RiskAdverse2.default, null);
+	    case 'testUnderstanding':
+	      return _react2.default.createElement(_TestUnderstanding2.default, null);
 	    case 'instructions':
 	      return _react2.default.createElement(_Instructions2.default, null);
 	    case 'results':
@@ -28410,15 +28422,15 @@
 
 	var _todos = __webpack_require__(366);
 
-	var _Checkbox = __webpack_require__(395);
+	var _Checkbox = __webpack_require__(385);
 
 	var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Input = __webpack_require__(405);
+	var _Input = __webpack_require__(395);
 
 	var _Input2 = _interopRequireDefault(_Input);
 
@@ -28460,7 +28472,6 @@
 	  (0, _createClass3.default)(Results, [{
 	    key: 'render',
 	    value: function render() {
-	      var finishedSecondGame = this.props.attempt === 40;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -28486,36 +28497,22 @@
 	              _react2.default.createElement(
 	                'td',
 	                null,
-	                'Game 1 Total Profit:'
+	                'Total Profit:'
 	              ),
 	              _react2.default.createElement(
 	                'td',
 	                null,
-	                '$' + this.props[this.props.firstGame + 'Profit']
+	                '$' + this.props.profit
 	              )
 	            ),
-	            finishedSecondGame && _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement(
-	                'td',
-	                null,
-	                'Game 2 Total Profit:'
-	              ),
-	              _react2.default.createElement(
-	                'td',
-	                null,
-	                '$' + this.props[(this.props.firstGame === 'uni' ? 'bi' : 'uni') + 'Profit']
-	              )
-	            ),
-	            finishedSecondGame && _react2.default.createElement(
+	            _react2.default.createElement(
 	              'div',
 	              null,
-	              'Total Performance Bonus: $' + Math.round(100 * (this.props.uniProfit + this.props.biProfit) / _todos.priceCost.divisor) / 100
+	              'Total Performance Bonus: $' + Math.round(100 * this.props.profit / _todos.priceCost.divisor) / 100
 	            )
 	          )
 	        ),
-	        finishedSecondGame && _react2.default.createElement(
+	        _react2.default.createElement(
 	          'div',
 	          null,
 	          _react2.default.createElement(_Checkbox2.default, { onChange: this.onChange.bind(this, 'receive'), checked: this.state.receive, label: 'I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only' }),
@@ -28550,14 +28547,10 @@
 	            )
 	          )
 	        ),
-	        finishedSecondGame ? _react2.default.createElement(
+	        _react2.default.createElement(
 	          _Button2.default,
 	          { onClick: this.submit },
 	          'Submit Results'
-	        ) : _react2.default.createElement(
-	          _Button2.default,
-	          { onClick: this.props.goToGame },
-	          'Go To Final Game'
 	        )
 	      );
 	    }
@@ -28566,15 +28559,12 @@
 	}(_react2.default.PureComponent);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	  var uniLastResultIndex = state.todos.uniResults.length - 1;
-	  var biLastResultIndex = state.todos.biResults.length - 1;
+	  var lastResultIndex = state.todos.results.length - 1;
+	  console.log(_lodash2.default.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit'));
 	  return {
 	    todos: state.todos,
-	    firstGame: state.todos.firstGame,
-	    uni: state.todos.uni,
 	    attempt: state.todos.attempt,
-	    uniProfit: _lodash2.default.get(state.todos.uniResults[uniLastResultIndex] || {}, 'cumulativeProfit'),
-	    biProfit: _lodash2.default.get(state.todos.biResults[biLastResultIndex] || {}, 'cumulativeProfit')
+	    profit: _lodash2.default.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit')
 	  };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -40598,6 +40588,20 @@
 	    type: 'CHANGE_VIEW',
 	    payload: 'game',
 	    changeUni: changeUni
+	  };
+	};
+
+	var goToRiskAdvser = exports.goToRiskAdvser = function goToRiskAdvser() {
+	  return {
+	    type: 'CHANGE_VIEW',
+	    payload: 'riskAdverse'
+	  };
+	};
+
+	var goToTestUnderstanding = exports.goToTestUnderstanding = function goToTestUnderstanding() {
+	  return {
+	    type: 'CHANGE_VIEW',
+	    payload: 'testUnderstanding'
 	  };
 	};
 
@@ -57719,15 +57723,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getResultsName = exports.postResults = exports.priceCost = undefined;
-
-	var _defineProperty2 = __webpack_require__(310);
-
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+	exports.postResults = exports.priceCost = exports.demandBetween = exports.demandBoost = exports.divisor = undefined;
 
 	var _stringify = __webpack_require__(270);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
+
+	var _defineProperty2 = __webpack_require__(310);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 	var _extends3 = __webpack_require__(273);
 
@@ -57743,24 +57747,26 @@
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _ppf = __webpack_require__(381);
-
-	var _ppf2 = _interopRequireDefault(_ppf);
-
-	var _uniDemand = __webpack_require__(392);
-
-	var _uniDemand2 = _interopRequireDefault(_uniDemand);
-
-	var _queryString = __webpack_require__(393);
+	var _queryString = __webpack_require__(381);
 
 	var _queryString2 = _interopRequireDefault(_queryString);
+
+	var _uniformDemand = __webpack_require__(383);
+
+	var _uniformDemand2 = _interopRequireDefault(_uniformDemand);
+
+	var _triangleDemand = __webpack_require__(384);
+
+	var _triangleDemand2 = _interopRequireDefault(_triangleDemand);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var iframeUrl = document.location.search;
+	// import ppf from './ppf'
+	// import uniDemand from './uniDemand'
+
 	var params = _queryString2.default.parse(iframeUrl);
 	(0, _jquery2.default)('#assignmentId').val(params.assignmentId);
-
 	var uniqueUser = localStorage.getItem('uniqueUser');
 
 	if (!uniqueUser) {
@@ -57772,14 +57778,12 @@
 
 	var host =  false ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
 
-	var randomBool = function randomBool() {
-	  return Math.random() >= 0.5;
-	};
+	// const randomBool = () => Math.random() >= 0.5
 
 	var randomChoice = Math.random();
 
 	var getCost = function getCost() {
-	  return randomChoice >= 0.5 ? 3 : 8;
+	  return randomChoice >= 0.5 ? 3 : 9;
 	  // if (randomChoice < 0.2) {
 	  //   return 3
 	  // }
@@ -57796,36 +57800,36 @@
 	  //   return 9
 	  // }
 	};
-	var getDivisor = function getDivisor() {
-	  return randomChoice >= 0.5 ? 10000 : 3000;
-	  // if (randomChoice < 0.2) {
-	  //   return 10000
-	  // }
-	  // if (randomChoice < 0.4) {
-	  //   return 9000
-	  // }
-	  // if (randomChoice < 0.6) {
-	  //   return 6000
-	  // }
-	  // if (randomChoice < 0.8) {
-	  //   return 3000
-	  // }
-	  // if (randomChoice < 1) {
-	  //   return 2000
-	  // }
+
+	var divisor = exports.divisor = randomChoice >= 0.5 ? 50000 : 50000;
+
+	var getDistribution = function getDistribution() {
+	  // return randomBool() ? 'uni' : 'bi'
+	  var thirds = 1 / 3;
+	  var rand = Math.random();
+	  if (rand < thirds) {
+	    return 'uni';
+	  }
+	  if (rand < 2 * thirds) {
+	    return 'bi';
+	  }
+	  return 'bay';
 	};
+
+	var demandBoost = exports.demandBoost = randomChoice >= 0.5 ? 0 : 1000;
+
+	var demandBetween = exports.demandBetween = demandBoost ? '1000 and 2000' : '0 and 1000';
 
 	var priceCost = exports.priceCost = {
 	  price: 12,
 	  cost: getCost(),
-	  divisor: getDivisor()
+	  divisor: divisor
 	};
 
-	var uniVal = randomBool();
-
-	var initialState = (0, _extends4.default)({}, priceCost, {
+	var initialState = (0, _extends4.default)({}, priceCost, (0, _defineProperty3.default)({
 	  assignmentId: params.assignmentId,
 	  showSummary: false,
+	  distribution: getDistribution(),
 	  // showSummary: true,
 	  // uniResults: [{
 	  //   unitsOrdered: 1,
@@ -57837,21 +57841,15 @@
 	  //   profitForThisRound: 9,
 	  //   cumulativeProfit: 9,
 	  // }],
-	  uniResults: [],
-	  biResults: [],
+	  demandBoost: demandBoost,
+	  results: [],
 	  uniqueId: uniqueId,
 	  uniqueUser: uniqueUser,
 	  view: 'ethics',
 	  ethics: {},
-	  meanVariance: [[150, 144], [250, 144]],
-	  uniMeanVariance: [200, 144],
-	  uni: uniVal,
 	  game: 1,
-	  attempt: 0,
-	  firstGame: uniVal ? 'uni' : 'bi'
-	  // view: 'game',
-	  // view: 'instructions',
-	});
+	  attempt: 0
+	}, 'view', 'instructions'));
 
 	var getJson = function getJson(state) {
 	  return (0, _stringify2.default)(state);
@@ -57864,21 +57862,31 @@
 	    method: 'POST'
 	  });
 	};
-
-	var getResultsName = exports.getResultsName = function getResultsName(state) {
-	  return state.uni ? 'uniResults' : 'biResults';
+	var getDemand = function getDemand(state) {
+	  return (state.distribution === 'uni' ? (0, _uniformDemand2.default)() : (0, _triangleDemand2.default)()) + (state.demandBoost ? 1000 : 0);
 	};
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
 	    return (0, _extends4.default)({}, state, {
 	      ethics: action.payload,
+	      view: 'riskAdverse'
+	    });
+	  },
+	  'RISK_ADVERSE': function RISK_ADVERSE(state, action) {
+	    return (0, _extends4.default)({}, state, {
+	      riskAdverse: action.payload,
 	      view: 'instructions'
+	    });
+	  },
+	  'TEST_UNDERSTANDING': function TEST_UNDERSTANDING(state, action) {
+	    return (0, _extends4.default)({}, state, {
+	      testUnderstandingAttempts: action.payload,
+	      view: 'choose'
 	    });
 	  },
 	  'CHANGE_VIEW': function CHANGE_VIEW(state, action) {
 	    var otherProps = action.changeUni ? {
-	      uni: !state.uni,
 	      showSummary: !state.showSummary
 	    } : {};
 	    return (0, _extends4.default)({}, state, otherProps, {
@@ -57892,27 +57900,24 @@
 	    });
 	  },
 	  'SUBMIT_RESULT': function SUBMIT_RESULT(state, _ref) {
-	    var _extends2;
-
 	    var payload = _ref.payload;
 
 	    (0, _isomorphicFetch2.default)(host + '/data', {
 	      method: 'GET'
 	    });
-	    var resultsName = getResultsName(state);
 	    var unitsOrdered = Number(payload);
-	    var demand = state.uni ? (0, _uniDemand2.default)(state.uniMeanVariance[0], state.uniMeanVariance[1]) : (0, _ppf2.default)(state.meanVariance[0], state.meanVariance[1]);
+	    var demand = getDemand(state);
 	    var unitsSold = unitsOrdered - demand >= 0 ? demand : unitsOrdered;
 	    var totalRevenue = state.price * unitsSold;
 	    var totalCost = unitsOrdered * state.cost;
 	    var profitForThisRound = totalRevenue - totalCost;
-	    var lastResultIndex = state[resultsName].length;
+	    var lastResultIndex = state.results.length;
 	    var lastcumulativeProfit = 0;
 
 	    if (lastResultIndex > 0 && lastResultIndex !== 5) {
-	      lastcumulativeProfit = state[resultsName][lastResultIndex - 1].cumulativeProfit;
+	      lastcumulativeProfit = state.results[lastResultIndex - 1].cumulativeProfit;
 	    }
-	    var results = state[resultsName].concat([{
+	    var results = state.results.concat([{
 	      unitsOrdered: unitsOrdered,
 	      demand: demand,
 	      unitsSold: unitsSold,
@@ -57923,7 +57928,11 @@
 	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
-	    var nextState = (0, _extends4.default)({}, state, (_extends2 = {}, (0, _defineProperty3.default)(_extends2, resultsName, results), (0, _defineProperty3.default)(_extends2, 'showSummary', true), (0, _defineProperty3.default)(_extends2, 'attempt', state.attempt + 1), _extends2));
+	    var nextState = (0, _extends4.default)({}, state, {
+	      results: results,
+	      showSummary: true,
+	      attempt: state.attempt + 1
+	    });
 	    (0, _jquery2.default)('#results').val((0, _stringify2.default)(nextState));
 	    if (results.length % 20 === 0) {
 	      postResults(nextState);
@@ -59355,378 +59364,10 @@
 /* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _slicedToArray2 = __webpack_require__(382);
-
-	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-	var _gaussian = __webpack_require__(391);
-
-	var _gaussian2 = _interopRequireDefault(_gaussian);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var probabilities = void 0;
-
-	var getProbabilities = function getProbabilities(_ref, _ref2) {
-	  var _ref4 = (0, _slicedToArray3.default)(_ref, 2),
-	      mean1 = _ref4[0],
-	      variance1 = _ref4[1];
-
-	  var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
-	      mean2 = _ref3[0],
-	      variance2 = _ref3[1];
-
-	  var lowModal = (0, _gaussian2.default)(mean1, variance1);
-	  var highModal = (0, _gaussian2.default)(mean2, variance2);
-
-	  var i = 0;
-	  probabilities = {};
-	  while (i <= 400) {
-	    probabilities[i] = (lowModal.cdf(i) + highModal.cdf(i)) / 2;
-	    i++;
-	  }
-	};
-
-	exports.default = function (group1, group2) {
-	  if (!probabilities) {
-	    getProbabilities(group1, group2);
-	  }
-	  var p = Math.random();
-	  var j = 0;
-	  var v = null;
-	  while (j <= 400 || !v) {
-	    if (probabilities[j] <= p) {
-	      v = j;
-	    }
-	    j++;
-	  }
-	  return v;
-	};
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "ppf.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 382 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _isIterable2 = __webpack_require__(383);
-
-	var _isIterable3 = _interopRequireDefault(_isIterable2);
-
-	var _getIterator2 = __webpack_require__(387);
-
-	var _getIterator3 = _interopRequireDefault(_getIterator2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function () {
-	  function sliceIterator(arr, i) {
-	    var _arr = [];
-	    var _n = true;
-	    var _d = false;
-	    var _e = undefined;
-
-	    try {
-	      for (var _i = (0, _getIterator3.default)(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
-	        _arr.push(_s.value);
-
-	        if (i && _arr.length === i) break;
-	      }
-	    } catch (err) {
-	      _d = true;
-	      _e = err;
-	    } finally {
-	      try {
-	        if (!_n && _i["return"]) _i["return"]();
-	      } finally {
-	        if (_d) throw _e;
-	      }
-	    }
-
-	    return _arr;
-	  }
-
-	  return function (arr, i) {
-	    if (Array.isArray(arr)) {
-	      return arr;
-	    } else if ((0, _isIterable3.default)(Object(arr))) {
-	      return sliceIterator(arr, i);
-	    } else {
-	      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-	    }
-	  };
-	}();
-
-/***/ }),
-/* 383 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(384), __esModule: true };
-
-/***/ }),
-/* 384 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(337);
-	__webpack_require__(325);
-	module.exports = __webpack_require__(385);
-
-
-/***/ }),
-/* 385 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var classof = __webpack_require__(386);
-	var ITERATOR = __webpack_require__(336)('iterator');
-	var Iterators = __webpack_require__(330);
-	module.exports = __webpack_require__(272).isIterable = function (it) {
-	  var O = Object(it);
-	  return O[ITERATOR] !== undefined
-	    || '@@iterator' in O
-	    // eslint-disable-next-line no-prototype-builtins
-	    || Iterators.hasOwnProperty(classof(O));
-	};
-
-
-/***/ }),
-/* 386 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// getting tag from 19.1.3.6 Object.prototype.toString()
-	var cof = __webpack_require__(297);
-	var TAG = __webpack_require__(336)('toStringTag');
-	// ES3 wrong here
-	var ARG = cof(function () { return arguments; }()) == 'Arguments';
-
-	// fallback for IE11 Script Access Denied error
-	var tryGet = function (it, key) {
-	  try {
-	    return it[key];
-	  } catch (e) { /* empty */ }
-	};
-
-	module.exports = function (it) {
-	  var O, T, B;
-	  return it === undefined ? 'Undefined' : it === null ? 'Null'
-	    // @@toStringTag case
-	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
-	    // builtinTag case
-	    : ARG ? cof(O)
-	    // ES3 arguments fallback
-	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
-	};
-
-
-/***/ }),
-/* 387 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(388), __esModule: true };
-
-/***/ }),
-/* 388 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(337);
-	__webpack_require__(325);
-	module.exports = __webpack_require__(389);
-
-
-/***/ }),
-/* 389 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var anObject = __webpack_require__(283);
-	var get = __webpack_require__(390);
-	module.exports = __webpack_require__(272).getIterator = function (it) {
-	  var iterFn = get(it);
-	  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
-	  return anObject(iterFn.call(it));
-	};
-
-
-/***/ }),
-/* 390 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var classof = __webpack_require__(386);
-	var ITERATOR = __webpack_require__(336)('iterator');
-	var Iterators = __webpack_require__(330);
-	module.exports = __webpack_require__(272).getIteratorMethod = function (it) {
-	  if (it != undefined) return it[ITERATOR]
-	    || it['@@iterator']
-	    || Iterators[classof(it)];
-	};
-
-
-/***/ }),
-/* 391 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	(function(exports) {
-
-	  // Complementary error function
-	  // From Numerical Recipes in C 2e p221
-	  var erfc = function(x) {
-	    var z = Math.abs(x);
-	    var t = 1 / (1 + z / 2);
-	    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
-	            t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
-	            t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
-	            t * (-0.82215223 + t * 0.17087277)))))))))
-	    return x >= 0 ? r : 2 - r;
-	  };
-
-	  // Inverse complementary error function
-	  // From Numerical Recipes 3e p265
-	  var ierfc = function(x) {
-	    if (x >= 2) { return -100; }
-	    if (x <= 0) { return 100; }
-
-	    var xx = (x < 1) ? x : 2 - x;
-	    var t = Math.sqrt(-2 * Math.log(xx / 2));
-
-	    var r = -0.70711 * ((2.30753 + t * 0.27061) /
-	            (1 + t * (0.99229 + t * 0.04481)) - t);
-
-	    for (var j = 0; j < 2; j++) {
-	      var err = erfc(r) - xx;
-	      r += err / (1.12837916709551257 * Math.exp(-(r * r)) - r * err);
-	    }
-
-	    return (x < 1) ? r : -r;
-	  };
-
-	  // Models the normal distribution
-	  var Gaussian = function(mean, variance) {
-	    if (variance <= 0) {
-	      throw new Error('Variance must be > 0 (but was ' + variance + ')');
-	    }
-	    this.mean = mean;
-	    this.variance = variance;
-	    this.standardDeviation = Math.sqrt(variance);
-	  }
-
-	  // Probability density function
-	  Gaussian.prototype.pdf = function(x) {
-	    var m = this.standardDeviation * Math.sqrt(2 * Math.PI);
-	    var e = Math.exp(-Math.pow(x - this.mean, 2) / (2 * this.variance));
-	    return e / m;
-	  };
-
-	  // Cumulative density function
-	  Gaussian.prototype.cdf = function(x) {
-	    return 0.5 * erfc(-(x - this.mean) / (this.standardDeviation * Math.sqrt(2)));
-	  };
-
-	  // Percent point function
-	  Gaussian.prototype.ppf = function(x) {
-	    return this.mean - this.standardDeviation * Math.sqrt(2) * ierfc(2 * x);
-	  };
-
-	  // Product distribution of this and d (scale for constant)
-	  Gaussian.prototype.mul = function(d) {
-	    if (typeof(d) === "number") {
-	      return this.scale(d);
-	    }
-	    var precision = 1 / this.variance;
-	    var dprecision = 1 / d.variance;
-	    return fromPrecisionMean(
-	        precision + dprecision, 
-	        precision * this.mean + dprecision * d.mean);
-	  };
-
-	  // Quotient distribution of this and d (scale for constant)
-	  Gaussian.prototype.div = function(d) {
-	    if (typeof(d) === "number") {
-	      return this.scale(1 / d);
-	    }
-	    var precision = 1 / this.variance;
-	    var dprecision = 1 / d.variance;
-	    return fromPrecisionMean(
-	        precision - dprecision, 
-	        precision * this.mean - dprecision * d.mean);
-	  };
-
-	  // Addition of this and d
-	  Gaussian.prototype.add = function(d) {
-	    return gaussian(this.mean + d.mean, this.variance + d.variance);
-	  };
-
-	  // Subtraction of this and d
-	  Gaussian.prototype.sub = function(d) {
-	    return gaussian(this.mean - d.mean, this.variance + d.variance);
-	  };
-
-	  // Scale this by constant c
-	  Gaussian.prototype.scale = function(c) {
-	    return gaussian(this.mean * c, this.variance * c * c);
-	  };
-
-	  var gaussian = function(mean, variance) {
-	    return new Gaussian(mean, variance);
-	  };
-
-	  var fromPrecisionMean = function(precision, precisionmean) {
-	    return gaussian(precisionmean / precision, 1 / precision);
-	  };
-
-	  exports(gaussian);
-	})
-	( true
-	    ? function(e) { module.exports = e; }
-	    : function(e) { this["gaussian"] = e; });
-
-
-/***/ }),
-/* 392 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _gaussian = __webpack_require__(391);
-
-	var _gaussian2 = _interopRequireDefault(_gaussian);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var distribution = void 0;
-
-	exports.default = function (mean, variance) {
-	  if (!distribution) {
-	    distribution = (0, _gaussian2.default)(mean, variance);
-	  }
-	  return Math.round(distribution.ppf(Math.random()));
-	};
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "uniDemand.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ }),
-/* 393 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	'use strict';
 	var strictUriEncode = __webpack_require__(59);
 	var objectAssign = __webpack_require__(5);
-	var decodeComponent = __webpack_require__(394);
+	var decodeComponent = __webpack_require__(382);
 
 	function encoderForArrayFormat(opts) {
 		switch (opts.arrayFormat) {
@@ -59936,7 +59577,7 @@
 
 
 /***/ }),
-/* 394 */
+/* 382 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -60036,7 +59677,58 @@
 
 
 /***/ }),
-/* 395 */
+/* 383 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function () {
+	  return Math.round(Math.random() * 1000);
+	};
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "uniformDemand.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 384 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var cdf = [0, 0.000008, 0.000024, 0.000048, 0.00008, 0.00012, 0.000168, 0.000224, 0.000288, 0.00036, 0.00044, 0.000528, 0.000624, 0.000728, 0.00084, 0.00096, 0.001088, 0.001224, 0.001368, 0.00152, 0.00168, 0.001848, 0.002024, 0.002208, 0.0024, 0.0026, 0.002808, 0.003024, 0.003248, 0.00348, 0.00372, 0.003968, 0.004224, 0.004488, 0.00476, 0.00504, 0.005328, 0.005624, 0.005928, 0.00624, 0.00656, 0.006888, 0.007224, 0.007568, 0.00792, 0.00828, 0.008648, 0.009024, 0.009408, 0.0098, 0.0102, 0.010608, 0.011024, 0.011448, 0.01188, 0.01232, 0.012768, 0.013224, 0.013688, 0.01416, 0.01464, 0.015128, 0.015624, 0.016128, 0.01664, 0.01716, 0.017688, 0.018224, 0.018768, 0.01932, 0.01988, 0.020448, 0.021024, 0.021608, 0.0222, 0.0228, 0.023408, 0.024024, 0.024648, 0.02528, 0.02592, 0.026568, 0.027224, 0.027888, 0.02856, 0.02924, 0.029928, 0.030624, 0.031328, 0.03204, 0.03276, 0.033488, 0.034224, 0.034968, 0.03572, 0.03648, 0.037248, 0.038024, 0.038808, 0.0396, 0.0404, 0.041208, 0.042024, 0.042848, 0.04368, 0.04452, 0.045368, 0.046224, 0.047088, 0.04796, 0.04884, 0.049728, 0.050624, 0.051528, 0.05244, 0.05336, 0.054288, 0.055224, 0.056168, 0.05712, 0.05808, 0.059048, 0.060024, 0.061008, 0.062, 0.063, 0.064008, 0.065024, 0.066048, 0.06708, 0.06812, 0.069168, 0.070224, 0.071288, 0.07236, 0.07344, 0.074528, 0.075624, 0.076728, 0.07784, 0.07896, 0.080088, 0.081224, 0.082368, 0.08352, 0.08468, 0.085848, 0.087024, 0.088208, 0.0894, 0.0906, 0.091808, 0.093024, 0.094248, 0.09548, 0.09672, 0.097968, 0.099224, 0.100488, 0.10176, 0.10304, 0.104328, 0.105624, 0.106928, 0.10824, 0.10956, 0.110888, 0.112224, 0.113568, 0.11492, 0.11628, 0.117648, 0.119024, 0.120408, 0.1218, 0.1232, 0.124608, 0.126024, 0.127448, 0.12888, 0.13032, 0.131768, 0.133224, 0.134688, 0.13616, 0.13764, 0.139128, 0.140624, 0.142128, 0.14364, 0.14516, 0.146688, 0.148224, 0.149768, 0.15132, 0.15288, 0.154448, 0.156024, 0.157608, 0.1592, 0.1608, 0.162408, 0.164024, 0.165648, 0.16728, 0.16892, 0.170568, 0.172224, 0.173888, 0.17556, 0.17724, 0.178928, 0.180624, 0.182328, 0.18404, 0.18576, 0.187488, 0.189224, 0.190968, 0.19272, 0.19448, 0.196248, 0.198024, 0.199808, 0.2016, 0.2034, 0.205208, 0.207024, 0.208848, 0.21068, 0.21252, 0.214368, 0.216224, 0.218088, 0.21996, 0.22184, 0.223728, 0.225624, 0.227528, 0.22944, 0.23136, 0.233288, 0.235224, 0.237168, 0.23912, 0.24108, 0.243048, 0.245024, 0.247008, 0.249, 0.251, 0.252992, 0.254976, 0.256952, 0.25892, 0.26088, 0.262832, 0.264776, 0.266712, 0.26864, 0.27056, 0.272472, 0.274376, 0.276272, 0.27816, 0.28004, 0.281912, 0.283776, 0.285632, 0.28748, 0.28932, 0.291152, 0.292976, 0.294792, 0.2966, 0.2984, 0.300192, 0.301976, 0.303752, 0.30552, 0.30728, 0.309032, 0.310776, 0.312512, 0.31424, 0.31596, 0.317672, 0.319376, 0.321072, 0.32276, 0.32444, 0.326112, 0.327776, 0.329432, 0.33108, 0.33272, 0.334352, 0.335976, 0.337592, 0.3392, 0.3408, 0.342392, 0.343976, 0.345552, 0.34712, 0.34868, 0.350232, 0.351776, 0.353312, 0.35484, 0.35636, 0.357872, 0.359376, 0.360872, 0.36236, 0.36384, 0.365312, 0.366776, 0.368232, 0.36968, 0.37112, 0.372552, 0.373976, 0.375392, 0.3768, 0.3782, 0.379592, 0.380976, 0.382352, 0.38372, 0.38508, 0.386432, 0.387776, 0.389112, 0.39044, 0.39176, 0.393072, 0.394376, 0.395672, 0.39696, 0.39824, 0.399512, 0.400776, 0.402032, 0.40328, 0.40452, 0.405752, 0.406976, 0.408192, 0.4094, 0.4106, 0.411792, 0.412976, 0.414152, 0.41532, 0.41648, 0.417632, 0.418776, 0.419912, 0.42104, 0.42216, 0.423272, 0.424376, 0.425472, 0.42656, 0.42764, 0.428712, 0.429776, 0.430832, 0.43188, 0.43292, 0.433952, 0.434976, 0.435992, 0.437, 0.438, 0.438992, 0.439976, 0.440952, 0.44192, 0.44288, 0.443832, 0.444776, 0.445712, 0.44664, 0.44756, 0.448472, 0.449376, 0.450272, 0.45116, 0.45204, 0.452912, 0.453776, 0.454632, 0.45548, 0.45632, 0.457152, 0.457976, 0.458792, 0.4596, 0.4604, 0.461192, 0.461976, 0.462752, 0.46352, 0.46428, 0.465032, 0.465776, 0.466512, 0.46724, 0.46796, 0.468672, 0.469376, 0.470072, 0.47076, 0.47144, 0.472112, 0.472776, 0.473432, 0.47408, 0.47472, 0.475352, 0.475976, 0.476592, 0.4772, 0.4778, 0.478392, 0.478976, 0.479552, 0.48012, 0.48068, 0.481232, 0.481776, 0.482312, 0.48284, 0.48336, 0.483872, 0.484376, 0.484872, 0.48536, 0.48584, 0.486312, 0.486776, 0.487232, 0.48768, 0.48812, 0.488552, 0.488976, 0.489392, 0.4898, 0.4902, 0.490592, 0.490976, 0.491352, 0.49172, 0.49208, 0.492432, 0.492776, 0.493112, 0.49344, 0.49376, 0.494072, 0.494376, 0.494672, 0.49496, 0.49524, 0.495512, 0.495776, 0.496032, 0.49628, 0.49652, 0.496752, 0.496976, 0.497192, 0.4974, 0.4976, 0.497792, 0.497976, 0.498152, 0.49832, 0.49848, 0.498632, 0.498776, 0.498912, 0.49904, 0.49916, 0.499272, 0.499376, 0.499472, 0.49956, 0.49964, 0.499712, 0.499776, 0.499832, 0.49988, 0.49992, 0.499952, 0.499976, 0.499992, 0.5, 0.5, 0.500008, 0.500024, 0.500048, 0.50008, 0.50012, 0.500168, 0.500224, 0.500288, 0.50036, 0.50044, 0.500528, 0.500624, 0.500728, 0.50084, 0.50096, 0.501088, 0.501224, 0.501368, 0.50152, 0.50168, 0.501848, 0.502024, 0.502208, 0.5024, 0.5026, 0.502808, 0.503024, 0.503248, 0.50348, 0.50372, 0.503968, 0.504224, 0.504488, 0.50476, 0.50504, 0.505328, 0.505624, 0.505928, 0.50624, 0.50656, 0.506888, 0.507224, 0.507568, 0.50792, 0.50828, 0.508648, 0.509024, 0.509408, 0.5098, 0.5102, 0.510608, 0.511024, 0.511448, 0.51188, 0.51232, 0.512768, 0.513224, 0.513688, 0.51416, 0.51464, 0.515128, 0.515624, 0.516128, 0.51664, 0.51716, 0.517688, 0.518224, 0.518768, 0.51932, 0.51988, 0.520448, 0.521024, 0.521608, 0.5222, 0.5228, 0.523408, 0.524024, 0.524648, 0.52528, 0.52592, 0.526568, 0.527224, 0.527888, 0.52856, 0.52924, 0.529928, 0.530624, 0.531328, 0.53204, 0.53276, 0.533488, 0.534224, 0.534968, 0.53572, 0.53648, 0.537248, 0.538024, 0.538808, 0.5396, 0.5404, 0.541208, 0.542024, 0.542848, 0.54368, 0.54452, 0.545368, 0.546224, 0.547088, 0.54796, 0.54884, 0.549728, 0.550624, 0.551528, 0.55244, 0.55336, 0.554288, 0.555224, 0.556168, 0.55712, 0.55808, 0.559048, 0.560024, 0.561008, 0.562, 0.563, 0.564008, 0.565024, 0.566048, 0.56708, 0.56812, 0.569168, 0.570224, 0.571288, 0.57236, 0.57344, 0.574528, 0.575624, 0.576728, 0.57784, 0.57896, 0.580088, 0.581224, 0.582368, 0.58352, 0.58468, 0.585848, 0.587024, 0.588208, 0.5894, 0.5906, 0.591808, 0.593024, 0.594248, 0.59548, 0.59672, 0.597968, 0.599224, 0.600488, 0.60176, 0.60304, 0.604328, 0.605624, 0.606928, 0.60824, 0.60956, 0.610888, 0.612224, 0.613568, 0.61492, 0.61628, 0.617648, 0.619024, 0.620408, 0.6218, 0.6232, 0.624608, 0.626024, 0.627448, 0.62888, 0.63032, 0.631768, 0.633224, 0.634688, 0.63616, 0.63764, 0.639128, 0.640624, 0.642128, 0.64364, 0.64516, 0.646688, 0.648224, 0.649768, 0.65132, 0.65288, 0.654448, 0.656024, 0.657608, 0.6592, 0.6608, 0.662408, 0.664024, 0.665648, 0.66728, 0.66892, 0.670568, 0.672224, 0.673888, 0.67556, 0.67724, 0.678928, 0.680624, 0.682328, 0.68404, 0.68576, 0.687488, 0.689224, 0.690968, 0.69272, 0.69448, 0.696248, 0.698024, 0.699808, 0.7016, 0.7034, 0.705208, 0.707024, 0.708848, 0.71068, 0.71252, 0.714368, 0.716224, 0.718088, 0.71996, 0.72184, 0.723728, 0.725624, 0.727528, 0.72944, 0.73136, 0.733288, 0.735224, 0.737168, 0.73912, 0.74108, 0.743048, 0.745024, 0.747008, 0.749, 0.751, 0.752992, 0.754976, 0.756952, 0.75892, 0.76088, 0.762832, 0.764776, 0.766712, 0.76864, 0.77056, 0.772472, 0.774376, 0.776272, 0.77816, 0.78004, 0.781912, 0.783776, 0.785632, 0.78748, 0.78932, 0.791152, 0.792976, 0.794792, 0.7966, 0.7984, 0.800192, 0.801976, 0.803752, 0.80552, 0.80728, 0.809032, 0.810776, 0.812512, 0.81424, 0.81596, 0.817672, 0.819376, 0.821072, 0.82276, 0.82444, 0.826112, 0.827776, 0.829432, 0.83108, 0.83272, 0.834352, 0.835976, 0.837592, 0.8392, 0.8408, 0.842392, 0.843976, 0.845552, 0.84712, 0.84868, 0.850232, 0.851776, 0.853312, 0.85484, 0.85636, 0.857872, 0.859376, 0.860872, 0.86236, 0.86384, 0.865312, 0.866776, 0.868232, 0.86968, 0.87112, 0.872552, 0.873976, 0.875392, 0.8768, 0.8782, 0.879592, 0.880976, 0.882352, 0.88372, 0.88508, 0.886432, 0.887776, 0.889112, 0.89044, 0.89176, 0.893072, 0.894376, 0.895672, 0.89696, 0.89824, 0.899512, 0.900776, 0.902032, 0.90328, 0.90452, 0.905752, 0.906976, 0.908192, 0.9094, 0.9106, 0.911792, 0.912976, 0.914152, 0.91532, 0.91648, 0.917632, 0.918776, 0.919912, 0.92104, 0.92216, 0.923272, 0.924376, 0.925472, 0.92656, 0.92764, 0.928712, 0.929776, 0.930832, 0.93188, 0.93292, 0.933952, 0.934976, 0.935992, 0.937, 0.938, 0.938992, 0.939976, 0.940952, 0.94192, 0.94288, 0.943832, 0.944776, 0.945712, 0.94664, 0.94756, 0.948472, 0.949376, 0.950272, 0.95116, 0.95204, 0.952912, 0.953776, 0.954632, 0.95548, 0.95632, 0.957152, 0.957976, 0.958792, 0.9596, 0.9604, 0.961192, 0.961976, 0.962752, 0.96352, 0.96428, 0.965032, 0.965776, 0.966512, 0.96724, 0.96796, 0.968672, 0.969376, 0.970072, 0.97076, 0.97144, 0.972112, 0.972776, 0.973432, 0.97408, 0.97472, 0.975352, 0.975976, 0.976592, 0.9772, 0.9778, 0.978392, 0.978976, 0.979552, 0.98012, 0.98068, 0.981232, 0.981776, 0.982312, 0.98284, 0.98336, 0.983872, 0.984376, 0.984872, 0.98536, 0.98584, 0.986312, 0.986776, 0.987232, 0.98768, 0.98812, 0.988552, 0.988976, 0.989392, 0.9898, 0.9902, 0.990592, 0.990976, 0.991352, 0.99172, 0.99208, 0.992432, 0.992776, 0.993112, 0.99344, 0.99376, 0.994072, 0.994376, 0.994672, 0.99496, 0.99524, 0.995512, 0.995776, 0.996032, 0.99628, 0.99652, 0.996752, 0.996976, 0.997192, 0.9974, 0.9976, 0.997792, 0.997976, 0.998152, 0.99832, 0.99848, 0.998632, 0.998776, 0.998912, 0.99904, 0.99916, 0.999272, 0.999376, 0.999472, 0.99956, 0.99964, 0.999712, 0.999776, 0.999832, 0.99988, 0.99992, 0.999952, 0.999976, 0.999992, 1, 1];
+
+	var probabilities = cdf.reduce(function (finalResult, commulative, i) {
+	  finalResult[i] = commulative;
+	  return finalResult;
+	}, {});
+
+	exports.default = function () {
+	  var p = Math.random();
+	  var j = 0;
+	  var v = null;
+	  while (j <= 1000 || !v) {
+	    if (probabilities[j] <= p) {
+	      v = j;
+	    }
+	    j++;
+	  }
+	  return v;
+	};
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "triangleDemand.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -60071,11 +59763,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(396);
+	var _classnames = __webpack_require__(386);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _style = __webpack_require__(397);
+	var _style = __webpack_require__(387);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -60119,7 +59811,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 396 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -60173,16 +59865,16 @@
 
 
 /***/ }),
-/* 397 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(398);
+	var content = __webpack_require__(388);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -60199,10 +59891,10 @@
 	}
 
 /***/ }),
-/* 398 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
@@ -60215,7 +59907,7 @@
 	};
 
 /***/ }),
-/* 399 */
+/* 389 */
 /***/ (function(module, exports) {
 
 	/*
@@ -60271,7 +59963,7 @@
 
 
 /***/ }),
-/* 400 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -60523,7 +60215,7 @@
 
 
 /***/ }),
-/* 401 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -60538,7 +60230,7 @@
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(402);
+	var _objectWithoutProperties2 = __webpack_require__(392);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -60546,11 +60238,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(396);
+	var _classnames = __webpack_require__(386);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _style = __webpack_require__(403);
+	var _style = __webpack_require__(393);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -60566,7 +60258,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 402 */
+/* 392 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -60586,16 +60278,16 @@
 	};
 
 /***/ }),
-/* 403 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(404);
+	var content = __webpack_require__(394);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -60612,10 +60304,10 @@
 	}
 
 /***/ }),
-/* 404 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
@@ -60628,7 +60320,7 @@
 	};
 
 /***/ }),
-/* 405 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -60663,11 +60355,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(396);
+	var _classnames = __webpack_require__(386);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _style = __webpack_require__(406);
+	var _style = __webpack_require__(396);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -60690,7 +60382,17 @@
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || (0, _getPrototypeOf2.default)(Input)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (event) {
 	      _this.props.onChange(event.target.value);
 	    }, _this.render = function () {
-	      return _react2.default.createElement('input', (0, _extends3.default)({ type: 'text' }, _this.props, { className: (0, _classnames2.default)(_style2.default.input, _this.props.className), onChange: _this.handleChange }));
+	      var input = _react2.default.createElement('input', (0, _extends3.default)({ type: 'text' }, _this.props, { className: (0, _classnames2.default)(_style2.default.input, _this.props.className), onChange: _this.handleChange }));
+	      return _react2.default.createElement(
+	        'span',
+	        null,
+	        input,
+	        _this.props.error && _react2.default.createElement(
+	          'div',
+	          { className: _style2.default.error },
+	          _this.props.error
+	        )
+	      );
 	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 
@@ -60702,16 +60404,16 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 406 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(407);
+	var content = __webpack_require__(397);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -60728,23 +60430,24 @@
 	}
 
 /***/ }),
-/* 407 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".input___cXnHK {\n  background: white;\n}", "", {"version":3,"sources":["/./ui/Input/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".input___cXnHK {\n  background: white;\n}\n.error___1BFTX {\n  color: red;\n  margin-bottom: 20px;\n}", "", {"version":3,"sources":["/./ui/Input/style.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB;AACD;EACE,WAAW;EACX,oBAAoB;CACrB","file":"style.css","sourcesContent":[".input {\n  background: white;\n}\n.error {\n  color: red;\n  margin-bottom: 20px;\n}"],"sourceRoot":"webpack://"}]);
 
 	// exports
 	exports.locals = {
-		"input": "input___cXnHK"
+		"input": "input___cXnHK",
+		"error": "error___1BFTX"
 	};
 
 /***/ }),
-/* 408 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -60783,11 +60486,11 @@
 
 	var _reactRedux = __webpack_require__(99);
 
-	var _reactMarkdown = __webpack_require__(409);
+	var _reactMarkdown = __webpack_require__(399);
 
 	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
@@ -60797,11 +60500,11 @@
 
 	var _todos = __webpack_require__(366);
 
-	var _style = __webpack_require__(502);
+	var _style = __webpack_require__(492);
 
 	var style = _interopRequireWildcard(_style);
 
-	var _utils = __webpack_require__(504);
+	var _utils = __webpack_require__(494);
 
 	var u = _interopRequireWildcard(_utils);
 
@@ -60825,6 +60528,19 @@
 
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Instructions.__proto__ || (0, _getPrototypeOf2.default)(Instructions)).call.apply(_ref, [this].concat(args))), _this), _this.componentDidMount = function () {
 	      window.scrollTo(0, 0);
+	    }, _this.getDemand = function () {
+	      var uniDemand = 'There is a 1/1000 chance that demand in any round will be any one of the integers from ' + _todos.demandBetween + '. This means that the distribution of demand (i.e. the probability of a demand value occurring) is uniform. The following figure illustrates the probability of the randomly generated demand in each round:\n\n  ![Graph](' + u[_todos.demandBoost ? 'uniGraphSrcHigh' : 'uniGraphSrcLow'] + ' "Graph")\n';
+	      var biDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) consists of two symmetric triangular distributions. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals lower as the values of demand decreases away from the peak towards upper and lower bounds of the triangle. The first triangle distribution has a lower bound at ' + (0 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (250 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (500 + _todos.demandBoost) + ' units. The second triangle has a lower bound at ' + (500 + _todos.demandBoost) + ' units of demand, a peak (mode) at  ' + (750 + _todos.demandBoost) + ' units of demand, and an upper bound of  ' + (1000 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n\n![Graph](' + u[_todos.demandBoost ? 'biGraphSrcHigh' : 'biGraphSrcLow'] + ' "Graph")\n';
+
+	      var bayDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) will be drawn from one of two symmetric triangular distributions: a triangle with high demand or a triangle with low demand. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals decreases as the values of demand increase away from the peak towards upper and lower bounds of the triangle. \n    The first triangle distribution has a lower bound at ' + (0 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (250 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (500 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph1SrcHigh' : 'bayGraph1SrcLow'] + ' "Graph")    \n    The second triangle has a lower bound at ' + (500 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (750 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (1000 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph2SrcHigh' : 'bayGraph2SrcLow'] + ' "Graph")        \n    Whether demand is drawn from triangle 1 (low demand) or triangle 2 (high demand) is equally likely, i.e. a 50% chance demand is randomly drawn from triangle 1 and a 50% chance demand is randomly drawn from triangle \n';
+	      switch (_this.props.distribution) {
+	        case 'uni':
+	          return uniDemand;
+	        case 'bi':
+	          return biDemand;
+	        default:
+	          return bayDemand;
+	      }
 	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 
@@ -60835,18 +60551,16 @@
 	          todos = _props.todos,
 	          actions = _props.actions,
 	          children = _props.children,
-	          goToGame = _props.goToGame,
-	          firstGame = _props.firstGame;
+	          goToGame = _props.goToGame;
+	      // const uniGraph = `![UniGraph](${u.uniGraphSrc} "Graph")`
+	      // const uniDemand = 'The distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):'
+	      // const biGraph = `![Graph](${u.biGraphSrc} "Graph")`
+	      // const biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):'
 
-	      var uniGraph = '![UniGraph](' + u.uniGraphSrc + ' "Graph")';
-	      var uniDemand = 'The distribution of demand is a single normal distribution with a means of 200 and a standard deviation of 12. Thus, the distributions of demand is unimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):';
-	      var biGraph = '![Graph](' + u.biGraphSrc + ' "Graph")';
-	      var biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):';
-	      var firstGameUni = firstGame === 'uni';
-	      var source = '# Instructions\nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing two games where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by ' + _todos.priceCost.divisor + ', then added to your participation fee of $2 and paid to you in cash at the end of the session.\n\nFor both games, you are a retailer who sells a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $' + _todos.priceCost.price + ' per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much you will incur costs associated with items unsold, and if you order too little you will be foregoing profits you otherwise could have collected. \n\nThere will be 40 rounds in total (20 per each game). The first 5 rounds of each game are practice and do not count towards the cumulative profit which determines your performance pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between 0 and 400. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed distribution. \n\n  a) In the first game:\n    \n  ' + (firstGameUni ? uniDemand : biDemand) + '\n\n  ' + (firstGameUni ? uniGraph : biGraph) + '\n\n  b) In the second game:\n            \n  ' + (firstGameUni ? biDemand : uniDemand) + '\n\n  ' + (firstGameUni ? biGraph : uniGraph) + '\n\nIn either game the demand for any one round is random and independent of the demand from earlier rounds. So a small or large additional demand in one round has no influence on whether additional demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n* If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand \n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n* If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity \n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: Each game lasts for 20 rounds. The first 5 rounds are practice. After the first 5 rounds, your history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 15 rounds.\n  \n  \nExample 1: Customer demand is 60 units and you ordered 80 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 60 units - $' + _todos.priceCost.cost + ' x 80 units = $' + (_todos.priceCost.price * 60 - _todos.priceCost.cost * 80) + ' (experimental dollars)\n\nExample 2: Customer demand is 60 units and you ordered 40 units, so only 40 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $' + _todos.priceCost.price + ' x 40 units - $' + _todos.priceCost.cost + ' x 40 units = $' + (_todos.priceCost.price * 40 - _todos.priceCost.cost * 40) + ' (experimental dollars)';
+	      var source = '# Instructions\n    \nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by ' + _todos.divisor + ', then added to your participation fee of $0.50 and paid to you at the end of the session.\n\nIn the game, you are a retailer selling a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much, you incur costs associated with unsold items, and if you order too little, you forego profits you otherwise could have collected.\n\nThere will be 35 rounds in total. The first 5 rounds are practice and do not count towards the cumulative profit which determines your bonus pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between ' + _todos.demandBetween + '. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed (unchanging) distribution between ' + _todos.demandBetween + ' units. The randomly generated demand will determine your profit for the round.\n' + this.getDemand() + '\n  Remember, the demand in any one round is random and independent of the demand from earlier rounds. So a small or large demand in one round has no influence on whether demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n  If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand\n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n  If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity\n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: There will be 35 rounds. The first 5 rounds are practice. After the first 5 rounds, your history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.\n\nExample 1: Customer demand is 600 units and you ordered 800 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 600 units - $3 x 800 units = $4800 (experimental dollars)\n\nExample 2: Customer demand is 600 units and you ordered 400 units, so only 400 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)\n  ';
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: style.instructions },
 	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
 	        _react2.default.createElement(
 	          _Button2.default,
@@ -60861,14 +60575,14 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    firstGame: state.todos.firstGame
+	    distribution: state.todos.distribution
 	  };
 	};
 
 	function mapDispatchToProps(dispatch) {
 	  return {
 	    goToGame: function goToGame() {
-	      return dispatch(actions.goToGame());
+	      return dispatch(actions.goToTestUnderstanding());
 	    }
 	  };
 	}
@@ -60878,22 +60592,22 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 409 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var xtend = __webpack_require__(410);
-	var unified = __webpack_require__(411);
-	var parse = __webpack_require__(425);
+	var xtend = __webpack_require__(400);
+	var unified = __webpack_require__(401);
+	var parse = __webpack_require__(415);
 	var PropTypes = __webpack_require__(101);
-	var naiveHtml = __webpack_require__(495);
-	var disallowNode = __webpack_require__(496);
-	var astToReact = __webpack_require__(497);
-	var wrapTableRows = __webpack_require__(498);
-	var getDefinitions = __webpack_require__(499);
-	var uriTransformer = __webpack_require__(500);
-	var defaultRenderers = __webpack_require__(501);
+	var naiveHtml = __webpack_require__(485);
+	var disallowNode = __webpack_require__(486);
+	var astToReact = __webpack_require__(487);
+	var wrapTableRows = __webpack_require__(488);
+	var getDefinitions = __webpack_require__(489);
+	var uriTransformer = __webpack_require__(490);
+	var defaultRenderers = __webpack_require__(491);
 
 	var allTypes = Object.keys(defaultRenderers);
 
@@ -60979,7 +60693,7 @@
 	module.exports = ReactMarkdown;
 
 /***/ }),
-/* 410 */
+/* 400 */
 /***/ (function(module, exports) {
 
 	module.exports = extend
@@ -61004,19 +60718,19 @@
 
 
 /***/ }),
-/* 411 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	/* Dependencies. */
-	var extend = __webpack_require__(412);
-	var bail = __webpack_require__(413);
-	var vfile = __webpack_require__(414);
-	var trough = __webpack_require__(421);
-	var string = __webpack_require__(422);
-	var func = __webpack_require__(423);
-	var plain = __webpack_require__(424);
+	var extend = __webpack_require__(402);
+	var bail = __webpack_require__(403);
+	var vfile = __webpack_require__(404);
+	var trough = __webpack_require__(411);
+	var string = __webpack_require__(412);
+	var func = __webpack_require__(413);
+	var plain = __webpack_require__(414);
 
 	/* Expose a frozen processor. */
 	module.exports = unified().freeze();
@@ -61471,7 +61185,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(211)))
 
 /***/ }),
-/* 412 */
+/* 402 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -61563,7 +61277,7 @@
 
 
 /***/ }),
-/* 413 */
+/* 403 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -61578,13 +61292,13 @@
 
 
 /***/ }),
-/* 414 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var VMessage = __webpack_require__(415);
-	var VFile = __webpack_require__(417);
+	var VMessage = __webpack_require__(405);
+	var VFile = __webpack_require__(407);
 
 	module.exports = VFile;
 
@@ -61637,12 +61351,12 @@
 
 
 /***/ }),
-/* 415 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var stringify = __webpack_require__(416);
+	var stringify = __webpack_require__(406);
 
 	module.exports = VMessage;
 
@@ -61737,7 +61451,7 @@
 
 
 /***/ }),
-/* 416 */
+/* 406 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -61793,14 +61507,14 @@
 
 
 /***/ }),
-/* 417 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var path = __webpack_require__(418);
-	var replace = __webpack_require__(419);
-	var buffer = __webpack_require__(420);
+	var path = __webpack_require__(408);
+	var replace = __webpack_require__(409);
+	var buffer = __webpack_require__(410);
 
 	module.exports = VFile;
 
@@ -61969,7 +61683,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(211)))
 
 /***/ }),
-/* 418 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -62200,12 +61914,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(211)))
 
 /***/ }),
-/* 419 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var path = __webpack_require__(418);
+	var path = __webpack_require__(408);
 
 	function replaceExt(npath, ext) {
 	  if (typeof npath !== 'string') {
@@ -62224,7 +61938,7 @@
 
 
 /***/ }),
-/* 420 */
+/* 410 */
 /***/ (function(module, exports) {
 
 	/*!
@@ -62251,7 +61965,7 @@
 
 
 /***/ }),
-/* 421 */
+/* 411 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -62390,7 +62104,7 @@
 
 
 /***/ }),
-/* 422 */
+/* 412 */
 /***/ (function(module, exports) {
 
 	var toString = Object.prototype.toString
@@ -62403,7 +62117,7 @@
 
 
 /***/ }),
-/* 423 */
+/* 413 */
 /***/ (function(module, exports) {
 
 	module.exports = function isFunction (fn) {
@@ -62412,7 +62126,7 @@
 
 
 /***/ }),
-/* 424 */
+/* 414 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -62425,14 +62139,14 @@
 
 
 /***/ }),
-/* 425 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var unherit = __webpack_require__(426);
-	var xtend = __webpack_require__(410);
-	var Parser = __webpack_require__(428);
+	var unherit = __webpack_require__(416);
+	var xtend = __webpack_require__(400);
+	var Parser = __webpack_require__(418);
 
 	module.exports = parse;
 	parse.Parser = Parser;
@@ -62445,7 +62159,7 @@
 
 
 /***/ }),
-/* 426 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -62460,8 +62174,8 @@
 	'use strict';
 
 	/* Dependencies. */
-	var xtend = __webpack_require__(410);
-	var inherits = __webpack_require__(427);
+	var xtend = __webpack_require__(400);
+	var inherits = __webpack_require__(417);
 
 	/* Expose. */
 	module.exports = unherit;
@@ -62518,7 +62232,7 @@
 
 
 /***/ }),
-/* 427 */
+/* 417 */
 /***/ (function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -62547,17 +62261,17 @@
 
 
 /***/ }),
-/* 428 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var xtend = __webpack_require__(410);
-	var toggle = __webpack_require__(429);
-	var vfileLocation = __webpack_require__(430);
-	var unescape = __webpack_require__(431);
-	var decode = __webpack_require__(432);
-	var tokenizer = __webpack_require__(441);
+	var xtend = __webpack_require__(400);
+	var toggle = __webpack_require__(419);
+	var vfileLocation = __webpack_require__(420);
+	var unescape = __webpack_require__(421);
+	var decode = __webpack_require__(422);
+	var tokenizer = __webpack_require__(431);
 
 	module.exports = Parser;
 
@@ -62580,11 +62294,11 @@
 	var proto = Parser.prototype;
 
 	/* Expose core. */
-	proto.setOptions = __webpack_require__(442);
-	proto.parse = __webpack_require__(446);
+	proto.setOptions = __webpack_require__(432);
+	proto.parse = __webpack_require__(436);
 
 	/* Expose `defaults`. */
-	proto.options = __webpack_require__(444);
+	proto.options = __webpack_require__(434);
 
 	/* Enter and exit helpers. */
 	proto.exitStart = toggle('atStart', true);
@@ -62651,34 +62365,34 @@
 
 	/* Handlers. */
 	proto.blockTokenizers = {
-	  newline: __webpack_require__(450),
-	  indentedCode: __webpack_require__(452),
-	  fencedCode: __webpack_require__(455),
-	  blockquote: __webpack_require__(456),
-	  atxHeading: __webpack_require__(459),
-	  thematicBreak: __webpack_require__(460),
-	  list: __webpack_require__(461),
-	  setextHeading: __webpack_require__(464),
-	  html: __webpack_require__(465),
-	  footnote: __webpack_require__(467),
-	  definition: __webpack_require__(470),
-	  table: __webpack_require__(471),
-	  paragraph: __webpack_require__(472)
+	  newline: __webpack_require__(440),
+	  indentedCode: __webpack_require__(442),
+	  fencedCode: __webpack_require__(445),
+	  blockquote: __webpack_require__(446),
+	  atxHeading: __webpack_require__(449),
+	  thematicBreak: __webpack_require__(450),
+	  list: __webpack_require__(451),
+	  setextHeading: __webpack_require__(454),
+	  html: __webpack_require__(455),
+	  footnote: __webpack_require__(457),
+	  definition: __webpack_require__(460),
+	  table: __webpack_require__(461),
+	  paragraph: __webpack_require__(462)
 	};
 
 	proto.inlineTokenizers = {
-	  escape: __webpack_require__(473),
-	  autoLink: __webpack_require__(475),
-	  url: __webpack_require__(477),
-	  html: __webpack_require__(479),
-	  link: __webpack_require__(480),
-	  reference: __webpack_require__(482),
-	  strong: __webpack_require__(483),
-	  emphasis: __webpack_require__(485),
-	  deletion: __webpack_require__(488),
-	  code: __webpack_require__(490),
-	  break: __webpack_require__(492),
-	  text: __webpack_require__(494)
+	  escape: __webpack_require__(463),
+	  autoLink: __webpack_require__(465),
+	  url: __webpack_require__(467),
+	  html: __webpack_require__(469),
+	  link: __webpack_require__(470),
+	  reference: __webpack_require__(472),
+	  strong: __webpack_require__(473),
+	  emphasis: __webpack_require__(475),
+	  deletion: __webpack_require__(478),
+	  code: __webpack_require__(480),
+	  break: __webpack_require__(482),
+	  text: __webpack_require__(484)
 	};
 
 	/* Expose precedence. */
@@ -62704,7 +62418,7 @@
 
 
 /***/ }),
-/* 429 */
+/* 419 */
 /***/ (function(module, exports) {
 
 	/**
@@ -62755,7 +62469,7 @@
 
 
 /***/ }),
-/* 430 */
+/* 420 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -62838,7 +62552,7 @@
 
 
 /***/ }),
-/* 431 */
+/* 421 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -62881,12 +62595,12 @@
 
 
 /***/ }),
-/* 432 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var entities = __webpack_require__(433);
+	var entities = __webpack_require__(423);
 
 	module.exports = factory;
 
@@ -62950,18 +62664,18 @@
 
 
 /***/ }),
-/* 433 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	/* Dependencies. */
-	var characterEntities = __webpack_require__(434);
-	var legacy = __webpack_require__(435);
-	var invalid = __webpack_require__(436);
-	var decimal = __webpack_require__(437);
-	var hexadecimal = __webpack_require__(438);
-	var alphanumerical = __webpack_require__(439);
+	var characterEntities = __webpack_require__(424);
+	var legacy = __webpack_require__(425);
+	var invalid = __webpack_require__(426);
+	var decimal = __webpack_require__(427);
+	var hexadecimal = __webpack_require__(428);
+	var alphanumerical = __webpack_require__(429);
 
 	/* Expose. */
 	module.exports = wrapper;
@@ -63429,25 +63143,25 @@
 
 
 /***/ }),
-/* 434 */
+/* 424 */
 /***/ (function(module, exports) {
 
 	module.exports = {"AEli":"Æ","AElig":"Æ","AM":"&","AMP":"&","Aacut":"Á","Aacute":"Á","Abreve":"Ă","Acir":"Â","Acirc":"Â","Acy":"А","Afr":"𝔄","Agrav":"À","Agrave":"À","Alpha":"Α","Amacr":"Ā","And":"⩓","Aogon":"Ą","Aopf":"𝔸","ApplyFunction":"⁡","Arin":"Å","Aring":"Å","Ascr":"𝒜","Assign":"≔","Atild":"Ã","Atilde":"Ã","Aum":"Ä","Auml":"Ä","Backslash":"∖","Barv":"⫧","Barwed":"⌆","Bcy":"Б","Because":"∵","Bernoullis":"ℬ","Beta":"Β","Bfr":"𝔅","Bopf":"𝔹","Breve":"˘","Bscr":"ℬ","Bumpeq":"≎","CHcy":"Ч","COP":"©","COPY":"©","Cacute":"Ć","Cap":"⋒","CapitalDifferentialD":"ⅅ","Cayleys":"ℭ","Ccaron":"Č","Ccedi":"Ç","Ccedil":"Ç","Ccirc":"Ĉ","Cconint":"∰","Cdot":"Ċ","Cedilla":"¸","CenterDot":"·","Cfr":"ℭ","Chi":"Χ","CircleDot":"⊙","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","Colon":"∷","Colone":"⩴","Congruent":"≡","Conint":"∯","ContourIntegral":"∮","Copf":"ℂ","Coproduct":"∐","CounterClockwiseContourIntegral":"∳","Cross":"⨯","Cscr":"𝒞","Cup":"⋓","CupCap":"≍","DD":"ⅅ","DDotrahd":"⤑","DJcy":"Ђ","DScy":"Ѕ","DZcy":"Џ","Dagger":"‡","Darr":"↡","Dashv":"⫤","Dcaron":"Ď","Dcy":"Д","Del":"∇","Delta":"Δ","Dfr":"𝔇","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","Diamond":"⋄","DifferentialD":"ⅆ","Dopf":"𝔻","Dot":"¨","DotDot":"⃜","DotEqual":"≐","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrow":"↓","DownArrowBar":"⤓","DownArrowUpArrow":"⇵","DownBreve":"̑","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVector":"↽","DownLeftVectorBar":"⥖","DownRightTeeVector":"⥟","DownRightVector":"⇁","DownRightVectorBar":"⥗","DownTee":"⊤","DownTeeArrow":"↧","Downarrow":"⇓","Dscr":"𝒟","Dstrok":"Đ","ENG":"Ŋ","ET":"Ð","ETH":"Ð","Eacut":"É","Eacute":"É","Ecaron":"Ě","Ecir":"Ê","Ecirc":"Ê","Ecy":"Э","Edot":"Ė","Efr":"𝔈","Egrav":"È","Egrave":"È","Element":"∈","Emacr":"Ē","EmptySmallSquare":"◻","EmptyVerySmallSquare":"▫","Eogon":"Ę","Eopf":"𝔼","Epsilon":"Ε","Equal":"⩵","EqualTilde":"≂","Equilibrium":"⇌","Escr":"ℰ","Esim":"⩳","Eta":"Η","Eum":"Ë","Euml":"Ë","Exists":"∃","ExponentialE":"ⅇ","Fcy":"Ф","Ffr":"𝔉","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","Fopf":"𝔽","ForAll":"∀","Fouriertrf":"ℱ","Fscr":"ℱ","GJcy":"Ѓ","G":">","GT":">","Gamma":"Γ","Gammad":"Ϝ","Gbreve":"Ğ","Gcedil":"Ģ","Gcirc":"Ĝ","Gcy":"Г","Gdot":"Ġ","Gfr":"𝔊","Gg":"⋙","Gopf":"𝔾","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","Gt":"≫","HARDcy":"Ъ","Hacek":"ˇ","Hat":"^","Hcirc":"Ĥ","Hfr":"ℌ","HilbertSpace":"ℋ","Hopf":"ℍ","HorizontalLine":"─","Hscr":"ℋ","Hstrok":"Ħ","HumpDownHump":"≎","HumpEqual":"≏","IEcy":"Е","IJlig":"Ĳ","IOcy":"Ё","Iacut":"Í","Iacute":"Í","Icir":"Î","Icirc":"Î","Icy":"И","Idot":"İ","Ifr":"ℑ","Igrav":"Ì","Igrave":"Ì","Im":"ℑ","Imacr":"Ī","ImaginaryI":"ⅈ","Implies":"⇒","Int":"∬","Integral":"∫","Intersection":"⋂","InvisibleComma":"⁣","InvisibleTimes":"⁢","Iogon":"Į","Iopf":"𝕀","Iota":"Ι","Iscr":"ℐ","Itilde":"Ĩ","Iukcy":"І","Ium":"Ï","Iuml":"Ï","Jcirc":"Ĵ","Jcy":"Й","Jfr":"𝔍","Jopf":"𝕁","Jscr":"𝒥","Jsercy":"Ј","Jukcy":"Є","KHcy":"Х","KJcy":"Ќ","Kappa":"Κ","Kcedil":"Ķ","Kcy":"К","Kfr":"𝔎","Kopf":"𝕂","Kscr":"𝒦","LJcy":"Љ","L":"<","LT":"<","Lacute":"Ĺ","Lambda":"Λ","Lang":"⟪","Laplacetrf":"ℒ","Larr":"↞","Lcaron":"Ľ","Lcedil":"Ļ","Lcy":"Л","LeftAngleBracket":"⟨","LeftArrow":"←","LeftArrowBar":"⇤","LeftArrowRightArrow":"⇆","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVector":"⇃","LeftDownVectorBar":"⥙","LeftFloor":"⌊","LeftRightArrow":"↔","LeftRightVector":"⥎","LeftTee":"⊣","LeftTeeArrow":"↤","LeftTeeVector":"⥚","LeftTriangle":"⊲","LeftTriangleBar":"⧏","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVector":"↿","LeftUpVectorBar":"⥘","LeftVector":"↼","LeftVectorBar":"⥒","Leftarrow":"⇐","Leftrightarrow":"⇔","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","LessLess":"⪡","LessSlantEqual":"⩽","LessTilde":"≲","Lfr":"𝔏","Ll":"⋘","Lleftarrow":"⇚","Lmidot":"Ŀ","LongLeftArrow":"⟵","LongLeftRightArrow":"⟷","LongRightArrow":"⟶","Longleftarrow":"⟸","Longleftrightarrow":"⟺","Longrightarrow":"⟹","Lopf":"𝕃","LowerLeftArrow":"↙","LowerRightArrow":"↘","Lscr":"ℒ","Lsh":"↰","Lstrok":"Ł","Lt":"≪","Map":"⤅","Mcy":"М","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","MinusPlus":"∓","Mopf":"𝕄","Mscr":"ℳ","Mu":"Μ","NJcy":"Њ","Nacute":"Ń","Ncaron":"Ň","Ncedil":"Ņ","Ncy":"Н","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","Nfr":"𝔑","NoBreak":"⁠","NonBreakingSpace":" ","Nopf":"ℕ","Not":"⫬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","NotLeftTriangle":"⋪","NotLeftTriangleBar":"⧏̸","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangle":"⋫","NotRightTriangleBar":"⧐̸","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","Nscr":"𝒩","Ntild":"Ñ","Ntilde":"Ñ","Nu":"Ν","OElig":"Œ","Oacut":"Ó","Oacute":"Ó","Ocir":"Ô","Ocirc":"Ô","Ocy":"О","Odblac":"Ő","Ofr":"𝔒","Ograv":"Ò","Ograve":"Ò","Omacr":"Ō","Omega":"Ω","Omicron":"Ο","Oopf":"𝕆","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","Or":"⩔","Oscr":"𝒪","Oslas":"Ø","Oslash":"Ø","Otild":"Õ","Otilde":"Õ","Otimes":"⨷","Oum":"Ö","Ouml":"Ö","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","PartialD":"∂","Pcy":"П","Pfr":"𝔓","Phi":"Φ","Pi":"Π","PlusMinus":"±","Poincareplane":"ℌ","Popf":"ℙ","Pr":"⪻","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","Prime":"″","Product":"∏","Proportion":"∷","Proportional":"∝","Pscr":"𝒫","Psi":"Ψ","QUO":"\"","QUOT":"\"","Qfr":"𝔔","Qopf":"ℚ","Qscr":"𝒬","RBarr":"⤐","RE":"®","REG":"®","Racute":"Ŕ","Rang":"⟫","Rarr":"↠","Rarrtl":"⤖","Rcaron":"Ř","Rcedil":"Ŗ","Rcy":"Р","Re":"ℜ","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","Rfr":"ℜ","Rho":"Ρ","RightAngleBracket":"⟩","RightArrow":"→","RightArrowBar":"⇥","RightArrowLeftArrow":"⇄","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVector":"⇂","RightDownVectorBar":"⥕","RightFloor":"⌋","RightTee":"⊢","RightTeeArrow":"↦","RightTeeVector":"⥛","RightTriangle":"⊳","RightTriangleBar":"⧐","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVector":"↾","RightUpVectorBar":"⥔","RightVector":"⇀","RightVectorBar":"⥓","Rightarrow":"⇒","Ropf":"ℝ","RoundImplies":"⥰","Rrightarrow":"⇛","Rscr":"ℛ","Rsh":"↱","RuleDelayed":"⧴","SHCHcy":"Щ","SHcy":"Ш","SOFTcy":"Ь","Sacute":"Ś","Sc":"⪼","Scaron":"Š","Scedil":"Ş","Scirc":"Ŝ","Scy":"С","Sfr":"𝔖","ShortDownArrow":"↓","ShortLeftArrow":"←","ShortRightArrow":"→","ShortUpArrow":"↑","Sigma":"Σ","SmallCircle":"∘","Sopf":"𝕊","Sqrt":"√","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","Sscr":"𝒮","Star":"⋆","Sub":"⋐","Subset":"⋐","SubsetEqual":"⊆","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","SuchThat":"∋","Sum":"∑","Sup":"⋑","Superset":"⊃","SupersetEqual":"⊇","Supset":"⋑","THOR":"Þ","THORN":"Þ","TRADE":"™","TSHcy":"Ћ","TScy":"Ц","Tab":"\t","Tau":"Τ","Tcaron":"Ť","Tcedil":"Ţ","Tcy":"Т","Tfr":"𝔗","Therefore":"∴","Theta":"Θ","ThickSpace":"  ","ThinSpace":" ","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","Topf":"𝕋","TripleDot":"⃛","Tscr":"𝒯","Tstrok":"Ŧ","Uacut":"Ú","Uacute":"Ú","Uarr":"↟","Uarrocir":"⥉","Ubrcy":"Ў","Ubreve":"Ŭ","Ucir":"Û","Ucirc":"Û","Ucy":"У","Udblac":"Ű","Ufr":"𝔘","Ugrav":"Ù","Ugrave":"Ù","Umacr":"Ū","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","Uopf":"𝕌","UpArrow":"↑","UpArrowBar":"⤒","UpArrowDownArrow":"⇅","UpDownArrow":"↕","UpEquilibrium":"⥮","UpTee":"⊥","UpTeeArrow":"↥","Uparrow":"⇑","Updownarrow":"⇕","UpperLeftArrow":"↖","UpperRightArrow":"↗","Upsi":"ϒ","Upsilon":"Υ","Uring":"Ů","Uscr":"𝒰","Utilde":"Ũ","Uum":"Ü","Uuml":"Ü","VDash":"⊫","Vbar":"⫫","Vcy":"В","Vdash":"⊩","Vdashl":"⫦","Vee":"⋁","Verbar":"‖","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","Vopf":"𝕍","Vscr":"𝒱","Vvdash":"⊪","Wcirc":"Ŵ","Wedge":"⋀","Wfr":"𝔚","Wopf":"𝕎","Wscr":"𝒲","Xfr":"𝔛","Xi":"Ξ","Xopf":"𝕏","Xscr":"𝒳","YAcy":"Я","YIcy":"Ї","YUcy":"Ю","Yacut":"Ý","Yacute":"Ý","Ycirc":"Ŷ","Ycy":"Ы","Yfr":"𝔜","Yopf":"𝕐","Yscr":"𝒴","Yuml":"Ÿ","ZHcy":"Ж","Zacute":"Ź","Zcaron":"Ž","Zcy":"З","Zdot":"Ż","ZeroWidthSpace":"​","Zeta":"Ζ","Zfr":"ℨ","Zopf":"ℤ","Zscr":"𝒵","aacut":"á","aacute":"á","abreve":"ă","ac":"∾","acE":"∾̳","acd":"∿","acir":"â","acirc":"â","acut":"´","acute":"´","acy":"а","aeli":"æ","aelig":"æ","af":"⁡","afr":"𝔞","agrav":"à","agrave":"à","alefsym":"ℵ","aleph":"ℵ","alpha":"α","amacr":"ā","amalg":"⨿","am":"&","amp":"&","and":"∧","andand":"⩕","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsd":"∡","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","aogon":"ą","aopf":"𝕒","ap":"≈","apE":"⩰","apacir":"⩯","ape":"≊","apid":"≋","apos":"'","approx":"≈","approxeq":"≊","arin":"å","aring":"å","ascr":"𝒶","ast":"*","asymp":"≈","asympeq":"≍","atild":"ã","atilde":"ã","aum":"ä","auml":"ä","awconint":"∳","awint":"⨑","bNot":"⫭","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","barvee":"⊽","barwed":"⌅","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","beta":"β","beth":"ℶ","between":"≬","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bnot":"⌐","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxDL":"╗","boxDR":"╔","boxDl":"╖","boxDr":"╓","boxH":"═","boxHD":"╦","boxHU":"╩","boxHd":"╤","boxHu":"╧","boxUL":"╝","boxUR":"╚","boxUl":"╜","boxUr":"╙","boxV":"║","boxVH":"╬","boxVL":"╣","boxVR":"╠","boxVh":"╫","boxVl":"╢","boxVr":"╟","boxbox":"⧉","boxdL":"╕","boxdR":"╒","boxdl":"┐","boxdr":"┌","boxh":"─","boxhD":"╥","boxhU":"╨","boxhd":"┬","boxhu":"┴","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxuL":"╛","boxuR":"╘","boxul":"┘","boxur":"└","boxv":"│","boxvH":"╪","boxvL":"╡","boxvR":"╞","boxvh":"┼","boxvl":"┤","boxvr":"├","bprime":"‵","breve":"˘","brvba":"¦","brvbar":"¦","bscr":"𝒷","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsol":"\\","bsolb":"⧅","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","bumpeq":"≏","cacute":"ć","cap":"∩","capand":"⩄","capbrcup":"⩉","capcap":"⩋","capcup":"⩇","capdot":"⩀","caps":"∩︀","caret":"⁁","caron":"ˇ","ccaps":"⩍","ccaron":"č","ccedi":"ç","ccedil":"ç","ccirc":"ĉ","ccups":"⩌","ccupssm":"⩐","cdot":"ċ","cedi":"¸","cedil":"¸","cemptyv":"⦲","cen":"¢","cent":"¢","centerdot":"·","cfr":"𝔠","chcy":"ч","check":"✓","checkmark":"✓","chi":"χ","cir":"○","cirE":"⧃","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledR":"®","circledS":"Ⓢ","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","clubs":"♣","clubsuit":"♣","colon":":","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","conint":"∮","copf":"𝕔","coprod":"∐","cop":"©","copy":"©","copysr":"℗","crarr":"↵","cross":"✗","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cup":"∪","cupbrcap":"⩈","cupcap":"⩆","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curre":"¤","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dArr":"⇓","dHar":"⥥","dagger":"†","daleth":"ℸ","darr":"↓","dash":"‐","dashv":"⊣","dbkarow":"⤏","dblac":"˝","dcaron":"ď","dcy":"д","dd":"ⅆ","ddagger":"‡","ddarr":"⇊","ddotseq":"⩷","de":"°","deg":"°","delta":"δ","demptyv":"⦱","dfisht":"⥿","dfr":"𝔡","dharl":"⇃","dharr":"⇂","diam":"⋄","diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","digamma":"ϝ","disin":"⋲","div":"÷","divid":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","dopf":"𝕕","dot":"˙","doteq":"≐","doteqdot":"≑","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","downarrow":"↓","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","dscr":"𝒹","dscy":"ѕ","dsol":"⧶","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","dzcy":"џ","dzigrarr":"⟿","eDDot":"⩷","eDot":"≑","eacut":"é","eacute":"é","easter":"⩮","ecaron":"ě","ecir":"ê","ecirc":"ê","ecolon":"≕","ecy":"э","edot":"ė","ee":"ⅇ","efDot":"≒","efr":"𝔢","eg":"⪚","egrav":"è","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","emacr":"ē","empty":"∅","emptyset":"∅","emptyv":"∅","emsp13":" ","emsp14":" ","emsp":" ","eng":"ŋ","ensp":" ","eogon":"ę","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","equals":"=","equest":"≟","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erDot":"≓","erarr":"⥱","escr":"ℯ","esdot":"≐","esim":"≂","eta":"η","et":"ð","eth":"ð","eum":"ë","euml":"ë","euro":"€","excl":"!","exist":"∃","expectation":"ℰ","exponentiale":"ⅇ","fallingdotseq":"≒","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","ffr":"𝔣","filig":"ﬁ","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","fopf":"𝕗","forall":"∀","fork":"⋔","forkv":"⫙","fpartint":"⨍","frac1":"¼","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac3":"¾","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","gE":"≧","gEl":"⪌","gacute":"ǵ","gamma":"γ","gammad":"ϝ","gap":"⪆","gbreve":"ğ","gcirc":"ĝ","gcy":"г","gdot":"ġ","ge":"≥","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","ges":"⩾","gescc":"⪩","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","gfr":"𝔤","gg":"≫","ggg":"⋙","gimel":"ℷ","gjcy":"ѓ","gl":"≷","glE":"⪒","gla":"⪥","glj":"⪤","gnE":"≩","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gneq":"⪈","gneqq":"≩","gnsim":"⋧","gopf":"𝕘","grave":"`","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","g":">","gt":">","gtcc":"⪧","gtcir":"⩺","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","hArr":"⇔","hairsp":" ","half":"½","hamilt":"ℋ","hardcy":"ъ","harr":"↔","harrcir":"⥈","harrw":"↭","hbar":"ℏ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","horbar":"―","hscr":"𝒽","hslash":"ℏ","hstrok":"ħ","hybull":"⁃","hyphen":"‐","iacut":"í","iacute":"í","ic":"⁣","icir":"î","icirc":"î","icy":"и","iecy":"е","iexc":"¡","iexcl":"¡","iff":"⇔","ifr":"𝔦","igrav":"ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","ijlig":"ĳ","imacr":"ī","image":"ℑ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","imof":"⊷","imped":"Ƶ","in":"∈","incare":"℅","infin":"∞","infintie":"⧝","inodot":"ı","int":"∫","intcal":"⊺","integers":"ℤ","intercal":"⊺","intlarhk":"⨗","intprod":"⨼","iocy":"ё","iogon":"į","iopf":"𝕚","iota":"ι","iprod":"⨼","iques":"¿","iquest":"¿","iscr":"𝒾","isin":"∈","isinE":"⋹","isindot":"⋵","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","itilde":"ĩ","iukcy":"і","ium":"ï","iuml":"ï","jcirc":"ĵ","jcy":"й","jfr":"𝔧","jmath":"ȷ","jopf":"𝕛","jscr":"𝒿","jsercy":"ј","jukcy":"є","kappa":"κ","kappav":"ϰ","kcedil":"ķ","kcy":"к","kfr":"𝔨","kgreen":"ĸ","khcy":"х","kjcy":"ќ","kopf":"𝕜","kscr":"𝓀","lAarr":"⇚","lArr":"⇐","lAtail":"⤛","lBarr":"⤎","lE":"≦","lEg":"⪋","lHar":"⥢","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","lambda":"λ","lang":"⟨","langd":"⦑","langle":"⟨","lap":"⪅","laqu":"«","laquo":"«","larr":"←","larrb":"⇤","larrbfs":"⤟","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","lat":"⪫","latail":"⤙","late":"⪭","lates":"⪭︀","lbarr":"⤌","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","lcaron":"ľ","lcedil":"ļ","lceil":"⌈","lcub":"{","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","leftarrow":"←","leftarrowtail":"↢","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","leftthreetimes":"⋋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","les":"⩽","lescc":"⪨","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","lessgtr":"≶","lesssim":"≲","lfisht":"⥼","lfloor":"⌊","lfr":"𝔩","lg":"≶","lgE":"⪑","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","ljcy":"љ","ll":"≪","llarr":"⇇","llcorner":"⌞","llhard":"⥫","lltri":"◺","lmidot":"ŀ","lmoust":"⎰","lmoustache":"⎰","lnE":"≨","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","longleftrightarrow":"⟷","longmapsto":"⟼","longrightarrow":"⟶","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","lstrok":"ł","l":"<","lt":"<","ltcc":"⪦","ltcir":"⩹","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltrPar":"⦖","ltri":"◃","ltrie":"⊴","ltrif":"◂","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","mDDot":"∺","mac":"¯","macr":"¯","male":"♂","malt":"✠","maltese":"✠","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","mcy":"м","mdash":"—","measuredangle":"∡","mfr":"𝔪","mho":"℧","micr":"µ","micro":"µ","mid":"∣","midast":"*","midcir":"⫰","middo":"·","middot":"·","minus":"−","minusb":"⊟","minusd":"∸","minusdu":"⨪","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","mopf":"𝕞","mp":"∓","mscr":"𝓂","mstpos":"∾","mu":"μ","multimap":"⊸","mumap":"⊸","nGg":"⋙̸","nGt":"≫⃒","nGtv":"≫̸","nLeftarrow":"⇍","nLeftrightarrow":"⇎","nLl":"⋘̸","nLt":"≪⃒","nLtv":"≪̸","nRightarrow":"⇏","nVDash":"⊯","nVdash":"⊮","nabla":"∇","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natur":"♮","natural":"♮","naturals":"ℕ","nbs":" ","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","ncaron":"ň","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","ncy":"н","ndash":"–","ne":"≠","neArr":"⇗","nearhk":"⤤","nearr":"↗","nearrow":"↗","nedot":"≐̸","nequiv":"≢","nesear":"⤨","nesim":"≂̸","nexist":"∄","nexists":"∄","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","ngsim":"≵","ngt":"≯","ngtr":"≯","nhArr":"⇎","nharr":"↮","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","njcy":"њ","nlArr":"⇍","nlE":"≦̸","nlarr":"↚","nldr":"‥","nle":"≰","nleftarrow":"↚","nleftrightarrow":"↮","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nlsim":"≴","nlt":"≮","nltri":"⋪","nltrie":"⋬","nmid":"∤","nopf":"𝕟","no":"¬","not":"¬","notin":"∉","notinE":"⋹̸","notindot":"⋵̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","npar":"∦","nparallel":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","npre":"⪯̸","nprec":"⊀","npreceq":"⪯̸","nrArr":"⇏","nrarr":"↛","nrarrc":"⤳̸","nrarrw":"↝̸","nrightarrow":"↛","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","ntild":"ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","nu":"ν","num":"#","numero":"№","numsp":" ","nvDash":"⊭","nvHarr":"⤄","nvap":"≍⃒","nvdash":"⊬","nvge":"≥⃒","nvgt":">⃒","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwArr":"⇖","nwarhk":"⤣","nwarr":"↖","nwarrow":"↖","nwnear":"⤧","oS":"Ⓢ","oacut":"ó","oacute":"ó","oast":"⊛","ocir":"ô","ocirc":"ô","ocy":"о","odash":"⊝","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","oelig":"œ","ofcir":"⦿","ofr":"𝔬","ogon":"˛","ograv":"ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","omacr":"ō","omega":"ω","omicron":"ο","omid":"⦶","ominus":"⊖","oopf":"𝕠","opar":"⦷","operp":"⦹","oplus":"⊕","or":"∨","orarr":"↻","ord":"º","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oscr":"ℴ","oslas":"ø","oslash":"ø","osol":"⊘","otild":"õ","otilde":"õ","otimes":"⊗","otimesas":"⨶","oum":"ö","ouml":"ö","ovbar":"⌽","par":"¶","para":"¶","parallel":"∥","parsim":"⫳","parsl":"⫽","part":"∂","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","pfr":"𝔭","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plus":"+","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plusdo":"∔","plusdu":"⨥","pluse":"⩲","plusm":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","pointint":"⨕","popf":"𝕡","poun":"£","pound":"£","pr":"≺","prE":"⪳","prap":"⪷","prcue":"≼","pre":"⪯","prec":"≺","precapprox":"⪷","preccurlyeq":"≼","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","precsim":"≾","prime":"′","primes":"ℙ","prnE":"⪵","prnap":"⪹","prnsim":"⋨","prod":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","propto":"∝","prsim":"≾","prurel":"⊰","pscr":"𝓅","psi":"ψ","puncsp":" ","qfr":"𝔮","qint":"⨌","qopf":"𝕢","qprime":"⁗","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quo":"\"","quot":"\"","rAarr":"⇛","rArr":"⇒","rAtail":"⤜","rBarr":"⤏","rHar":"⥤","race":"∽̱","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","rangd":"⦒","range":"⦥","rangle":"⟩","raqu":"»","raquo":"»","rarr":"→","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","rarrtl":"↣","rarrw":"↝","ratail":"⤚","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","rcaron":"ř","rcedil":"ŗ","rceil":"⌉","rcub":"}","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","rect":"▭","re":"®","reg":"®","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","rhard":"⇁","rharu":"⇀","rharul":"⥬","rho":"ρ","rhov":"ϱ","rightarrow":"→","rightarrowtail":"↣","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","rightthreetimes":"⋌","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoust":"⎱","rmoustache":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","roplus":"⨮","rotimes":"⨵","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","rsaquo":"›","rscr":"𝓇","rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","ruluhar":"⥨","rx":"℞","sacute":"ś","sbquo":"‚","sc":"≻","scE":"⪴","scap":"⪸","scaron":"š","sccue":"≽","sce":"⪰","scedil":"ş","scirc":"ŝ","scnE":"⪶","scnap":"⪺","scnsim":"⋩","scpolint":"⨓","scsim":"≿","scy":"с","sdot":"⋅","sdotb":"⊡","sdote":"⩦","seArr":"⇘","searhk":"⤥","searr":"↘","searrow":"↘","sec":"§","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","sfr":"𝔰","sfrown":"⌢","sharp":"♯","shchcy":"щ","shcy":"ш","shortmid":"∣","shortparallel":"∥","sh":"­","shy":"­","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","softcy":"ь","sol":"/","solb":"⧄","solbar":"⌿","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","squ":"□","square":"□","squarf":"▪","squf":"▪","srarr":"→","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","subE":"⫅","subdot":"⪽","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","subseteq":"⊆","subseteqq":"⫅","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succ":"≻","succapprox":"⪸","succcurlyeq":"≽","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","sum":"∑","sung":"♪","sup":"⊃","sup1":"¹","sup2":"²","sup3":"³","supE":"⫆","supdot":"⪾","supdsub":"⫘","supe":"⊇","supedot":"⫄","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swArr":"⇙","swarhk":"⤦","swarr":"↙","swarrow":"↙","swnwar":"⤪","szli":"ß","szlig":"ß","target":"⌖","tau":"τ","tbrk":"⎴","tcaron":"ť","tcedil":"ţ","tcy":"т","tdot":"⃛","telrec":"⌕","tfr":"𝔱","there4":"∴","therefore":"∴","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","thinsp":" ","thkap":"≈","thksim":"∼","thor":"þ","thorn":"þ","tilde":"˜","time":"×","times":"×","timesb":"⊠","timesbar":"⨱","timesd":"⨰","tint":"∭","toea":"⤨","top":"⊤","topbot":"⌶","topcir":"⫱","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","tscr":"𝓉","tscy":"ц","tshcy":"ћ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","uArr":"⇑","uHar":"⥣","uacut":"ú","uacute":"ú","uarr":"↑","ubrcy":"ў","ubreve":"ŭ","ucir":"û","ucirc":"û","ucy":"у","udarr":"⇅","udblac":"ű","udhar":"⥮","ufisht":"⥾","ufr":"𝔲","ugrav":"ù","ugrave":"ù","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","umacr":"ū","um":"¨","uml":"¨","uogon":"ų","uopf":"𝕦","uparrow":"↑","updownarrow":"↕","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","upsi":"υ","upsih":"ϒ","upsilon":"υ","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","uring":"ů","urtri":"◹","uscr":"𝓊","utdot":"⋰","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","uum":"ü","uuml":"ü","uwangle":"⦧","vArr":"⇕","vBar":"⫨","vBarv":"⫩","vDash":"⊨","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vcy":"в","vdash":"⊢","vee":"∨","veebar":"⊻","veeeq":"≚","vellip":"⋮","verbar":"|","vert":"|","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","vopf":"𝕧","vprop":"∝","vrtri":"⊳","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","vzigzag":"⦚","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","wedgeq":"≙","weierp":"℘","wfr":"𝔴","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","xfr":"𝔵","xhArr":"⟺","xharr":"⟷","xi":"ξ","xlArr":"⟸","xlarr":"⟵","xmap":"⟼","xnis":"⋻","xodot":"⨀","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrArr":"⟹","xrarr":"⟶","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","yacut":"ý","yacute":"ý","yacy":"я","ycirc":"ŷ","ycy":"ы","ye":"¥","yen":"¥","yfr":"𝔶","yicy":"ї","yopf":"𝕪","yscr":"𝓎","yucy":"ю","yum":"ÿ","yuml":"ÿ","zacute":"ź","zcaron":"ž","zcy":"з","zdot":"ż","zeetrf":"ℨ","zeta":"ζ","zfr":"𝔷","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","zscr":"𝓏","zwj":"‍","zwnj":"‌"}
 
 /***/ }),
-/* 435 */
+/* 425 */
 /***/ (function(module, exports) {
 
 	module.exports = {"AElig":"Æ","AMP":"&","Aacute":"Á","Acirc":"Â","Agrave":"À","Aring":"Å","Atilde":"Ã","Auml":"Ä","COPY":"©","Ccedil":"Ç","ETH":"Ð","Eacute":"É","Ecirc":"Ê","Egrave":"È","Euml":"Ë","GT":">","Iacute":"Í","Icirc":"Î","Igrave":"Ì","Iuml":"Ï","LT":"<","Ntilde":"Ñ","Oacute":"Ó","Ocirc":"Ô","Ograve":"Ò","Oslash":"Ø","Otilde":"Õ","Ouml":"Ö","QUOT":"\"","REG":"®","THORN":"Þ","Uacute":"Ú","Ucirc":"Û","Ugrave":"Ù","Uuml":"Ü","Yacute":"Ý","aacute":"á","acirc":"â","acute":"´","aelig":"æ","agrave":"à","amp":"&","aring":"å","atilde":"ã","auml":"ä","brvbar":"¦","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","curren":"¤","deg":"°","divide":"÷","eacute":"é","ecirc":"ê","egrave":"è","eth":"ð","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","iacute":"í","icirc":"î","iexcl":"¡","igrave":"ì","iquest":"¿","iuml":"ï","laquo":"«","lt":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","ntilde":"ñ","oacute":"ó","ocirc":"ô","ograve":"ò","ordf":"ª","ordm":"º","oslash":"ø","otilde":"õ","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","raquo":"»","reg":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","thorn":"þ","times":"×","uacute":"ú","ucirc":"û","ugrave":"ù","uml":"¨","uuml":"ü","yacute":"ý","yen":"¥","yuml":"ÿ"}
 
 /***/ }),
-/* 436 */
+/* 426 */
 /***/ (function(module, exports) {
 
 	module.exports = {"0":"�","128":"€","130":"‚","131":"ƒ","132":"„","133":"…","134":"†","135":"‡","136":"ˆ","137":"‰","138":"Š","139":"‹","140":"Œ","142":"Ž","145":"‘","146":"’","147":"“","148":"”","149":"•","150":"–","151":"—","152":"˜","153":"™","154":"š","155":"›","156":"œ","158":"ž","159":"Ÿ"}
 
 /***/ }),
-/* 437 */
+/* 427 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -63465,7 +63179,7 @@
 
 
 /***/ }),
-/* 438 */
+/* 428 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -63485,13 +63199,13 @@
 
 
 /***/ }),
-/* 439 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var alphabetical = __webpack_require__(440);
-	var decimal = __webpack_require__(437);
+	var alphabetical = __webpack_require__(430);
+	var decimal = __webpack_require__(427);
 
 	module.exports = alphanumerical;
 
@@ -63503,7 +63217,7 @@
 
 
 /***/ }),
-/* 440 */
+/* 430 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -63522,7 +63236,7 @@
 
 
 /***/ }),
-/* 441 */
+/* 431 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -63859,14 +63573,14 @@
 
 
 /***/ }),
-/* 442 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var xtend = __webpack_require__(410);
-	var escapes = __webpack_require__(443);
-	var defaults = __webpack_require__(444);
+	var xtend = __webpack_require__(400);
+	var escapes = __webpack_require__(433);
+	var defaults = __webpack_require__(434);
 
 	module.exports = setOptions;
 
@@ -63912,7 +63626,7 @@
 
 
 /***/ }),
-/* 443 */
+/* 433 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -63975,7 +63689,7 @@
 
 
 /***/ }),
-/* 444 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63986,24 +63700,24 @@
 	  commonmark: false,
 	  footnotes: false,
 	  pedantic: false,
-	  blocks: __webpack_require__(445)
+	  blocks: __webpack_require__(435)
 	};
 
 
 /***/ }),
-/* 445 */
+/* 435 */
 /***/ (function(module, exports) {
 
 	module.exports = ["address","article","aside","base","basefont","blockquote","body","caption","center","col","colgroup","dd","details","dialog","dir","div","dl","dt","fieldset","figcaption","figure","footer","form","frame","frameset","h1","h2","h3","h4","h5","h6","head","header","hgroup","hr","html","iframe","legend","li","link","main","menu","menuitem","meta","nav","noframes","ol","optgroup","option","p","param","pre","section","source","title","summary","table","tbody","td","tfoot","th","thead","title","tr","track","ul"]
 
 /***/ }),
-/* 446 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var xtend = __webpack_require__(410);
-	var removePosition = __webpack_require__(447);
+	var xtend = __webpack_require__(400);
+	var removePosition = __webpack_require__(437);
 
 	module.exports = parse;
 
@@ -64048,12 +63762,12 @@
 
 
 /***/ }),
-/* 447 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var visit = __webpack_require__(448);
+	var visit = __webpack_require__(438);
 
 	module.exports = removePosition;
 
@@ -64073,7 +63787,7 @@
 
 
 /***/ }),
-/* 448 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64081,7 +63795,7 @@
 	/* Expose. */
 	module.exports = visit;
 
-	var is = __webpack_require__(449);
+	var is = __webpack_require__(439);
 
 	/* Visit. */
 	function visit(tree, test, visitor, reverse) {
@@ -64134,7 +63848,7 @@
 
 
 /***/ }),
-/* 449 */
+/* 439 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -64259,12 +63973,12 @@
 
 
 /***/ }),
-/* 450 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
+	var whitespace = __webpack_require__(441);
 
 	module.exports = newline;
 
@@ -64312,7 +64026,7 @@
 
 
 /***/ }),
-/* 451 */
+/* 441 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -64332,13 +64046,13 @@
 
 
 /***/ }),
-/* 452 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var repeat = __webpack_require__(453);
-	var trim = __webpack_require__(454);
+	var repeat = __webpack_require__(443);
+	var trim = __webpack_require__(444);
 
 	module.exports = indentedCode;
 
@@ -64436,7 +64150,7 @@
 
 
 /***/ }),
-/* 453 */
+/* 443 */
 /***/ (function(module, exports) {
 
 	/*!
@@ -64512,7 +64226,7 @@
 
 
 /***/ }),
-/* 454 */
+/* 444 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -64533,12 +64247,12 @@
 
 
 /***/ }),
-/* 455 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(454);
+	var trim = __webpack_require__(444);
 
 	module.exports = fencedCode;
 
@@ -64775,13 +64489,13 @@
 
 
 /***/ }),
-/* 456 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(457);
-	var interrupt = __webpack_require__(458);
+	var trim = __webpack_require__(447);
+	var interrupt = __webpack_require__(448);
 
 	module.exports = blockquote;
 
@@ -64910,7 +64624,7 @@
 
 
 /***/ }),
-/* 457 */
+/* 447 */
 /***/ (function(module, exports) {
 
 	
@@ -64930,7 +64644,7 @@
 
 
 /***/ }),
-/* 458 */
+/* 448 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -64979,7 +64693,7 @@
 
 
 /***/ }),
-/* 459 */
+/* 449 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -65126,7 +64840,7 @@
 
 
 /***/ }),
-/* 460 */
+/* 450 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -65202,19 +64916,19 @@
 
 
 /***/ }),
-/* 461 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	/* eslint-disable max-params */
 
-	var trim = __webpack_require__(457);
-	var repeat = __webpack_require__(453);
-	var decimal = __webpack_require__(437);
-	var getIndent = __webpack_require__(462);
-	var removeIndent = __webpack_require__(463);
-	var interrupt = __webpack_require__(458);
+	var trim = __webpack_require__(447);
+	var repeat = __webpack_require__(443);
+	var decimal = __webpack_require__(427);
+	var getIndent = __webpack_require__(452);
+	var removeIndent = __webpack_require__(453);
+	var interrupt = __webpack_require__(448);
 
 	module.exports = list;
 
@@ -65682,7 +65396,7 @@
 
 
 /***/ }),
-/* 462 */
+/* 452 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -65720,14 +65434,14 @@
 
 
 /***/ }),
-/* 463 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(457);
-	var repeat = __webpack_require__(453);
-	var getIndent = __webpack_require__(462);
+	var trim = __webpack_require__(447);
+	var repeat = __webpack_require__(443);
+	var getIndent = __webpack_require__(452);
 
 	module.exports = indentation;
 
@@ -65804,7 +65518,7 @@
 
 
 /***/ }),
-/* 464 */
+/* 454 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -65917,12 +65631,12 @@
 
 
 /***/ }),
-/* 465 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var openCloseTag = __webpack_require__(466).openCloseTag;
+	var openCloseTag = __webpack_require__(456).openCloseTag;
 
 	module.exports = blockHTML;
 
@@ -66017,7 +65731,7 @@
 
 
 /***/ }),
-/* 466 */
+/* 456 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -66048,13 +65762,13 @@
 
 
 /***/ }),
-/* 467 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var normalize = __webpack_require__(468);
+	var whitespace = __webpack_require__(441);
+	var normalize = __webpack_require__(458);
 
 	module.exports = footnoteDefinition;
 	footnoteDefinition.notInList = true;
@@ -66239,12 +65953,12 @@
 
 
 /***/ }),
-/* 468 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var collapseWhiteSpace = __webpack_require__(469);
+	var collapseWhiteSpace = __webpack_require__(459);
 
 	module.exports = normalize;
 
@@ -66256,7 +65970,7 @@
 
 
 /***/ }),
-/* 469 */
+/* 459 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -66270,13 +65984,13 @@
 
 
 /***/ }),
-/* 470 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var normalize = __webpack_require__(468);
+	var whitespace = __webpack_require__(441);
+	var normalize = __webpack_require__(458);
 
 	module.exports = definition;
 	definition.notInList = true;
@@ -66554,12 +66268,12 @@
 
 
 /***/ }),
-/* 471 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
+	var whitespace = __webpack_require__(441);
 
 	module.exports = table;
 
@@ -66826,15 +66540,15 @@
 
 
 /***/ }),
-/* 472 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(457);
-	var decimal = __webpack_require__(437);
-	var trimTrailingLines = __webpack_require__(454);
-	var interrupt = __webpack_require__(458);
+	var trim = __webpack_require__(447);
+	var decimal = __webpack_require__(427);
+	var trimTrailingLines = __webpack_require__(444);
+	var interrupt = __webpack_require__(448);
 
 	module.exports = paragraph;
 
@@ -66954,12 +66668,12 @@
 
 
 /***/ }),
-/* 473 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var locate = __webpack_require__(474);
+	var locate = __webpack_require__(464);
 
 	module.exports = escape;
 	escape.locator = locate;
@@ -66994,7 +66708,7 @@
 
 
 /***/ }),
-/* 474 */
+/* 464 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -67007,14 +66721,14 @@
 
 
 /***/ }),
-/* 475 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var decode = __webpack_require__(433);
-	var locate = __webpack_require__(476);
+	var whitespace = __webpack_require__(441);
+	var decode = __webpack_require__(423);
+	var locate = __webpack_require__(466);
 
 	module.exports = autoLink;
 	autoLink.locator = locate;
@@ -67157,7 +66871,7 @@
 
 
 /***/ }),
-/* 476 */
+/* 466 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -67170,14 +66884,14 @@
 
 
 /***/ }),
-/* 477 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var decode = __webpack_require__(433);
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(478);
+	var decode = __webpack_require__(423);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(468);
 
 	module.exports = url;
 	url.locator = locate;
@@ -67320,7 +67034,7 @@
 
 
 /***/ }),
-/* 478 */
+/* 468 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -67352,14 +67066,14 @@
 
 
 /***/ }),
-/* 479 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var alphabetical = __webpack_require__(440);
-	var locate = __webpack_require__(476);
-	var tag = __webpack_require__(466).tag;
+	var alphabetical = __webpack_require__(430);
+	var locate = __webpack_require__(466);
+	var tag = __webpack_require__(456).tag;
 
 	module.exports = inlineHTML;
 	inlineHTML.locator = locate;
@@ -67412,13 +67126,13 @@
 
 
 /***/ }),
-/* 480 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(481);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(471);
 
 	module.exports = link;
 	link.locator = locate;
@@ -67810,7 +67524,7 @@
 
 
 /***/ }),
-/* 481 */
+/* 471 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -67832,14 +67546,14 @@
 
 
 /***/ }),
-/* 482 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(481);
-	var normalize = __webpack_require__(468);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(471);
+	var normalize = __webpack_require__(458);
 
 	module.exports = reference;
 	reference.locator = locate;
@@ -68042,14 +67756,14 @@
 
 
 /***/ }),
-/* 483 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(457);
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(484);
+	var trim = __webpack_require__(447);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(474);
 
 	module.exports = strong;
 	strong.locator = locate;
@@ -68132,7 +67846,7 @@
 
 
 /***/ }),
-/* 484 */
+/* 474 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68156,15 +67870,15 @@
 
 
 /***/ }),
-/* 485 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var trim = __webpack_require__(457);
-	var word = __webpack_require__(486);
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(487);
+	var trim = __webpack_require__(447);
+	var word = __webpack_require__(476);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(477);
 
 	module.exports = emphasis;
 	emphasis.locator = locate;
@@ -68247,7 +67961,7 @@
 
 
 /***/ }),
-/* 486 */
+/* 476 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68267,7 +67981,7 @@
 
 
 /***/ }),
-/* 487 */
+/* 477 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68291,13 +68005,13 @@
 
 
 /***/ }),
-/* 488 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(489);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(479);
 
 	module.exports = strikethrough;
 	strikethrough.locator = locate;
@@ -68357,7 +68071,7 @@
 
 
 /***/ }),
-/* 489 */
+/* 479 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68370,13 +68084,13 @@
 
 
 /***/ }),
-/* 490 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var whitespace = __webpack_require__(451);
-	var locate = __webpack_require__(491);
+	var whitespace = __webpack_require__(441);
+	var locate = __webpack_require__(481);
 
 	module.exports = inlineCode;
 	inlineCode.locator = locate;
@@ -68488,7 +68202,7 @@
 
 
 /***/ }),
-/* 491 */
+/* 481 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68501,12 +68215,12 @@
 
 
 /***/ }),
-/* 492 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var locate = __webpack_require__(493);
+	var locate = __webpack_require__(483);
 
 	module.exports = hardBreak;
 	hardBreak.locator = locate;
@@ -68547,7 +68261,7 @@
 
 
 /***/ }),
-/* 493 */
+/* 483 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68570,7 +68284,7 @@
 
 
 /***/ }),
-/* 494 */
+/* 484 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68634,7 +68348,7 @@
 
 
 /***/ }),
-/* 495 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -68644,7 +68358,7 @@
 	 * This allows say <strong>foo</strong>, but not <strong class="very">foo</strong>
 	 * For proper HTML support, you'll want a different plugin
 	 **/
-	var visit = __webpack_require__(448);
+	var visit = __webpack_require__(438);
 
 	var type = 'virtualHtml';
 	var selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i;
@@ -68729,12 +68443,12 @@
 	}
 
 /***/ }),
-/* 496 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var visit = __webpack_require__(448);
+	var visit = __webpack_require__(438);
 
 	exports.ofType = function (types, mode) {
 	  return function (node) {
@@ -68774,13 +68488,13 @@
 	}
 
 /***/ }),
-/* 497 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(3);
-	var xtend = __webpack_require__(410);
+	var xtend = __webpack_require__(400);
 
 	function astToReact(node, options) {
 	  var parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -68928,12 +68642,12 @@
 	module.exports = astToReact;
 
 /***/ }),
-/* 498 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var visit = __webpack_require__(448);
+	var visit = __webpack_require__(438);
 
 	module.exports = function (node) {
 	  visit(node, 'table', wrap);
@@ -68959,7 +68673,7 @@
 	}
 
 /***/ }),
-/* 499 */
+/* 489 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -68980,7 +68694,7 @@
 	};
 
 /***/ }),
-/* 500 */
+/* 490 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -69026,13 +68740,13 @@
 	};
 
 /***/ }),
-/* 501 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* eslint-disable react/prop-types, react/no-multi-comp */
 	'use strict';
 
-	var xtend = __webpack_require__(410);
+	var xtend = __webpack_require__(400);
 	var React = __webpack_require__(3);
 	var createElement = React.createElement;
 
@@ -69130,16 +68844,16 @@
 	}
 
 /***/ }),
-/* 502 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(503);
+	var content = __webpack_require__(493);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -69156,23 +68870,24 @@
 	}
 
 /***/ }),
-/* 503 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".button___-pZw3 {\n  margin: auto;\n  margin-bottom: 50px;\n}", "", {"version":3,"sources":["/./containers/Instructions/style.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,oBAAoB;CACrB","file":"style.css","sourcesContent":[".button {\n  margin: auto;\n  margin-bottom: 50px;\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".button___-pZw3 {\n  margin: auto;\n  margin-bottom: 50px;\n}\n.instructions___2ySML img {\n  max-width: 600px;\n  margin: auto;\n  display: block;\n}", "", {"version":3,"sources":["/./containers/Instructions/style.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,oBAAoB;CACrB;AACD;EACE,iBAAiB;EACjB,aAAa;EACb,eAAe;CAChB","file":"style.css","sourcesContent":[".button {\n  margin: auto;\n  margin-bottom: 50px;\n}\n.instructions img {\n  max-width: 600px;\n  margin: auto;\n  display: block;\n}"],"sourceRoot":"webpack://"}]);
 
 	// exports
 	exports.locals = {
-		"button": "button___-pZw3"
+		"button": "button___-pZw3",
+		"instructions": "instructions___2ySML"
 	};
 
 /***/ }),
-/* 504 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69182,13 +68897,22 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	var uniGraphSrcHigh = exports.uniGraphSrcHigh = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraphHigh.png";
+	var uniGraphSrcLow = exports.uniGraphSrcLow = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraphLow.png";
+	var biGraphSrcHigh = exports.biGraphSrcHigh = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/biGraphHigh.png";
+	var biGraphSrcLow = exports.biGraphSrcLow = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/biGraphLow.png";
+	var bayGraph1SrcHigh = exports.bayGraph1SrcHigh = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/bayGraph1High.png";
+	var bayGraph1SrcLow = exports.bayGraph1SrcLow = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/bayGraph1Low.png";
+	var bayGraph2SrcHigh = exports.bayGraph2SrcHigh = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/bayGraph2High.png";
+	var bayGraph2SrcLow = exports.bayGraph2SrcLow = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/bayGraph2Low.png";
+
 	var uniGraphSrc = exports.uniGraphSrc = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/uniGraph.png";
 	var biGraphSrc = exports.biGraphSrc = "https://rawgithub.com/mechanicalt/mechanicalt.github.io/master/graph.png";
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 505 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69199,7 +68923,7 @@
 	  value: true
 	});
 
-	var _keys = __webpack_require__(506);
+	var _keys = __webpack_require__(496);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -69231,33 +68955,33 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMarkdown = __webpack_require__(409);
+	var _reactMarkdown = __webpack_require__(399);
 
 	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
 
-	var _Input = __webpack_require__(405);
+	var _Input = __webpack_require__(395);
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _Checkbox = __webpack_require__(395);
+	var _Checkbox = __webpack_require__(385);
 
 	var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Select = __webpack_require__(509);
+	var _Select = __webpack_require__(499);
 
 	var _Select2 = _interopRequireDefault(_Select);
 
 	var _reactRedux = __webpack_require__(99);
 
-	var _todos = __webpack_require__(510);
+	var _todos = __webpack_require__(500);
 
 	var TodoActions = _interopRequireWildcard(_todos);
 
-	var _reactCountryRegionSelector = __webpack_require__(511);
+	var _reactCountryRegionSelector = __webpack_require__(501);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -69383,21 +69107,21 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 506 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(507), __esModule: true };
+	module.exports = { "default": __webpack_require__(497), __esModule: true };
 
 /***/ }),
-/* 507 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(508);
+	__webpack_require__(498);
 	module.exports = __webpack_require__(272).Object.keys;
 
 
 /***/ }),
-/* 508 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 Object.keys(O)
@@ -69412,7 +69136,7 @@
 
 
 /***/ }),
-/* 509 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69443,7 +69167,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(396);
+	var _classnames = __webpack_require__(386);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -69490,7 +69214,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 510 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69500,10 +69224,12 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.agreeEthics = exports.submitResult = exports.toggleSummary = undefined;
+	exports.agreeEthics = exports.submitResult = exports.toggleSummary = exports.riskAdverse = exports.testUnderstanding = undefined;
 
 	var _reduxActions = __webpack_require__(367);
 
+	var testUnderstanding = exports.testUnderstanding = (0, _reduxActions.createAction)('TEST_UNDERSTANDING');
+	var riskAdverse = exports.riskAdverse = (0, _reduxActions.createAction)('RISK_ADVERSE');
 	var toggleSummary = exports.toggleSummary = (0, _reduxActions.createAction)('TOGGLE_SUMMARY');
 	var submitResult = exports.submitResult = (0, _reduxActions.createAction)('SUBMIT_RESULT');
 	var agreeEthics = exports.agreeEthics = (0, _reduxActions.createAction)('AGREE_ETHICS');
@@ -69511,7 +69237,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 511 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69536,7 +69262,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _sourceDataJs = __webpack_require__(512);
+	var _sourceDataJs = __webpack_require__(502);
 
 	var _sourceDataJs2 = _interopRequireDefault(_sourceDataJs);
 
@@ -69881,7 +69607,7 @@
 	exports.CountryRegionData = _sourceDataJs2['default'];
 
 /***/ }),
-/* 512 */
+/* 502 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -69895,7 +69621,461 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 513 */
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _defineProperty2 = __webpack_require__(310);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _extends3 = __webpack_require__(273);
+
+	var _extends4 = _interopRequireDefault(_extends3);
+
+	var _getPrototypeOf = __webpack_require__(314);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(319);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(320);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(321);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(355);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMarkdown = __webpack_require__(399);
+
+	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
+
+	var _Input = __webpack_require__(395);
+
+	var _Input2 = _interopRequireDefault(_Input);
+
+	var _Button = __webpack_require__(391);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _style = __webpack_require__(504);
+
+	var _style2 = _interopRequireDefault(_style);
+
+	var _router = __webpack_require__(364);
+
+	var actions = _interopRequireWildcard(_router);
+
+	var _todos = __webpack_require__(500);
+
+	var TodoActions = _interopRequireWildcard(_todos);
+
+	var _reactRedux = __webpack_require__(99);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var questions = ['Betting a day’s income at the horse races', 'Investing 10% of your annual income in a moderate growth mutual fund', 'Betting a day’s income at a high-stake poker game', 'Investing 5% of your annual income in a very speculative stock', 'Betting a day’s income on the outcome of a sporting event', 'Investing 10% of your annual income in a new business venture'];
+	var answers = questions.reduce(function (finalResult, question) {
+	  finalResult[question] = '';
+	  return finalResult;
+	}, {});
+
+	var RiskAdverse = function (_React$PureComponent) {
+	  (0, _inherits3.default)(RiskAdverse, _React$PureComponent);
+
+	  function RiskAdverse() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    (0, _classCallCheck3.default)(this, RiskAdverse);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RiskAdverse.__proto__ || (0, _getPrototypeOf2.default)(RiskAdverse)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      answers: answers
+	    }, _this.handleChange = function (question, num) {
+	      var nextState = {
+	        answers: (0, _extends4.default)({}, _this.state.answers, (0, _defineProperty3.default)({}, question, num))
+	      };
+	      _this.setState(nextState);
+	    }, _this.isValid = function () {
+	      return questions.reduce(function (finalResult, question) {
+	        if (!finalResult) {
+	          return finalResult;
+	        }
+	        if (_this.state.answers[question]) {
+	          return true;
+	        }
+	        return false;
+	      }, true);
+	    }, _this.submit = function () {
+	      if (_this.isValid()) _this.props.goToGame(_this.state.answers);
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+
+	  (0, _createClass3.default)(RiskAdverse, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var source = 'For each of the following statements, please indicate the likelihood that you would engage in the described activity or behavior if you were to find yourself in that situation. Provide a rating from Extremely Unlikely to Extremely Likely, using the following scale: \n\n1 | 2 | 3 | 4 | 5 | 6 | 7\n:---: | :---: | :---: | :---: | :---: | :---: | :---:\nExtremely Unlikely | Moderately Unlikely | Somewhat Unlikely | Neither likely nor unlikely | Somewhat Likely | Moderately Likely | Extremely Likely\n';
+	      return _react2.default.createElement(
+	        'div',
+	        { className: _style2.default.table },
+	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          questions.map(function (question) {
+	            return _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                question
+	              ),
+	              _react2.default.createElement(_Input2.default, { type: 'number', value: _this2.state.answers[question], onChange: function onChange(num) {
+	                  return _this2.handleChange(question, num);
+	                } })
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { disabled: !this.isValid(), className: _style2.default.button, onClick: this.submit },
+	          'Proceed To Instructions'
+	        )
+	      );
+	    }
+	  }]);
+	  return RiskAdverse;
+	}(_react2.default.PureComponent);
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    goToGame: function goToGame(state) {
+	      return dispatch(TodoActions.riskAdverse(state));
+	    }
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(RiskAdverse);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 504 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(505);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(390)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 505 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(389)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".table___2luS0 td {\n  border-right: 1px solid black;\n}\n\n.button___388RP {\n  margin: auto;\n  margin-bottom: 50px;\n}", "", {"version":3,"sources":["/./containers/RiskAdverse/style.css"],"names":[],"mappings":"AAAA;EACE,8BAA8B;CAC/B;;AAED;EACE,aAAa;EACb,oBAAoB;CACrB","file":"style.css","sourcesContent":[".table td {\n  border-right: 1px solid black;\n}\n\n.button {\n  margin: auto;\n  margin-bottom: 50px;\n}"],"sourceRoot":"webpack://"}]);
+
+	// exports
+	exports.locals = {
+		"table": "table___2luS0",
+		"button": "button___388RP"
+	};
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _keys = __webpack_require__(496);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _defineProperty2 = __webpack_require__(310);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _extends5 = __webpack_require__(273);
+
+	var _extends6 = _interopRequireDefault(_extends5);
+
+	var _getPrototypeOf = __webpack_require__(314);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(319);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(320);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(321);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(355);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMarkdown = __webpack_require__(399);
+
+	var _reactMarkdown2 = _interopRequireDefault(_reactMarkdown);
+
+	var _Input = __webpack_require__(395);
+
+	var _Input2 = _interopRequireDefault(_Input);
+
+	var _Button = __webpack_require__(391);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _reactRedux = __webpack_require__(99);
+
+	var _todos = __webpack_require__(500);
+
+	var ToDoActions = _interopRequireWildcard(_todos);
+
+	var _todos2 = __webpack_require__(366);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var e1md = '## Exercise 1: \n\n  The cost of each widget: 5 experimental dollars.\n\n  Sales price of each widget: 10 experimental dollars.\n';
+
+
+	var e2md = '## Exercise 2:\n\n  Cost per widget: 5 experimental dollars.\n\n  Sales price per widget: 10 experimental dollars.\n\n  Order quantity: ' + (500 + _todos2.demandBoost) + ' units.\n  \n  Realised demand: ' + (800 + _todos2.demandBoost) + ' units.\n';
+
+	var data = {
+	  high: {
+	    e1: {
+	      questions: ['If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets', 'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets', 'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets', 'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets'],
+	      answers: {
+	        'If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets': 200,
+	        'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets': 0,
+	        'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets': 500,
+	        'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets': 100
+	      }
+	    },
+	    e2: {
+	      questions: ['How many widgets are unsold? _______', 'How many widgets are sold? _______', 'How many widgets did you miss out on selling? _______', 'What is the total revenue? _______ experimental dollars', 'What is the total cost? _______ experimental dollars', 'What is the total profit? _______ experimental dollars'],
+	      answers: {
+	        'How many widgets are unsold? _______': 0,
+	        'How many widgets are sold? _______': 500,
+	        'How many widgets did you miss out on selling? _______': 300,
+	        'What is the total revenue? _______ experimental dollars': 5000,
+	        'What is the total cost? _______ experimental dollars': 2500,
+	        'What is the total profit? _______ experimental dollars': 2500
+	      }
+	    }
+	  },
+	  low: {
+	    e1: {
+	      questions: ['If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets', 'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets', 'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets', 'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets'],
+	      answers: {
+	        'If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': 1200,
+	        'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets': 0,
+	        'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': 1500,
+	        'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets': 100
+	      }
+	    },
+	    e2: {
+	      questions: ['How many widgets are unsold? _______', 'How many widgets are sold? _______', 'How many widgets did you miss out on selling? _______', 'What is the total revenue? _______ experimental dollars', 'What is the total cost? _______ experimental dollars', 'What is the total profit? _______ experimental dollars'],
+	      answers: {
+	        'How many widgets are unsold? _______': 0,
+	        'How many widgets are sold? _______': 1500,
+	        'How many widgets did you miss out on selling? _______': 300,
+	        'What is the total revenue? _______ experimental dollars': 15000,
+	        'What is the total cost? _______ experimental dollars': 7500,
+	        'What is the total profit? _______ experimental dollars': 7500
+	      }
+	    }
+	  }
+	};
+
+	var getAnswers = function getAnswers(quest) {
+	  var e1 = getFinalFormat(quest.e1);
+	  var e2 = getFinalFormat(quest.e2);
+	  return {
+	    e1: e1,
+	    e2: e2
+	  };
+	};
+
+	var getFinalFormat = function getFinalFormat(e) {
+	  return e.questions.reduce(function (finalResult, question) {
+	    finalResult[question] = {
+	      value: '',
+	      correctAnswer: e.answers[question],
+	      error: ''
+	    };
+	    return finalResult;
+	  }, {});
+	};
+
+	var TestUnderstanding = function (_React$Component) {
+	  (0, _inherits3.default)(TestUnderstanding, _React$Component);
+
+	  function TestUnderstanding(props) {
+	    (0, _classCallCheck3.default)(this, TestUnderstanding);
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (TestUnderstanding.__proto__ || (0, _getPrototypeOf2.default)(TestUnderstanding)).call(this, props));
+
+	    _this.state = getAnswers(_todos2.demandBoost ? data.low : data.high);
+
+	    _this.handleChange = function (type, question, value) {
+	      _this.setState((0, _extends6.default)({}, _this.state, (0, _defineProperty3.default)({}, type, (0, _extends6.default)({}, _this.state[type], (0, _defineProperty3.default)({}, question, (0, _extends6.default)({}, _this.state[type][question], {
+	        value: value
+	      }))))));
+	    };
+
+	    _this.checkForErrors = function (currentState) {
+	      return (0, _keys2.default)(currentState).reduce(function (finalResult, question) {
+	        if (finalResult) return finalResult;
+	        if (currentState[question].error) return true;
+	        return false;
+	      }, false);
+	    };
+
+	    _this.getErrors = function (type) {
+	      var nextState = (0, _keys2.default)(_this.state[type]).reduce(function (finalResult, question) {
+	        if (finalResult[question].correctAnswer === Number(finalResult[question].value)) {
+	          finalResult[question].error = '';
+	        } else {
+	          finalResult[question].error = 'This is not the correct value';
+	        }
+	        return finalResult;
+	      }, _this.state[type]);
+	      _this.setState(function (state, props) {
+	        return (0, _extends6.default)({}, state, (0, _defineProperty3.default)({}, type, nextState));
+	      });
+	      return _this.checkForErrors(nextState);
+	    };
+
+	    _this.submit = function () {
+	      ++_this.attempts;
+	      if (!_this.getErrors('e1') & !_this.getErrors('e2')) _this.props.goToGame(_this.attempts);
+	    };
+
+	    _this.renderQuestions = function (type) {
+	      return (0, _keys2.default)(_this.state[type]).map(function (question) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            question
+	          ),
+	          _react2.default.createElement(_Input2.default, (0, _extends6.default)({ key: question }, _this.state[type][question], { onChange: function onChange(value) {
+	              return _this.handleChange(type, question, value);
+	            } }))
+	        );
+	      });
+	    };
+
+	    _this.attempts = 0;
+	    return _this;
+	  }
+
+	  (0, _createClass3.default)(TestUnderstanding, [{
+	    key: 'render',
+	    value: function render() {
+	      var source = '# Test Understanding of Game\n  To check your understanding of the game, please answer the following questions. You may not proceed to the game without correctly answering these questions. Failure to answer the questions in a reasonable number of attempts may result in forfeiting the bonus payment due to lack of effort/comprehension of the task.\n';
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
+	        _react2.default.createElement(_reactMarkdown2.default, { source: e1md }),
+	        this.renderQuestions('e1'),
+	        _react2.default.createElement(_reactMarkdown2.default, { source: e2md }),
+	        this.renderQuestions('e2'),
+	        _react2.default.createElement(
+	          _Button2.default,
+	          { onClick: this.submit },
+	          'Check Answers And Go To Game'
+	        )
+	      );
+	    }
+	  }]);
+	  return TestUnderstanding;
+	}(_react2.default.Component);
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToGame: function goToGame(attempts) {
+	      return dispatch(ToDoActions.testUnderstanding(attempts));
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(TestUnderstanding);
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -69934,15 +70114,15 @@
 
 	var _reactRedux = __webpack_require__(99);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Summary = __webpack_require__(514);
+	var _Summary = __webpack_require__(508);
 
 	var _Summary2 = _interopRequireDefault(_Summary);
 
-	var _Choose = __webpack_require__(517);
+	var _Choose = __webpack_require__(511);
 
 	var _Choose2 = _interopRequireDefault(_Choose);
 
@@ -69950,7 +70130,7 @@
 
 	var routerActions = _interopRequireWildcard(_router);
 
-	var _style = __webpack_require__(523);
+	var _style = __webpack_require__(517);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -70009,7 +70189,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 514 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70020,7 +70200,7 @@
 	  value: true
 	});
 
-	var _keys = __webpack_require__(506);
+	var _keys = __webpack_require__(496);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -70054,11 +70234,11 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _todos = __webpack_require__(515);
+	var _todos = __webpack_require__(509);
 
 	var todoSelectors = _interopRequireWildcard(_todos);
 
-	var _todos2 = __webpack_require__(510);
+	var _todos2 = __webpack_require__(500);
 
 	var TodoActions = _interopRequireWildcard(_todos2);
 
@@ -70066,11 +70246,11 @@
 
 	var routerActions = _interopRequireWildcard(_router);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _blacklist = __webpack_require__(516);
+	var _blacklist = __webpack_require__(510);
 
 	var _blacklist2 = _interopRequireDefault(_blacklist);
 
@@ -70131,7 +70311,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _Button2.default,
-	          { onClick: goToChoose },
+	          { autoFocus: true, onClick: goToChoose },
 	          this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'
 	        )
 	      );
@@ -70160,40 +70340,27 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 515 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getCurrentResults = exports.getResultsName = exports.getTodos = undefined;
-
-	var _todos = __webpack_require__(366);
-
-	var reducers = _interopRequireWildcard(_todos);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 	var getTodos = exports.getTodos = function getTodos(state) {
 	  return state.todos;
 	};
-	var getResultsName = exports.getResultsName = function getResultsName(state) {
-	  return reducers.getResultsName(getTodos(state));
-	};
 	var getCurrentResults = exports.getCurrentResults = function getCurrentResults(state) {
-	  var resultsName = getResultsName(state);
-	  console.log('resultsName', resultsName);
-	  return getTodos(state)[resultsName];
+	  return getTodos(state).results;
 	};
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "todos.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 516 */
+/* 510 */
 /***/ (function(module, exports) {
 
 	module.exports = function blacklist (src) {
@@ -70219,7 +70386,7 @@
 
 
 /***/ }),
-/* 517 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70234,11 +70401,11 @@
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-	var _keys = __webpack_require__(506);
+	var _keys = __webpack_require__(496);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _isNan = __webpack_require__(518);
+	var _isNan = __webpack_require__(512);
 
 	var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -70274,35 +70441,37 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _classnames2 = __webpack_require__(396);
+	var _classnames2 = __webpack_require__(386);
 
 	var _classnames3 = _interopRequireDefault(_classnames2);
 
-	var _todos = __webpack_require__(510);
+	var _todos = __webpack_require__(500);
 
 	var TodoActions = _interopRequireWildcard(_todos);
 
-	var _Button = __webpack_require__(401);
+	var _Button = __webpack_require__(391);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Input = __webpack_require__(405);
+	var _Input = __webpack_require__(395);
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _todos2 = __webpack_require__(515);
+	var _todos2 = __webpack_require__(509);
 
 	var todoSelectors = _interopRequireWildcard(_todos2);
 
-	var _utils = __webpack_require__(504);
+	var _utils = __webpack_require__(494);
 
 	var u = _interopRequireWildcard(_utils);
 
-	var _style = __webpack_require__(521);
+	var _style = __webpack_require__(515);
 
 	var _style2 = _interopRequireDefault(_style);
 
-	var _index = __webpack_require__(504);
+	var _index = __webpack_require__(494);
+
+	var _todos3 = __webpack_require__(366);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -70339,9 +70508,9 @@
 	          unitsToOrder: 0
 	        });
 	      }
-	      if (unitsToOrder > 400) {
+	      if (unitsToOrder > 1000 + _this.props.demandBoost) {
 	        return _this.setState({
-	          unitsToOrder: 400
+	          unitsToOrder: 1000 + _this.props.demandBoost
 	        });
 	      }
 	      return _this.setState({
@@ -70357,8 +70526,6 @@
 
 	      var _props = this.props,
 	          results = _props.results,
-	          actions = _props.actions,
-	          children = _props.children,
 	          submitResult = _props.submitResult,
 	          price = _props.price,
 	          cost = _props.cost,
@@ -70369,12 +70536,6 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          'Game ' + (this.props.attempt <= 20 ? 1 : 2) + ' - ' + (uni ? 'Uni' : 'Bi') + 'modal Distribution'
-	        ),
-	        _react2.default.createElement('img', { className: _style2.default.graph, src: uni ? u.uniGraphSrc : _index.biGraphSrc }),
-	        _react2.default.createElement(
 	          'h3',
 	          null,
 	          'Choose Order Quantity'
@@ -70382,7 +70543,7 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Select your order quantity and enter it into the text field. Remember that demand is between 0 and 400.'
+	          'Select your order quantity and enter it into the text field. Remember that demand is between ' + _todos3.demandBetween + '.'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -70460,7 +70621,7 @@
 	              'span',
 	              null,
 	              'Units to order: ',
-	              _react2.default.createElement(_Input2.default, { value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
+	              _react2.default.createElement(_Input2.default, { autoFocus: true, onKeyPress: this.stopSubmit, value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
 	            ),
 	            _react2.default.createElement(
 	              _Button2.default,
@@ -70525,6 +70686,7 @@
 	  return {
 	    uni: state.todos.uni,
 	    attempt: state.todos.attempt,
+	    demandBoost: state.todos.demandBoost,
 	    results: todoSelectors.getCurrentResults(state),
 	    price: state.todos.price,
 	    cost: state.todos.cost
@@ -70542,21 +70704,21 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 518 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(519), __esModule: true };
+	module.exports = { "default": __webpack_require__(513), __esModule: true };
 
 /***/ }),
-/* 519 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(520);
+	__webpack_require__(514);
 	module.exports = __webpack_require__(272).Number.isNaN;
 
 
 /***/ }),
-/* 520 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 20.1.2.4 Number.isNaN(number)
@@ -70571,16 +70733,16 @@
 
 
 /***/ }),
-/* 521 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(522);
+	var content = __webpack_require__(516);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -70597,10 +70759,10 @@
 	}
 
 /***/ }),
-/* 522 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
@@ -70616,16 +70778,16 @@
 	};
 
 /***/ }),
-/* 523 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(524);
+	var content = __webpack_require__(518);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(400)(content, {});
+	var update = __webpack_require__(390)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -70642,10 +70804,10 @@
 	}
 
 /***/ }),
-/* 524 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(399)();
+	exports = module.exports = __webpack_require__(389)();
 	// imports
 
 
@@ -70658,7 +70820,7 @@
 	};
 
 /***/ }),
-/* 525 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70676,9 +70838,9 @@
 
 	var _reactRouterRedux = __webpack_require__(94);
 
-	var _middleware = __webpack_require__(526);
+	var _middleware = __webpack_require__(520);
 
-	var _reducers = __webpack_require__(528);
+	var _reducers = __webpack_require__(522);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -70704,7 +70866,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 526 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70716,7 +70878,7 @@
 	});
 	exports.logger = undefined;
 
-	var _logger = __webpack_require__(527);
+	var _logger = __webpack_require__(521);
 
 	var _logger2 = _interopRequireDefault(_logger);
 
@@ -70727,7 +70889,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 527 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -70750,7 +70912,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "logger.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 528 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {

@@ -88,7 +88,7 @@ Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)
 Profit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)
   `
     return (
-      <div>
+      <div className={style.instructions}>
         <Markdown source={source} />
         <Button className={style.button} onClick={goToGame}>Proceed To Game</Button>
       </div>
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    goToGame: () => dispatch(actions.goToGame())
+    goToGame: () => dispatch(actions.goToTestUnderstanding())
   }
 }
 

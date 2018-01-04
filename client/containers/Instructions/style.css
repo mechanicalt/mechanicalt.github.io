@@ -2,3 +2,8 @@
   margin: auto;
   margin-bottom: 50px;
 }
+.instructions img {
+  max-width: 600px;
+  margin: auto;
+  display: block;
+}

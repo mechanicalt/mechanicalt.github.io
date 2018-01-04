@@ -65,7 +65,6 @@ class Results extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   const lastResultIndex = state.todos.results.length - 1
-  console.log(_.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit'))
   return {
     todos: state.todos,
     attempt: state.todos.attempt,

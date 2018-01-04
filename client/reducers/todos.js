@@ -96,6 +96,8 @@ const initialState = {
   attempt: 0,
   // view: 'game',
   view: 'instructions',
+  // view: 'riskAdverse',
+  // view: 'testUnderstanding',
 }
 
 const getJson = (state) => {
@@ -118,7 +120,21 @@ export default handleActions({
     return {
       ...state,
       ethics: action.payload,
+      view: 'riskAdverse'
+    }
+  },
+  'RISK_ADVERSE' (state, action) {
+    return {
+      ...state,
+      riskAdverse: action.payload,
       view: 'instructions'
+    }
+  },
+  'TEST_UNDERSTANDING' (state, action) {
+    return {
+      ...state,
+      testUnderstandingAttempts: action.payload,
+      view: 'choose'
     }
   },
   'CHANGE_VIEW' (state, action) {
