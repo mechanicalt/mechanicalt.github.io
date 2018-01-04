@@ -30,7 +30,6 @@ class Results extends React.PureComponent {
     $('#results').closest('form').submit()
   }
   render () {
-    const finishedSecondGame = this.props.attempt === 40
     return (<div>
       <h3>Final Results</h3>
       <p>Thank you for completing the game. Your results are as follows:</p>
@@ -38,38 +37,26 @@ class Results extends React.PureComponent {
         <tbody>
           <tr>
             <td>
-              Game 1 Total Profit:
+              Total Profit:
             </td>
             <td>
-              {`$${this.props[`${this.props.firstGame}Profit`]}`}
+              {`$${this.props.profit}`}
             </td>
           </tr>
           {
-            finishedSecondGame && <tr>
-              <td>
-              Game 2 Total Profit:
-              </td>
-              <td>
-                {`$${this.props[`${this.props.firstGame === 'uni' ? 'bi' : 'uni'}Profit`]}`}
-              </td>
-            </tr>
-          }
-          {
-            finishedSecondGame && <div>{`Total Performance Bonus: $${Math.round(100 * (this.props.uniProfit + this.props.biProfit) / priceCost.divisor) / 100}`}</div>
+            <div>{`Total Performance Bonus: $${Math.round(100 * (this.props.profit) / priceCost.divisor) / 100}`}</div>
           }
         </tbody>
       </table>
+
+      <div>
+        <Checkbox onChange={this.onChange.bind(this, 'receive')} checked={this.state.receive} label="I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only"/>
+        <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
+        <div><span>Address: <TextInput value={this.state.address} onChange={this.onChange.bind(null, 'address')} /></span></div>
+        <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>
+      </div>
       {
-        finishedSecondGame && <div>
-          <Checkbox onChange={this.onChange.bind(this, 'receive')} checked={this.state.receive} label="I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only"/>
-          <div><span>Name: <TextInput value={this.state.name} onChange={this.onChange.bind(null, 'name')} /></span></div>
-          <div><span>Address: <TextInput value={this.state.address} onChange={this.onChange.bind(null, 'address')} /></span></div>
-          <div><span>Email Address: <TextInput value={this.state.emailAddress} onChange={this.onChange.bind(null, 'emailAddress')} type="email"/></span></div>
-        </div>
-      }
-      {
-        finishedSecondGame ? <Button onClick={this.submit}>Submit Results</Button>
-          : <Button onClick={this.props.goToGame}>Go To Final Game</Button>
+        <Button onClick={this.submit}>Submit Results</Button>
       }
 
     </div>)
@@ -77,15 +64,12 @@ class Results extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const uniLastResultIndex = state.todos.uniResults.length - 1
-  const biLastResultIndex = state.todos.biResults.length - 1
+  const lastResultIndex = state.todos.results.length - 1
+  console.log(_.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit'))
   return {
     todos: state.todos,
-    firstGame: state.todos.firstGame,
-    uni: state.todos.uni,
     attempt: state.todos.attempt,
-    uniProfit: _.get(state.todos.uniResults[uniLastResultIndex] || {}, 'cumulativeProfit'),
-    biProfit: _.get(state.todos.biResults[biLastResultIndex] || {}, 'cumulativeProfit')
+    profit: _.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit')
   }
 }
 const mapDispatchToProps = (dispatch) => {

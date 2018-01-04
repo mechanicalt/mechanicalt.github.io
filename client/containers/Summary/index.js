@@ -1,4 +1,4 @@
-
+// @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _, { startCase, camelCase } from 'lodash'
@@ -25,7 +25,7 @@ class Summary extends Component {
             }
           </tbody>
         </table>
-        <Button onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
+        <Button autoFocus onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
       </div>
     )
   }

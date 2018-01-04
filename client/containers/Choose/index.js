@@ -10,6 +10,7 @@ import * as todoSelectors from 'selectors/todos'
 import * as u from 'utils'
 import style from './style.css'
 import { biGraphSrc } from '../../utils/index';
+import {demandBetween} from 'reducers/todos';
 
 class Choose extends Component {
   state = {
@@ -31,9 +32,9 @@ class Choose extends Component {
         unitsToOrder: 0
       })
     }
-    if (unitsToOrder > 400) {
+    if (unitsToOrder > (1000 + this.props.demandBoost)) {
       return this.setState({
-        unitsToOrder: 400
+        unitsToOrder: 1000 + this.props.demandBoost
       })
     }
     return this.setState({
@@ -41,14 +42,18 @@ class Choose extends Component {
     })
   }
   render () {
-    const { results, actions, children, submitResult, price, cost, uni } = this.props
+    const { results, submitResult, price, cost, uni } = this.props
     const { unitsToOrder } = this.state
     return (
       <div>
-        <h2>{`Game ${this.props.attempt <= 20 ? 1 : 2} - ${uni ? 'Uni' : 'Bi'}modal Distribution`}</h2>
-        <img className={style.graph} src={uni ? u.uniGraphSrc : biGraphSrc} />
+        {
+          //<h2>{`Game ${this.props.attempt <= 20 ? 1 : 2}`}</h2>
+        }
+        {
+          //<img className={style.graph} src={uni ? u.uniGraphSrc : biGraphSrc} />
+        }        
         <h3>Choose Order Quantity</h3>
-        <p>Select your order quantity and enter it into the text field. Remember that demand is between 0 and 400.</p>
+        <p>{`Select your order quantity and enter it into the text field. Remember that demand is between ${demandBetween}.`}</p>
         <div>
           <div className={style.half}>
             <table>
@@ -60,7 +65,7 @@ class Choose extends Component {
             </table>
           </div>
           <div className={style.half}>
-            <span>Units to order: <TextInput value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder} type="number" /></span>
+            <span>Units to order: <TextInput autoFocus onKeyPress={this.stopSubmit} value={this.state.unitsToOrder} onChange={this.handleChangeUnitsToOrder} type="number" /></span>
             <Button onClick={() => submitResult(this.state.unitsToOrder)} disabled={unitsToOrder === ''}>Submit Order</Button>
           </div>
         </div>
@@ -104,6 +109,7 @@ function mapStateToProps (state) {
   return {
     uni: state.todos.uni,
     attempt: state.todos.attempt,
+    demandBoost: state.todos.demandBoost,
     results: todoSelectors.getCurrentResults(state),
     price: state.todos.price,
     cost: state.todos.cost
