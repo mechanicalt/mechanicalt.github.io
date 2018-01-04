@@ -60574,19 +60574,22 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    distribution: state.todos.distribution
+	    distribution: state.todos.distribution,
+	    testUnderstandingAttempts: state.todos.testUnderstandingAttempts
 	  };
 	};
 
-	function mapDispatchToProps(dispatch) {
+	function mapDispatchToProps(dispatch, _ref2) {
+	  var testUnderstandingAttempts = _ref2.testUnderstandingAttempts;
+
 	  return {
 	    goToGame: function goToGame() {
-	      return dispatch(actions.goToTestUnderstanding());
+	      return testUnderstandingAttempts ? dispatch(actions.goToGame()) : dispatch(actions.goToTestUnderstanding());
 	    }
 	  };
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Instructions);
+	exports.default = _.flowRight([(0, _reactRedux.connect)(mapStateToProps), (0, _reactRedux.connect)(null, mapDispatchToProps)])(Instructions);
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/leighsilverstein/Documents/mech-tech-front/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
