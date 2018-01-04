@@ -95,7 +95,7 @@ const initialState = {
   game: 1,
   attempt: 0,
   // view: 'game',
-  view: 'instructions',
+  // view: 'instructions',
   // view: 'riskAdverse',
   // view: 'testUnderstanding',
 }
