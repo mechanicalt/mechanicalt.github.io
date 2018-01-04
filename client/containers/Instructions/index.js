@@ -97,16 +97,17 @@ Profit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)
 }
 
 const mapStateToProps = (state) => ({
-  distribution: state.todos.distribution
+  distribution: state.todos.distribution,
+  testUnderstandingAttempts: state.todos.testUnderstandingAttempts,
 })
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps (dispatch, {testUnderstandingAttempts}) {
   return {
-    goToGame: () => dispatch(actions.goToTestUnderstanding())
+    goToGame: () => (testUnderstandingAttempts ? dispatch(actions.goToGame()) : dispatch(actions.goToTestUnderstanding()))
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Instructions)
+export default _.flowRight([
+  connect(mapStateToProps),
+  connect(null, mapDispatchToProps)
+])(Instructions)

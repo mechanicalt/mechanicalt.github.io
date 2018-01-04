@@ -69983,6 +69983,10 @@
 
 	    _this.state = getAnswers(_todos2.demandBoost ? data.low : data.high);
 
+	    _this.componentDidMount = function () {
+	      window.scrollTo(0, 0);
+	    };
+
 	    _this.handleChange = function (type, question, value) {
 	      _this.setState((0, _extends6.default)({}, _this.state, (0, _defineProperty3.default)({}, type, (0, _extends6.default)({}, _this.state[type], (0, _defineProperty3.default)({}, question, (0, _extends6.default)({}, _this.state[type][question], {
 	        value: value
@@ -70492,6 +70496,8 @@
 
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Choose.__proto__ || (0, _getPrototypeOf2.default)(Choose)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      unitsToOrder: ''
+	    }, _this.componentDidMount = function () {
+	      window.scrollTo(0, 0);
 	    }, _this.stopSubmit = function (event) {
 	      if (event.key === 'Enter') {
 	        _this.props.submitResult(_this.state.unitsToOrder);
