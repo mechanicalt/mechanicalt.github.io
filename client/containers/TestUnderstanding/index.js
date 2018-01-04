@@ -122,6 +122,9 @@ class TestUnderstanding extends React.Component {
     super(props)
     this.attempts = 0
   }
+  componentDidMount = () => {
+    window.scrollTo(0, 0)
+  }
   handleChange = (type, question, value) => {
     this.setState({
       ...this.state,

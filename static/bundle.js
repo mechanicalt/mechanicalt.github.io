@@ -28560,7 +28560,6 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  var lastResultIndex = state.todos.results.length - 1;
-	  console.log(_lodash2.default.get(state.todos.results[lastResultIndex] || {}, 'cumulativeProfit'));
 	  return {
 	    todos: state.todos,
 	    attempt: state.todos.attempt,
@@ -57729,13 +57728,9 @@
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
-	var _defineProperty2 = __webpack_require__(310);
+	var _extends2 = __webpack_require__(273);
 
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-	var _extends3 = __webpack_require__(273);
-
-	var _extends4 = _interopRequireDefault(_extends3);
+	var _extends3 = _interopRequireDefault(_extends2);
 
 	var _jquery = __webpack_require__(363);
 
@@ -57826,7 +57821,7 @@
 	  divisor: divisor
 	};
 
-	var initialState = (0, _extends4.default)({}, priceCost, (0, _defineProperty3.default)({
+	var initialState = (0, _extends3.default)({}, priceCost, {
 	  assignmentId: params.assignmentId,
 	  showSummary: false,
 	  distribution: getDistribution(),
@@ -57849,7 +57844,11 @@
 	  ethics: {},
 	  game: 1,
 	  attempt: 0
-	}, 'view', 'instructions'));
+	  // view: 'game',
+	  // view: 'instructions',
+	  // view: 'riskAdverse',
+	  // view: 'testUnderstanding',
+	});
 
 	var getJson = function getJson(state) {
 	  return (0, _stringify2.default)(state);
@@ -57868,19 +57867,19 @@
 
 	exports.default = (0, _reduxActions.handleActions)({
 	  'AGREE_ETHICS': function AGREE_ETHICS(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends3.default)({}, state, {
 	      ethics: action.payload,
 	      view: 'riskAdverse'
 	    });
 	  },
 	  'RISK_ADVERSE': function RISK_ADVERSE(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends3.default)({}, state, {
 	      riskAdverse: action.payload,
 	      view: 'instructions'
 	    });
 	  },
 	  'TEST_UNDERSTANDING': function TEST_UNDERSTANDING(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends3.default)({}, state, {
 	      testUnderstandingAttempts: action.payload,
 	      view: 'choose'
 	    });
@@ -57889,13 +57888,13 @@
 	    var otherProps = action.changeUni ? {
 	      showSummary: !state.showSummary
 	    } : {};
-	    return (0, _extends4.default)({}, state, otherProps, {
+	    return (0, _extends3.default)({}, state, otherProps, {
 	      view: action.payload
 
 	    });
 	  },
 	  'TOGGLE_SUMMARY': function TOGGLE_SUMMARY(state, action) {
-	    return (0, _extends4.default)({}, state, {
+	    return (0, _extends3.default)({}, state, {
 	      showSummary: !state.showSummary
 	    });
 	  },
@@ -57928,7 +57927,7 @@
 	      cumulativeProfit: lastcumulativeProfit + profitForThisRound,
 	      time: new Date().toString()
 	    }]);
-	    var nextState = (0, _extends4.default)({}, state, {
+	    var nextState = (0, _extends3.default)({}, state, {
 	      results: results,
 	      showSummary: true,
 	      attempt: state.attempt + 1

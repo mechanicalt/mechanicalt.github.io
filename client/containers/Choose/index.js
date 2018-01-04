@@ -16,6 +16,9 @@ class Choose extends Component {
   state = {
     unitsToOrder: ''
   }
+  componentDidMount = () => {
+    window.scrollTo(0, 0)
+  }
   stopSubmit = (event) => {
     if (event.key === 'Enter') {
       this.props.submitResult(this.state.unitsToOrder)
