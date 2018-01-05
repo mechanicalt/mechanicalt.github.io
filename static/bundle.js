@@ -57798,7 +57798,7 @@
 	  // }
 	};
 
-	var divisor = exports.divisor = randomChoice >= 0.5 ? 50000 : 50000;
+	var divisor = exports.divisor = randomChoice >= 0.5 ? 50000 : 25000;
 
 	var getDistribution = function getDistribution() {
 	  return randomBool() ? 'uni' : 'bi';
