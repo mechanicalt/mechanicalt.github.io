@@ -21,7 +21,7 @@ const uniqueId = Math.round(1000000000 * Math.random())
 
 const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com'
 
-// const randomBool = () => Math.random() >= 0.5
+const randomBool = () => Math.random() >= 0.5
 
 const randomChoice = Math.random()
 
@@ -47,22 +47,22 @@ const getCost = () => {
 export const divisor = randomChoice >= 0.5 ? 50000 : 50000
 
 const getDistribution = () => {
-  // return randomBool() ? 'uni' : 'bi'
-  const thirds = 1 / 3
-  const rand = Math.random()
-  if (rand < thirds) {
-    return 'uni'
-  }
-  if (rand < (2 * thirds)) {
-    return 'bi'
-  }
-  return 'bay'
+  return randomBool() ? 'uni' : 'bi'
+  // const thirds = 1 / 3
+  // const rand = Math.random()
+  // if (rand < thirds) {
+  //   return 'uni'
+  // }
+  // if (rand < (2 * thirds)) {
+  //   return 'bi'
+  // }
+  // return 'bay'
 }
 
 
-export const demandBoost = randomChoice >= 0.5 ? 0 : 1000
+export const demandBoost = randomChoice >= 0.5 ? 0 : 500
 
-export const demandBetween = demandBoost ? '1000 and 2000' : '0 and 1000'
+export const demandBetween = demandBoost ? '501 and 1500' : '1 and 1000'
 
 export const priceCost = {
   price: 12,
@@ -74,7 +74,8 @@ const initialState = {
   ...priceCost,
   assignmentId: params.assignmentId,
   showSummary: false,
-  distribution: getDistribution(),
+  // distribution: getDistribution(),
+  distribution: 'bi',
   // showSummary: true,
   // uniResults: [{
   //   unitsOrdered: 1,
@@ -95,7 +96,7 @@ const initialState = {
   game: 1,
   attempt: 0,
   // view: 'game',
-  // view: 'instructions',
+  view: 'instructions',
   // view: 'riskAdverse',
   // view: 'testUnderstanding',
 }

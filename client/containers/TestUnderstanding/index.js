@@ -29,16 +29,16 @@ const data = {
   high: {
     e1: {
       questions: [
-        'If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets',
-        'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets',
-        'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets',
-        'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets',
+        'If you order 200 widgets and demand is 500, how many widgets have you sold? _______ widgets',
+        'If you order 200 widgets and demand is 500, how many widgets do you have leftover? _______ widgets',
+        'If you order 600 widgets and demand is 500, how many widgets have you sold? 	_______ widgets',
+        'If you order 600 widget and demand is 500, how many widgets do you have leftover? _______ widgets',
       ],
       answers: {
-        'If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets': 200,
-        'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets': 0,
-        'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets': 500,
-        'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets': 100,
+        'If you order 200 widgets and demand is 500, how many widgets have you sold? _______ widgets': 200,
+        'If you order 200 widgets and demand is 500, how many widgets do you have leftover? _______ widgets': 0,
+        'If you order 600 widgets and demand is 500, how many widgets have you sold? 	_______ widgets': 500,
+        'If you order 600 widget and demand is 500, how many widgets do you have leftover? _______ widgets': 100,
       }
     },
     e2: {
@@ -63,16 +63,16 @@ const data = {
   low: {
     e1: {
       questions: [
-        'If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets',
-        'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets',
-        'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets',
-        'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets',
+        'If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets',
+        'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets',
+        'If you order 1600 widgets and demand is 1500, how many widgets have you sold? _______ widgets',
+        'If you order 1600 widget and demand is 1500, how many widgets do you have leftover? _______ widgets',
       ],
       answers: {
-        'If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': (1200),
-        'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets': (0),
-        'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': (1500),
-        'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets': (100),
+        'If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets': (1200),
+        'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets': (0),
+        'If you order 1600 widgets and demand is 1500, how many widgets have you sold? _______ widgets': (1500),
+        'If you order 1600 widget and demand is 1500, how many widgets do you have leftover? _______ widgets': (100),
       }
     },
     e2: {
@@ -132,7 +132,7 @@ class TestUnderstanding extends React.Component {
         ...this.state[type],
         [question]: {
           ...this.state[type][question],
-          value
+          value,
         }
       }
     })
@@ -146,7 +146,7 @@ class TestUnderstanding extends React.Component {
   }
   getErrors = (type) => {
     const nextState = Object.keys(this.state[type]).reduce((finalResult, question) => {
-      if (finalResult[question].correctAnswer === Number(finalResult[question].value)) {
+      if (finalResult[question].correctAnswer === Number(finalResult[question].value) && finalResult[question].value !== '') {
         finalResult[question].error = ''
       } else {
         finalResult[question].error = 'This is not the correct value'

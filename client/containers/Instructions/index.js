@@ -13,11 +13,11 @@ class Instructions extends Component {
     window.scrollTo(0, 0)
   }
   getDemand = () => {
-    const uniDemand = `There is a 1/1000 chance that demand in any round will be any one of the integers from ${demandBetween}. This means that the distribution of demand (i.e. the probability of a demand value occurring) is uniform. The following figure illustrates the probability of the randomly generated demand in each round:
+    const uniDemand = `There is a 1/1000 chance that demand in any round will be any one of the integers from ${demandBetween}.  That means that there is an equal chance that demand for the widget will be equal to any number from ${demandBetween}. The following figure illustrates the probability of the randomly generated demand in each round:
 
   ![Graph](${u[demandBoost ? 'uniGraphSrcHigh' : 'uniGraphSrcLow']} "Graph")
 `
-    const biDemand = `The distribution of demand (i.e. the probability of a demand value occurring) consists of two symmetric triangular distributions. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals lower as the values of demand decreases away from the peak towards upper and lower bounds of the triangle. The first triangle distribution has a lower bound at ${0 + demandBoost} units of demand, a peak (mode) at ${250 + demandBoost} units of demand, and an upper bound of ${500 + demandBoost} units. The second triangle has a lower bound at ${500 + demandBoost} units of demand, a peak (mode) at  ${750 + demandBoost} units of demand, and an upper bound of  ${1000 + demandBoost} units. The following figure illustrates the probability of the randomly generated demand in each round:
+    const biDemand = `The distribution of demand (i.e. the probability of a demand value occurring) depends on the weather, which is equally likely to be good or bad. If the weather is poor, then demand ranges from ${1 + demandBoost} - ${500 + demandBoost}. The most likely value of demand is ${250 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${1 + demandBoost} and ${500 + demandBoost}. Similarly, if the weather is good, then demand ranges from ${500 + demandBoost} - ${1000 + demandBoost}. The most likely value of demand is ${750 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${500 + demandBoost} and ${1000 + demandBoost}. The following figure illustrates the probability of the randomly generated demand in each round:
 
 ![Graph](${u[demandBoost ? 'biGraphSrcHigh' : 'biGraphSrcLow']} "Graph")
 `
@@ -49,13 +49,13 @@ class Instructions extends Component {
     
 Thank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn “experimental dollars”. Your total profit (the sum of the profits of every round) from the game will be divided by ${divisor}, then added to your participation fee of $0.50 and paid to you at the end of the session.
 
-In the game, you are a retailer selling a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $${priceCost.cost} per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much, you incur costs associated with unsold items, and if you order too little, you forego profits you otherwise could have collected.
+In the game, you are a retailer selling a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $${priceCost.cost} per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much, you still incur the cost of $${priceCost.cost} associated with each unsold item, and if you order too little, you forego profits you otherwise could have collected.
 
 There will be 35 rounds in total. The first 5 rounds are practice and do not count towards the cumulative profit which determines your bonus pay. The process of each round will be as follows:
 
-1. Choosing order quantity: At the start of each round you decide on an order quantity between ${demandBetween}. You do not know the customer demand, for that period, when you place the order.
+1. Choosing order quantity: At the start of each round you decide on an order quantity between ${demandBetween}. You do not know the customer demand when you place the order.
 
-2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed (unchanging) distribution between ${demandBetween} units. The randomly generated demand will determine your profit for the round.
+2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed (unchanging) distribution between ${demandBetween} units. The randomly generated demand combined with the amount that you order will determine your profit for the round.
 ${this.getDemand()}
   Remember, the demand in any one round is random and independent of the demand from earlier rounds. So a small or large demand in one round has no influence on whether demand is small or large in any other rounds.
 

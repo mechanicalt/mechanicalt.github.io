@@ -1,6 +1,6 @@
 import React from 'react'
 import Markdown from 'react-markdown'
-import TextInput from 'ui/Input'
+import Input from 'ui/Input'
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
 import Select from 'ui/Select'
@@ -19,7 +19,7 @@ Chief Investigator: Sam Kishner
 School/Faculty: School of Information Systems and Technology Management, Business School
 
 *What does participation in this research require, and are there any risks involved?*
-If you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 - 15 minutes. 
+If you decide to take part in this research experiment, you will be provided with instructions on how to play a supply chain management game. Before the instructions on playing the game, you will complete a 6 question survey. We expect the survey, instructions and playing the game to take 10 - 15 minutes. 
 
 *Will I be paid to participate in this project?*
 You will be compensated for your participation. By participating in the study, you will receive $2 for completion and a bonus payment based on performance between $0 - $15. 
@@ -67,7 +67,8 @@ const initState = checks.reduce((finalResult, check) => {
   return finalResult
 }, {
   country: '',
-  gender: ''
+  gender: '',
+  age: '',
 })
 
 const genderOptions = [{
@@ -122,6 +123,7 @@ class Ethics extends React.PureComponent {
       }
       <div><span>Nationality: <CountrySelect value={this.state.country} onChange={this.onSelectCountry} /></span></div>
       <div><span>Gender Identity: <Select value={this.state.gender} onChange={this.onChange.bind(null, 'gender')} options={genderOptions}/></span></div>
+      <div><span>Age (years): <Input type="number" value={this.state.age} onChange={this.onChange.bind(null, 'age')}/></span></div>
       <Button onClick={this.submit} disabled={!this.checkValid()}>I agree, start questionnaire</Button>
     </div>)
   }

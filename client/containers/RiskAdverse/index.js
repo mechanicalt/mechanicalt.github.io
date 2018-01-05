@@ -26,10 +26,17 @@ class RiskAdverse extends React.PureComponent {
     answers
   }
   handleChange = (question, num) => {
+    let finalNum = Number(num)
+    if (finalNum < 1) {
+      finalNum = 1
+    }
+    if (finalNum > 7) {
+      finalNum = 7
+    }
     const nextState = {
       answers: {
         ...this.state.answers,
-        [question]: num
+        [question]: finalNum
       }
     }
     this.setState(nextState)
@@ -49,7 +56,8 @@ class RiskAdverse extends React.PureComponent {
     if (this.isValid()) this.props.goToGame(this.state.answers)
   }
   render () {
-    const source = `For each of the following statements, please indicate the likelihood that you would engage in the described activity or behavior if you were to find yourself in that situation. Provide a rating from Extremely Unlikely to Extremely Likely, using the following scale: 
+    const source = `# Pregame Survey
+For each of the following statements, please indicate the likelihood that you would engage in the described activity or behavior if you were to find yourself in that situation. Provide a rating from Extremely Unlikely to Extremely Likely, using the following scale: 
 
 1 | 2 | 3 | 4 | 5 | 6 | 7
 :---: | :---: | :---: | :---: | :---: | :---: | :---:
@@ -57,9 +65,10 @@ Extremely Unlikely | Moderately Unlikely | Somewhat Unlikely | Neither likely no
 `
     return <div className={style.table}>
       <Markdown source={source} />
+      <br />
       <div>
         {questions.map((question) => {
-          return <div><span>{question}</span><Input type="number" value={this.state.answers[question]} onChange={(num) => this.handleChange(question, num)} /></div>
+          return <div><span>{question}</span><Input type="number" value={this.state.answers[question]} onChange={(num) => this.handleChange(question, num)} /><br /></div>
         })}
       </div>
       <Button disabled={!this.isValid()} className={style.button} onClick={this.submit}>Proceed To Instructions</Button>
