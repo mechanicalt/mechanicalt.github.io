@@ -70340,7 +70340,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _Button2.default,
-	          { autoFocus: true, onClick: goToChoose },
+	          { onClick: goToChoose },
 	          this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'
 	        )
 	      );
@@ -70652,7 +70652,7 @@
 	              'span',
 	              null,
 	              'Units to order: ',
-	              _react2.default.createElement(_Input2.default, { autoFocus: true, onKeyPress: this.stopSubmit, value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
+	              _react2.default.createElement(_Input2.default, { value: this.state.unitsToOrder, onChange: this.handleChangeUnitsToOrder, type: 'number' })
 	            ),
 	            _react2.default.createElement(
 	              _Button2.default,
