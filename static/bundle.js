@@ -57773,7 +57773,9 @@
 
 	var host =  false ? 'http://localhost:8080' : 'https://mechanical-t.herokuapp.com';
 
-	// const randomBool = () => Math.random() >= 0.5
+	var randomBool = function randomBool() {
+	  return Math.random() >= 0.5;
+	};
 
 	var randomChoice = Math.random();
 
@@ -57799,21 +57801,21 @@
 	var divisor = exports.divisor = randomChoice >= 0.5 ? 50000 : 50000;
 
 	var getDistribution = function getDistribution() {
-	  // return randomBool() ? 'uni' : 'bi'
-	  var thirds = 1 / 3;
-	  var rand = Math.random();
-	  if (rand < thirds) {
-	    return 'uni';
-	  }
-	  if (rand < 2 * thirds) {
-	    return 'bi';
-	  }
-	  return 'bay';
+	  return randomBool() ? 'uni' : 'bi';
+	  // const thirds = 1 / 3
+	  // const rand = Math.random()
+	  // if (rand < thirds) {
+	  //   return 'uni'
+	  // }
+	  // if (rand < (2 * thirds)) {
+	  //   return 'bi'
+	  // }
+	  // return 'bay'
 	};
 
-	var demandBoost = exports.demandBoost = randomChoice >= 0.5 ? 0 : 1000;
+	var demandBoost = exports.demandBoost = randomChoice >= 0.5 ? 0 : 500;
 
-	var demandBetween = exports.demandBetween = demandBoost ? '1000 and 2000' : '0 and 1000';
+	var demandBetween = exports.demandBetween = demandBoost ? '501 and 1500' : '1 and 1000';
 
 	var priceCost = exports.priceCost = {
 	  price: 12,
@@ -57825,6 +57827,7 @@
 	  assignmentId: params.assignmentId,
 	  showSummary: false,
 	  distribution: getDistribution(),
+	  // distribution: 'bi',
 	  // showSummary: true,
 	  // uniResults: [{
 	  //   unitsOrdered: 1,
@@ -57862,7 +57865,7 @@
 	  });
 	};
 	var getDemand = function getDemand(state) {
-	  return (state.distribution === 'uni' ? (0, _uniformDemand2.default)() : (0, _triangleDemand2.default)()) + (state.demandBoost ? 1000 : 0);
+	  return (state.distribution === 'uni' ? (0, _uniformDemand2.default)() : (0, _triangleDemand2.default)()) + state.demandBoost;
 	};
 
 	exports.default = (0, _reduxActions.handleActions)({
@@ -57933,7 +57936,7 @@
 	      attempt: state.attempt + 1
 	    });
 	    (0, _jquery2.default)('#results').val((0, _stringify2.default)(nextState));
-	    if (results.length % 20 === 0) {
+	    if (results.length % 35 === 0) {
 	      postResults(nextState);
 	    }
 	    return nextState;
@@ -60528,10 +60531,10 @@
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Instructions.__proto__ || (0, _getPrototypeOf2.default)(Instructions)).call.apply(_ref, [this].concat(args))), _this), _this.componentDidMount = function () {
 	      window.scrollTo(0, 0);
 	    }, _this.getDemand = function () {
-	      var uniDemand = 'There is a 1/1000 chance that demand in any round will be any one of the integers from ' + _todos.demandBetween + '. This means that the distribution of demand (i.e. the probability of a demand value occurring) is uniform. The following figure illustrates the probability of the randomly generated demand in each round:\n\n  ![Graph](' + u[_todos.demandBoost ? 'uniGraphSrcHigh' : 'uniGraphSrcLow'] + ' "Graph")\n';
-	      var biDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) consists of two symmetric triangular distributions. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals lower as the values of demand decreases away from the peak towards upper and lower bounds of the triangle. The first triangle distribution has a lower bound at ' + (0 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (250 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (500 + _todos.demandBoost) + ' units. The second triangle has a lower bound at ' + (500 + _todos.demandBoost) + ' units of demand, a peak (mode) at  ' + (750 + _todos.demandBoost) + ' units of demand, and an upper bound of  ' + (1000 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n\n![Graph](' + u[_todos.demandBoost ? 'biGraphSrcHigh' : 'biGraphSrcLow'] + ' "Graph")\n';
+	      var uniDemand = 'There is a 1/1000 chance that demand in any round will be any one of the integers from ' + _todos.demandBetween + '.  That means that there is an equal chance that demand for the widget will be equal to any number from ' + _todos.demandBetween + '. The following figure illustrates the probability of the randomly generated demand in each round:\n\n  ![Graph](' + u[_todos.demandBoost ? 'uniGraphSrcHigh' : 'uniGraphSrcLow'] + ' "Graph")\n';
+	      var biDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) depends on the weather, which is equally likely to be good or bad. If the weather is poor, then demand ranges from ' + (1 + _todos.demandBoost) + ' - ' + (500 + _todos.demandBoost) + '. The most likely value of demand is ' + (250 + _todos.demandBoost) + ', and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ' + (1 + _todos.demandBoost) + ' and ' + (500 + _todos.demandBoost) + '. Similarly, if the weather is good, then demand ranges from ' + (500 + _todos.demandBoost) + ' - ' + (1000 + _todos.demandBoost) + '. The most likely value of demand is ' + (750 + _todos.demandBoost) + ', and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ' + (500 + _todos.demandBoost) + ' and ' + (1000 + _todos.demandBoost) + '. The following figure illustrates the probability of the randomly generated demand in each round:\n\n![Graph](' + u[_todos.demandBoost ? 'biGraphSrcHigh' : 'biGraphSrcLow'] + ' "Graph")\n';
 
-	      var bayDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) will be drawn from one of two symmetric triangular distributions: a triangle with high demand or a triangle with low demand. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals decreases as the values of demand increase away from the peak towards upper and lower bounds of the triangle. \n    The first triangle distribution has a lower bound at ' + (0 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (250 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (500 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph1SrcHigh' : 'bayGraph1SrcLow'] + ' "Graph")    \n    The second triangle has a lower bound at ' + (500 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (750 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (1000 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph2SrcHigh' : 'bayGraph2SrcLow'] + ' "Graph")        \n    Whether demand is drawn from triangle 1 (low demand) or triangle 2 (high demand) is equally likely, i.e. a 50% chance demand is randomly drawn from triangle 1 and a 50% chance demand is randomly drawn from triangle \n';
+	      var bayDemand = 'The distribution of demand (i.e. the probability of a demand value occurring) will be drawn from one of two symmetric triangular distributions: a triangle with high demand or a triangle with low demand. For each triangle, the highest probability of a realized demand value is at the top of the triangle, and the probability of arrivals decreases as the values of demand increase away from the peak towards upper and lower bounds of the triangle. \n    The first triangle distribution has a lower bound at ' + (0 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (250 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (500 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph1SrcHigh' : 'bayGraph1SrcLow'] + ' "Graph")    \n    The second triangle has a lower bound at ' + (500 + _todos.demandBoost) + ' units of demand, a peak (mode) at ' + (750 + _todos.demandBoost) + ' units of demand, and an upper bound of ' + (1000 + _todos.demandBoost) + ' units. The following figure illustrates the probability of the randomly generated demand in each round:\n![Graph](' + u[_todos.demandBoost ? 'bayGraph2SrcHigh' : 'bayGraph2SrcLow'] + ' "Graph")\n    Whether demand is drawn from triangle 1 (low demand) or triangle 2 (high demand) is equally likely, i.e. a 50% chance demand is randomly drawn from triangle 1 and a 50% chance demand is randomly drawn from triangle \n';
 	      switch (_this.props.distribution) {
 	        case 'uni':
 	          return uniDemand;
@@ -60556,7 +60559,7 @@
 	      // const biGraph = `![Graph](${u.biGraphSrc} "Graph")`
 	      // const biDemand = 'The distribution of demand is an equal mixture of two normal distributions that have means of 150 and 250 and an equal standard deviation of 12. Thus, the distributions of demand is bimodal. The probability of demand from 100 to 300 is described in the following graph (demand below 100 and above 300 is negligible):'
 
-	      var source = '# Instructions\n    \nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by ' + _todos.divisor + ', then added to your participation fee of $0.50 and paid to you at the end of the session.\n\nIn the game, you are a retailer selling a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much, you incur costs associated with unsold items, and if you order too little, you forego profits you otherwise could have collected.\n\nThere will be 35 rounds in total. The first 5 rounds are practice and do not count towards the cumulative profit which determines your bonus pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between ' + _todos.demandBetween + '. You do not know the customer demand, for that period, when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed (unchanging) distribution between ' + _todos.demandBetween + ' units. The randomly generated demand will determine your profit for the round.\n' + this.getDemand() + '\n  Remember, the demand in any one round is random and independent of the demand from earlier rounds. So a small or large demand in one round has no influence on whether demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n  If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand\n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n  If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity\n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: There will be 35 rounds. The first 5 rounds are practice. After the first 5 rounds, your history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.\n\nExample 1: Customer demand is 600 units and you ordered 800 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 600 units - $3 x 800 units = $4800 (experimental dollars)\n\nExample 2: Customer demand is 600 units and you ordered 400 units, so only 400 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)\n  ';
+	      var source = '# Instructions\n    \nThank you for participating. Make sure to read the instructions carefully as you will be paid more if you perform better. You will be playing a game where you can earn \u201Cexperimental dollars\u201D. Your total profit (the sum of the profits of every round) from the game will be divided by ' + _todos.divisor + ', then added to your participation fee of $0.50 and paid to you at the end of the session.\n\nIn the game, you are a retailer selling a single item, the widget, over multiple rounds. In each round, you first order widgets from a (automated) supplier at a cost of $' + _todos.priceCost.cost + ' per unit, and then sell widgets to your customers at a price of $12 per unit. Your task is to determine how many widgets to order each round to maximize your profit over all the rounds of the game. If you order too much, you still incur the cost of $' + _todos.priceCost.cost + ' associated with each unsold item, and if you order too little, you forego profits you otherwise could have collected.\n\nThere will be 35 rounds in total. The first 5 rounds are practice and do not count towards the cumulative profit which determines your bonus pay. The process of each round will be as follows:\n\n1. Choosing order quantity: At the start of each round you decide on an order quantity between ' + _todos.demandBetween + '. You do not know the customer demand when you place the order.\n\n2. Generation of customer demand: Once you place your order, customer demand will be randomly generated from a fixed (unchanging) distribution between ' + _todos.demandBetween + ' units. The randomly generated demand combined with the amount that you order will determine your profit for the round.\n' + this.getDemand() + '\n  Remember, the demand in any one round is random and independent of the demand from earlier rounds. So a small or large demand in one round has no influence on whether demand is small or large in any other rounds.\n\n3. Calculation of profit for the period: There are two different cases:\n\n  If customer demand is less than (or equal to) your order quantity, then the quantity sold will be equal to customer demand\n\n  Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\n  If customer demand is greater than the amount you ordered, then the quantity sold will be equal to your order quantity\n\n  Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\n4. Clearance of leftover inventory: If your order quantity was greater than the demand, the remaining stock is disposed of at no cost. In other words, remaining inventory is worthless and is not carried over to following rounds.\n\n5. Feedback information: At the end of each round, you will be provided with a summary of that round, such as your order quantity, customer demand and your profit for that round.\n\n6. Number of rounds: There will be 35 rounds. The first 5 rounds are practice. After the first 5 rounds, your history will be cleared, and you will begin in round 1. Your total profit used for payment will be based on the profit over the subsequent 30 rounds.\n\nExample 1: Customer demand is 600 units and you ordered 800 units so all of the demand can be filled.\n\nProfit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 600 units - $3 x 800 units = $4800 (experimental dollars)\n\nExample 2: Customer demand is 600 units and you ordered 400 units, so only 400 units can be sold.\n\nProfit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)\n\nProfit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)\n  ';
 	      return _react2.default.createElement(
 	        'div',
 	        { className: style.instructions },
@@ -68989,7 +68992,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var source = '# ONLINE PARTICIPANT INFORMATION STATEMENT\n\n*What is the research study about?*\nYou are invited to take part in this research study aimed at understanding behavior in a supply chain management game. \n\n*Who is conducting this research?*\nThe study is being carried out by the following researchers:\nChief Investigator: Sam Kishner\nSchool/Faculty: School of Information Systems and Technology Management, Business School\n\n*What does participation in this research require, and are there any risks involved?*\nIf you decide to take part in this survey, you will be provided with instructions on how to play a supply chain management game. We expect the instructions and playing the game to take 10 - 15 minutes. \n\n*Will I be paid to participate in this project?*\nYou will be compensated for your participation. By participating in the study, you will receive $2 for completion and a bonus payment based on performance between $0 - $15. \n\n*What are the possible benefits to participation?*\nWe hope to use information we get from this research study to benefit others who are interested in improving supply chain decision making.\n\n*What will happen to information about me?*\nBy completing the game, you consent to the research team collecting and using information for a research study. It is anticipated that the results of this research study will be published and/or presented in a variety of forums. In any publication and/or presentation, the results of the study will be presented in such a way that participants will not be individually identifiable.\n\nThe results of the experiment will be kept for a minimum of 7 years after the completion of the project. At this stage, we have no intention of destroying the data. If you agree to participate in this study, no personal information will be collected so none will be stored as data. Once we have completed our data collection and analysis, we will import the data we collect to the UNSW server. The data stored by the app will then be deleted. Both hard and electronic copies of the data will be securely stored by Dr. Sam Kirshner at Quad 2115 at the University of New South Wales in Sydney Australia. Electronic copies will be stored in Sam Kirshner\'s computer located in Quad 2115 with password protection. \n\nHow and when will I find out what the results of the research study are?\nYou have a right to receive feedback about the overall results of this study. You can tell us that you wish to receive feedback by emailing the investigator, Dr Sam Kirshner, at s.kirshner@unsw.edu.au. This feedback will be in the form of a one page summary that describes the overall findings. You will receive this feedback after the study is finished.\n\nWhat if I want to withdraw from the research study?\nFinishing the game and questionnaire is an indication of your consent to participate in the study. You can withdraw your responses any time before finishing the game. Once you have submitted it, your responses cannot be withdrawn because they are anonymous and therefore we will not be able to tell which one is yours.\n\n*What should I do if I have further questions about my involvement in the research study?*\nThe person you may need to contact will depend on the nature of your query. If you want any further information concerning this project or if you have any problems which may be related to your involvement in the project, you can contact the following member\'s of the research team:\n\n*Research Team Contact*\nName: Dr Sam Kirshner\nPosition: Lecturer\nTelephone: 9385 5517\nEmail: s.kirshner@unsw.edu.au\n\n*What if I have a complaint or any concerns about the research study?*\nIf you have any complaints about any aspect of the project, the way it is being conducted, then you may contact: \nPosition: Human Research Ethics Coordinator\nTelephone: + 61 2 9385 6222\nEmail: humanethics@unsw.edu.au \nHC Reference Number: HC16680\n';
+	var source = '# ONLINE PARTICIPANT INFORMATION STATEMENT\n\n*What is the research study about?*\nYou are invited to take part in this research study aimed at understanding behavior in a supply chain management game. \n\n*Who is conducting this research?*\nThe study is being carried out by the following researchers:\nChief Investigator: Sam Kishner\nSchool/Faculty: School of Information Systems and Technology Management, Business School\n\n*What does participation in this research require, and are there any risks involved?*\nIf you decide to take part in this research experiment, you will be provided with instructions on how to play a supply chain management game. Before the instructions on playing the game, you will complete a 6 question survey. We expect the survey, instructions and playing the game to take 10 - 15 minutes. \n\n*Will I be paid to participate in this project?*\nYou will be compensated for your participation. By participating in the study, you will receive $2 for completion and a bonus payment based on performance between $0 - $15. \n\n*What are the possible benefits to participation?*\nWe hope to use information we get from this research study to benefit others who are interested in improving supply chain decision making.\n\n*What will happen to information about me?*\nBy completing the game, you consent to the research team collecting and using information for a research study. It is anticipated that the results of this research study will be published and/or presented in a variety of forums. In any publication and/or presentation, the results of the study will be presented in such a way that participants will not be individually identifiable.\n\nThe results of the experiment will be kept for a minimum of 7 years after the completion of the project. At this stage, we have no intention of destroying the data. If you agree to participate in this study, no personal information will be collected so none will be stored as data. Once we have completed our data collection and analysis, we will import the data we collect to the UNSW server. The data stored by the app will then be deleted. Both hard and electronic copies of the data will be securely stored by Dr. Sam Kirshner at Quad 2115 at the University of New South Wales in Sydney Australia. Electronic copies will be stored in Sam Kirshner\'s computer located in Quad 2115 with password protection. \n\nHow and when will I find out what the results of the research study are?\nYou have a right to receive feedback about the overall results of this study. You can tell us that you wish to receive feedback by emailing the investigator, Dr Sam Kirshner, at s.kirshner@unsw.edu.au. This feedback will be in the form of a one page summary that describes the overall findings. You will receive this feedback after the study is finished.\n\nWhat if I want to withdraw from the research study?\nFinishing the game and questionnaire is an indication of your consent to participate in the study. You can withdraw your responses any time before finishing the game. Once you have submitted it, your responses cannot be withdrawn because they are anonymous and therefore we will not be able to tell which one is yours.\n\n*What should I do if I have further questions about my involvement in the research study?*\nThe person you may need to contact will depend on the nature of your query. If you want any further information concerning this project or if you have any problems which may be related to your involvement in the project, you can contact the following member\'s of the research team:\n\n*Research Team Contact*\nName: Dr Sam Kirshner\nPosition: Lecturer\nTelephone: 9385 5517\nEmail: s.kirshner@unsw.edu.au\n\n*What if I have a complaint or any concerns about the research study?*\nIf you have any complaints about any aspect of the project, the way it is being conducted, then you may contact: \nPosition: Human Research Ethics Coordinator\nTelephone: + 61 2 9385 6222\nEmail: humanethics@unsw.edu.au \nHC Reference Number: HC16680\n';
 
 	var checks = ['I understand I am being asked to provide consent to participate in this research study', 'I have read the Participant Information Statement or it has been provided to me in a language that I understand', 'I provide my consent for the information collected about me to be used for the purpose of this research study only', 'I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the study and withdrawal will not affect my relationship with any of the named organisations and/or research team members'];
 
@@ -68998,7 +69001,8 @@
 	  return finalResult;
 	}, {
 	  country: '',
-	  gender: ''
+	  gender: '',
+	  age: ''
 	});
 
 	var genderOptions = [{
@@ -69083,6 +69087,16 @@
 	            null,
 	            'Gender Identity: ',
 	            _react2.default.createElement(_Select2.default, { value: this.state.gender, onChange: this.onChange.bind(null, 'gender'), options: genderOptions })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Age (years): ',
+	            _react2.default.createElement(_Input2.default, { type: 'number', value: this.state.age, onChange: this.onChange.bind(null, 'age') })
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -69719,8 +69733,15 @@
 	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RiskAdverse.__proto__ || (0, _getPrototypeOf2.default)(RiskAdverse)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      answers: answers
 	    }, _this.handleChange = function (question, num) {
+	      var finalNum = Number(num);
+	      if (finalNum < 1) {
+	        finalNum = 1;
+	      }
+	      if (finalNum > 7) {
+	        finalNum = 7;
+	      }
 	      var nextState = {
-	        answers: (0, _extends4.default)({}, _this.state.answers, (0, _defineProperty3.default)({}, question, num))
+	        answers: (0, _extends4.default)({}, _this.state.answers, (0, _defineProperty3.default)({}, question, finalNum))
 	      };
 	      _this.setState(nextState);
 	    }, _this.isValid = function () {
@@ -69743,11 +69764,12 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      var source = 'For each of the following statements, please indicate the likelihood that you would engage in the described activity or behavior if you were to find yourself in that situation. Provide a rating from Extremely Unlikely to Extremely Likely, using the following scale: \n\n1 | 2 | 3 | 4 | 5 | 6 | 7\n:---: | :---: | :---: | :---: | :---: | :---: | :---:\nExtremely Unlikely | Moderately Unlikely | Somewhat Unlikely | Neither likely nor unlikely | Somewhat Likely | Moderately Likely | Extremely Likely\n';
+	      var source = '# Pregame Survey\nFor each of the following statements, please indicate the likelihood that you would engage in the described activity or behavior if you were to find yourself in that situation. Provide a rating from Extremely Unlikely to Extremely Likely, using the following scale: \n\n1 | 2 | 3 | 4 | 5 | 6 | 7\n:---: | :---: | :---: | :---: | :---: | :---: | :---:\nExtremely Unlikely | Moderately Unlikely | Somewhat Unlikely | Neither likely nor unlikely | Somewhat Likely | Moderately Likely | Extremely Likely\n';
 	      return _react2.default.createElement(
 	        'div',
 	        { className: _style2.default.table },
 	        _react2.default.createElement(_reactMarkdown2.default, { source: source }),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
 	          null,
@@ -69762,7 +69784,8 @@
 	              ),
 	              _react2.default.createElement(_Input2.default, { type: 'number', value: _this2.state.answers[question], onChange: function onChange(num) {
 	                  return _this2.handleChange(question, num);
-	                } })
+	                } }),
+	              _react2.default.createElement('br', null)
 	            );
 	          })
 	        ),
@@ -69912,12 +69935,12 @@
 	var data = {
 	  high: {
 	    e1: {
-	      questions: ['If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets', 'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets', 'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets', 'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets'],
+	      questions: ['If you order 200 widgets and demand is 500, how many widgets have you sold? _______ widgets', 'If you order 200 widgets and demand is 500, how many widgets do you have leftover? _______ widgets', 'If you order 600 widgets and demand is 500, how many widgets have you sold? 	_______ widgets', 'If you order 600 widget and demand is 500, how many widgets do you have leftover? _______ widgets'],
 	      answers: {
-	        'If you order 200 widgets, and demand is 500, how many widgets have you sold? _______ widgets': 200,
-	        'If you order 200 widgets, and demand is 500, how many widgets do you have leftover? _______ widgets': 0,
-	        'If you order 600 widgets, and demand is 500, how many widgets have you sold? 	_______ widgets': 500,
-	        'If you order 600, widget and demand is 500, how many widgets do you have leftover? _______ widgets': 100
+	        'If you order 200 widgets and demand is 500, how many widgets have you sold? _______ widgets': 200,
+	        'If you order 200 widgets and demand is 500, how many widgets do you have leftover? _______ widgets': 0,
+	        'If you order 600 widgets and demand is 500, how many widgets have you sold? 	_______ widgets': 500,
+	        'If you order 600 widget and demand is 500, how many widgets do you have leftover? _______ widgets': 100
 	      }
 	    },
 	    e2: {
@@ -69934,23 +69957,23 @@
 	  },
 	  low: {
 	    e1: {
-	      questions: ['If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets', 'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets', 'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets', 'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets'],
+	      questions: ['If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets', 'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets', 'If you order 1500 widgets and demand is 1400, how many widgets have you sold? _______ widgets', 'If you order 1500 widget and demand is 1400, how many widgets do you have leftover? _______ widgets'],
 	      answers: {
-	        'If you order 1200 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': 1200,
-	        'If you order 1200 widgets, and demand is 1500, how many widgets do you have leftover? _______ widgets': 0,
-	        'If you order 1600 widgets, and demand is 1500, how many widgets have you sold? _______ widgets': 1500,
-	        'If you order 1600, widget and demand is 1500, how many widgets do you have leftover? _______ widgets': 100
+	        'If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets': 1200,
+	        'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets': 0,
+	        'If you order 1500 widgets and demand is 1400, how many widgets have you sold? _______ widgets': 1400,
+	        'If you order 1500 widget and demand is 1400, how many widgets do you have leftover? _______ widgets': 100
 	      }
 	    },
 	    e2: {
 	      questions: ['How many widgets are unsold? _______', 'How many widgets are sold? _______', 'How many widgets did you miss out on selling? _______', 'What is the total revenue? _______ experimental dollars', 'What is the total cost? _______ experimental dollars', 'What is the total profit? _______ experimental dollars'],
 	      answers: {
 	        'How many widgets are unsold? _______': 0,
-	        'How many widgets are sold? _______': 1500,
+	        'How many widgets are sold? _______': 1000,
 	        'How many widgets did you miss out on selling? _______': 300,
-	        'What is the total revenue? _______ experimental dollars': 15000,
-	        'What is the total cost? _______ experimental dollars': 7500,
-	        'What is the total profit? _______ experimental dollars': 7500
+	        'What is the total revenue? _______ experimental dollars': 10000,
+	        'What is the total cost? _______ experimental dollars': 5000,
+	        'What is the total profit? _______ experimental dollars': 5000
 	      }
 	    }
 	  }
@@ -70006,7 +70029,7 @@
 
 	    _this.getErrors = function (type) {
 	      var nextState = (0, _keys2.default)(_this.state[type]).reduce(function (finalResult, question) {
-	        if (finalResult[question].correctAnswer === Number(finalResult[question].value)) {
+	        if (finalResult[question].correctAnswer === Number(finalResult[question].value) && finalResult[question].value !== '') {
 	          finalResult[question].error = '';
 	        } else {
 	          finalResult[question].error = 'This is not the correct value';
@@ -70336,7 +70359,7 @@
 	function mapDispatchToProps(dispatch, props) {
 	  return {
 	    goToChoose: function goToChoose() {
-	      return props.attempt % 20 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults());
+	      return props.attempt % 35 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults());
 	    }
 	  };
 	}

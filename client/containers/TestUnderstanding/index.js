@@ -65,14 +65,14 @@ const data = {
       questions: [
         'If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets',
         'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets',
-        'If you order 1600 widgets and demand is 1500, how many widgets have you sold? _______ widgets',
-        'If you order 1600 widget and demand is 1500, how many widgets do you have leftover? _______ widgets',
+        'If you order 1500 widgets and demand is 1400, how many widgets have you sold? _______ widgets',
+        'If you order 1500 widget and demand is 1400, how many widgets do you have leftover? _______ widgets',
       ],
       answers: {
         'If you order 1200 widgets and demand is 1500, how many widgets have you sold? _______ widgets': (1200),
         'If you order 1200 widgets and demand is 1500, how many widgets do you have leftover? _______ widgets': (0),
-        'If you order 1600 widgets and demand is 1500, how many widgets have you sold? _______ widgets': (1500),
-        'If you order 1600 widget and demand is 1500, how many widgets do you have leftover? _______ widgets': (100),
+        'If you order 1500 widgets and demand is 1400, how many widgets have you sold? _______ widgets': (1400),
+        'If you order 1500 widget and demand is 1400, how many widgets do you have leftover? _______ widgets': (100),
       }
     },
     e2: {
@@ -86,11 +86,11 @@ const data = {
       ],
       answers: {
         'How many widgets are unsold? _______': 0,
-        'How many widgets are sold? _______': 1500,
+        'How many widgets are sold? _______': 1000,
         'How many widgets did you miss out on selling? _______': 300,
-        'What is the total revenue? _______ experimental dollars': 15000,
-        'What is the total cost? _______ experimental dollars': 7500,
-        'What is the total profit? _______ experimental dollars': 7500,
+        'What is the total revenue? _______ experimental dollars': 10000,
+        'What is the total cost? _______ experimental dollars': 5000,
+        'What is the total profit? _______ experimental dollars': 5000,
       }
     }
   }

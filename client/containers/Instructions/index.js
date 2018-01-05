@@ -26,7 +26,7 @@ class Instructions extends Component {
     The first triangle distribution has a lower bound at ${0 + demandBoost} units of demand, a peak (mode) at ${250 + demandBoost} units of demand, and an upper bound of ${500 + demandBoost} units. The following figure illustrates the probability of the randomly generated demand in each round:
 ![Graph](${u[demandBoost ? 'bayGraph1SrcHigh' : 'bayGraph1SrcLow']} "Graph")    
     The second triangle has a lower bound at ${500 + demandBoost} units of demand, a peak (mode) at ${750 + demandBoost} units of demand, and an upper bound of ${1000 + demandBoost} units. The following figure illustrates the probability of the randomly generated demand in each round:
-![Graph](${u[demandBoost ? 'bayGraph2SrcHigh' : 'bayGraph2SrcLow']} "Graph")        
+![Graph](${u[demandBoost ? 'bayGraph2SrcHigh' : 'bayGraph2SrcLow']} "Graph")
     Whether demand is drawn from triangle 1 (low demand) or triangle 2 (high demand) is equally likely, i.e. a 50% chance demand is randomly drawn from triangle 1 and a 50% chance demand is randomly drawn from triangle 
 `
     switch (this.props.distribution) {

@@ -59,7 +59,6 @@ const getDistribution = () => {
   // return 'bay'
 }
 
-
 export const demandBoost = randomChoice >= 0.5 ? 0 : 500
 
 export const demandBetween = demandBoost ? '501 and 1500' : '1 and 1000'
@@ -74,8 +73,8 @@ const initialState = {
   ...priceCost,
   assignmentId: params.assignmentId,
   showSummary: false,
-  // distribution: getDistribution(),
-  distribution: 'bi',
+  distribution: getDistribution(),
+  // distribution: 'bi',
   // showSummary: true,
   // uniResults: [{
   //   unitsOrdered: 1,
@@ -96,7 +95,7 @@ const initialState = {
   game: 1,
   attempt: 0,
   // view: 'game',
-  view: 'instructions',
+  // view: 'instructions',
   // view: 'riskAdverse',
   // view: 'testUnderstanding',
 }
@@ -113,7 +112,7 @@ export const postResults = (state) => {
   })
 }
 const getDemand = (state) => {
-  return ((state.distribution === 'uni' ? uniformDemand() : triangleDemand()) + (state.demandBoost ? 1000 : 0))
+  return ((state.distribution === 'uni' ? uniformDemand() : triangleDemand()) + state.demandBoost)
 }
 
 export default handleActions({
@@ -190,7 +189,7 @@ export default handleActions({
       attempt: state.attempt + 1,
     }
     $('#results').val(JSON.stringify(nextState))
-    if (results.length % 20 === 0) {
+    if (results.length % 35 === 0) {
       postResults(nextState)
     }
     return nextState

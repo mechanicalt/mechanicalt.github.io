@@ -40,7 +40,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch, props) {
   return {
-    goToChoose: () => props.attempt % 20 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults())
+    goToChoose: () => props.attempt % 35 !== 0 ? dispatch(TodoActions.toggleSummary()) : dispatch(routerActions.goToResults())
   }
 }
 
