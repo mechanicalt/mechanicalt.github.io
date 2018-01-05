@@ -61,7 +61,7 @@ const getDistribution = () => {
 
 export const demandBoost = randomChoice >= 0.5 ? 0 : 500
 
-export const demandBetween = demandBoost ? '501 and 1500' : '1 and 1000'
+export const demandBetween = demandBoost ? '500 and 1500' : '0 and 1000'
 
 export const priceCost = {
   price: 12,

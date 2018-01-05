@@ -17,7 +17,7 @@ class Instructions extends Component {
 
   ![Graph](${u[demandBoost ? 'uniGraphSrcHigh' : 'uniGraphSrcLow']} "Graph")
 `
-    const biDemand = `The distribution of demand (i.e. the probability of a demand value occurring) depends on the weather, which is equally likely to be good or bad. If the weather is poor, then demand ranges from ${1 + demandBoost} - ${500 + demandBoost}. The most likely value of demand is ${250 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${1 + demandBoost} and ${500 + demandBoost}. Similarly, if the weather is good, then demand ranges from ${500 + demandBoost} - ${1000 + demandBoost}. The most likely value of demand is ${750 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${500 + demandBoost} and ${1000 + demandBoost}. The following figure illustrates the probability of the randomly generated demand in each round:
+    const biDemand = `The distribution of demand (i.e. the probability of a demand value occurring) depends on the weather, which is equally likely to be good or bad. If the weather is poor, then demand ranges from ${0 + demandBoost} - ${500 + demandBoost}. The most likely value of demand is ${250 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${0 + demandBoost} and ${500 + demandBoost}. Similarly, if the weather is good, then demand ranges from ${500 + demandBoost} - ${1000 + demandBoost}. The most likely value of demand is ${750 + demandBoost}, and the probability of demand lowers, at a constant rate, as the values of demand moves away from the peak towards either ${500 + demandBoost} and ${1000 + demandBoost}. The following figure illustrates the probability of the randomly generated demand in each round:
 
 ![Graph](${u[demandBoost ? 'biGraphSrcHigh' : 'biGraphSrcLow']} "Graph")
 `
@@ -79,13 +79,13 @@ Example 1: Customer demand is 600 units and you ordered 800 units so all of the 
 
 Profit = (Sales Price x Customer Demand) - (Purchase Price x Order Quantity)
 
-Profit = $12 x 600 units - $3 x 800 units = $4800 (experimental dollars)
+Profit = $12 x 600 units - $${priceCost.cost} x 800 units = $${(12 * 600) - (priceCost.cost * 800)} (experimental dollars)
 
 Example 2: Customer demand is 600 units and you ordered 400 units, so only 400 units can be sold.
 
 Profit = (Sales Price x Order Quantity) - (Purchase Price x Order Quantity)
 
-Profit = $12 x 400 units - $3 x 400 units = $3600 (experimental dollars)
+Profit = $12 x 400 units - $${priceCost.cost} x 400 units = $${(12 - priceCost.cost) * 400} (experimental dollars)
   `
     return (
       <div className={style.instructions}>
