@@ -44,7 +44,7 @@ const getCost = () => {
   // }
 }
 
-export const divisor = randomChoice >= 0.5 ? 50000 : 50000
+export const divisor = randomChoice >= 0.5 ? 50000 : 25000
 
 const getDistribution = () => {
   return randomBool() ? 'uni' : 'bi'
