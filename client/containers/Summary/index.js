@@ -25,7 +25,7 @@ class Summary extends Component {
             }
           </tbody>
         </table>
-        <Button autoFocus onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
+        <Button onClick={goToChoose}>{this.props.attempt % 20 === 0 ? 'See Total Results' : 'Okay, next round!'}</Button>
       </div>
     )
   }
